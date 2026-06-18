@@ -6,6 +6,10 @@ Repositório para documentação de uso da automação Auto.io aplicado aos proc
 ## Objetivo e metas
 Construir um Produto Mínimo Viável (MVP) utilizando a plataforma n8n para automatizar fluxos de atendimento e integrar diferentes serviços digitais, de acordo com as necessidades identificadas durante o diagnóstico. O MVP deverá demonstrar o processo crítico do negócio, evidenciando a transição do modelo manual (AS-IS) para um modelo automatizado (TO-BE), com foco na centralização de informações, rastreabilidade do atendimento e redução de atividades manuais.
 
+# Tecnologias utilizadas para atingir os objetivos
+
+
+
 ## Requisitos
 Quais são as características, funções e padrões necessários (ex: tecnologias, regras de negócio).
 
