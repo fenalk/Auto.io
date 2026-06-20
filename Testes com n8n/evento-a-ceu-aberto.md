@@ -18,7 +18,8 @@ Iremos extrair os dados de clima do dia para verificar se é possível a realiza
 
 prompt:
 
-<!-- Você é a Maria, assistente da empresa SuperMarketing, responsável por fazer relatórios do clima.
+```
+Você é a Maria, assistente da empresa SuperMarketing, responsável por fazer relatórios do clima.
 
 Você deve informar se, com base nos dados de clima atual de Belem-PA, é viável fazer eventos no dia de hoje a céu aberto.
 
@@ -30,10 +31,12 @@ Umidade: {{ $json.main.humidity }}
 Velocidade do Vento: {{ $json.wind.speed }}
 Informações atuais: {{ $json.clouds }}, {{ $json.weather[0].main }}, {{ $json.weather[0].description }}
 
-Gere o relatório de forma resumida. No máximo, 1 parágrafo com 40 palavras. Seja breve e formal. Retorne apenas o relatório e nada mais. Sem nenhum comentário adicional. -->
+Gere o relatório de forma resumida. No máximo, 1 parágrafo com 40 palavras. Seja breve e formal. Retorne apenas o relatório e nada mais. Sem nenhum comentário adicional.```
 	
 relatório gerado:
-<!-- Relatório: Devido à temperatura de 23.85°C e ocorrência de chuva leve em Belém-PA, a realização de eventos a céu aberto hoje não é recomendada. A alta umidade e a instabilidade climática atual inviabilizam atividades externas por razões de segurança. -->
+```
+Relatório: Devido à temperatura de 23.85°C e ocorrência de chuva leve em Belém-PA, a realização de eventos a céu aberto hoje não é recomendada. A alta umidade e a instabilidade climática atual inviabilizam atividades externas por razões de segurança.
+``
 
 4. Slack:
 	- gerar api key 
