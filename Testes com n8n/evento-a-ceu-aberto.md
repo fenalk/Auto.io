@@ -31,12 +31,13 @@ Umidade: {{ $json.main.humidity }}
 Velocidade do Vento: {{ $json.wind.speed }}
 Informações atuais: {{ $json.clouds }}, {{ $json.weather[0].main }}, {{ $json.weather[0].description }}
 
-Gere o relatório de forma resumida. No máximo, 1 parágrafo com 40 palavras. Seja breve e formal. Retorne apenas o relatório e nada mais. Sem nenhum comentário adicional.```
+Gere o relatório de forma resumida. No máximo, 1 parágrafo com 40 palavras. Seja breve e formal. Retorne apenas o relatório e nada mais. Sem nenhum comentário adicional.
+```
 	
 relatório gerado:
 ```
 Relatório: Devido à temperatura de 23.85°C e ocorrência de chuva leve em Belém-PA, a realização de eventos a céu aberto hoje não é recomendada. A alta umidade e a instabilidade climática atual inviabilizam atividades externas por razões de segurança.
-``
+```
 
 4. Slack:
 	- gerar api key 
