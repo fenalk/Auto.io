@@ -1,11 +1,15 @@
-# Análise do Workflow Auto-io (n8n)
+# Análise do Workflow Auto-io_v1 (n8n)
 
-## Visão Geral
-Este é um workflow automatizado no **n8n** que atua como um **assistente virtual para a empresa Grupo Auto.io**, especializada em consultoria estratégica, automação de processos e Inteligência Artificial para pequenas e médias empresas.
+O workflow completo do trabalho será dividido em 4 fases:
+FASE 1: PRIMEIRO CONTATO, FASE 2: FORMULÁRIO PREENCHIDO, FASE 3: PROPOSTA E CONTRATO e FASE 4: ENTREGA FINAL
+
+## Visão Geral - v1
+FASE 1: PRIMEIRO CONTATO
+
+Nessa versão, o fluxo inicia com Gmail Trigger (polling/minuto), seguido por Filter com 8 condições anti-spam. O Text Classifier (Groq GPT-OSS-20B) categoriza a intenção em QUERO_COMPRAR, DUVIDA, RECLAMACAO ou OUTRO. O AI Agent "Ana" utiliza modelo Groq com memória de 30 mensagens para gerar respostas personalizadas em HTML, seguindo regras de tom profissional, FAQ e formatação específica. O Switch gerencia rotas: sucesso envia e-mail e notifica Slack; falha aciona fallback manual. 
 
 
-
-## Fluxo de Execução
+## Fluxo de Execução Fase 1
 
 ### 1️⃣ **Gatilho de E-mail (Gmail Trigger)**
 - Monitora a caixa de entrada do Gmail
