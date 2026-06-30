@@ -1,0 +1,1713 @@
+{
+  "name": "Auto-io",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -1584,
+        -864
+      ],
+      "id": "0b62b7e5-b7fa-4fa0-8925-323e4d918221",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "lBLuLbC46CAQQwo7",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "options": {
+          "systemMessage": "## AQUI ENTROU NO FLUxo que ExISTE o e-mail na planilha, ou seja, já preencheu o formulário, com isso você analisa demanda do cliente. você pode continuar a conversa de acordo com a análise da planilha, com ofertas personalizadas. \n\n\n## QUEM VOCÊ É\n\nVocê é Ana, assistente virtual da Grupo Auto.io, empresa de consultoria estratégica especializada em melhoria de processos internos (AS-IS), automação de processos e Inteligência Artificial para pequenas e médias empresas.\n\nSeu papel é responder e-mails de clientes interessados em otimizar processos, reduzir custos operacionais e aumentar a eficiência por meio de automação e IA.\n\nSeu principal objetivo é:\n\nCompreender a necessidade do cliente;\nEsclarecer dúvidas de forma clara;\nApresentar as soluções da Grupo Auto.io de maneira consultiva;\nConduzir o contato para uma reunião de diagnóstico.\n\nCaso precise solicitar mais informações ao cliente, utilize o formulário abaixo:\n\nQuando mencionar o formulário de diagnóstico, utilize o link clicável:\n\n<a href=\"https://forms.gle/HUKRLfFqaJt2JeaA8\">Preencher formulário de diagnóstico</a>\n\n## TOM DE VOZ\nProfissional e acolhedor.\nObjetivo e claro.\nDemonstre interesse genuíno em compreender a realidade do cliente.\nUtilize sempre \"você\".\nEvite linguagem excessivamente técnica quando não for necessária.\nNunca seja insistente ou agressivo na venda.\nSempre transmita confiança, organização e conhecimento.\nEscreva de forma natural, como um consultor experiente.\n\n## O QUE VOCÊ PODE FAZER\nResponder e-mails de potenciais clientes.\nExplicar os serviços da Grupo Auto.io.\nEsclarecer dúvidas sobre automação de processos, Inteligência Artificial e melhoria de processos internos.\nSolicitar informações adicionais quando necessário para entender o cenário do cliente.\nIncentivar o agendamento de uma reunião de diagnóstico.\nDirecionar o cliente para preencher o formulário quando houver necessidade de coleta de informações.\n\n## INFORMAÇÕES DA EMPRESA\nA empresa é especializada em otimização de processos empresariais por meio de consultoria, automação e inteligência artificial.\n\nPrincipais serviços\nMapeamento e melhoria de processos (AS-IS e TO-BE);\nAutomação de processos e integração entre sistemas;\nIdentificação e eliminação de gargalos operacionais;\nAplicação de Inteligência Artificial para otimização e apoio à tomada de decisão.\nBenefícios entregues aos clientes\nRedução de custos operacionais;\nAumento da produtividade das equipes;\nProcessos mais eficientes, padronizados e escaláveis.\n\nSempre apresente as soluções como personalizadas para a realidade de cada empresa.\n\n## DOCUMENTAÇÃO PARA CONTRATO\nCaso o cliente solicite informações sobre contratação, informe que toda a documentação será apresentada após a reunião de diagnóstico, quando será possível elaborar uma proposta adequada às necessidades da empresa.\n\nNunca invente cláusulas, valores, prazos ou condições contratuais.\n\n## PERGUNTAS FREQUENTES\n\"Vocês negociam preço?\"\n\nSim. As propostas são personalizadas conforme o escopo do projeto. Após entendermos sua necessidade durante a reunião de diagnóstico, elaboramos uma proposta adequada.\n\n\"Quanto custa um projeto?\"\n\nO investimento depende da complexidade do processo, do nível de automação desejado e das integrações envolvidas. Por isso, realizamos primeiro uma reunião de diagnóstico.\n\n\"Quanto tempo leva um projeto?\"\n\nO prazo varia conforme o escopo. Após o levantamento dos processos, conseguimos estimar um cronograma.\n\n\"Vocês atendem empresas de qualquer segmento?\"\n\nSim. Atendemos pequenas e médias empresas de diversos setores, adaptando as soluções às necessidades específicas de cada negócio.\n\n\"Vocês utilizam Inteligência Artificial?\"\n\nSim. Trabalhamos com soluções de IA aplicadas à automação, atendimento, análise de dados e otimização de processos, sempre avaliando o que faz sentido para cada empresa.\n\n## USO DE FERRAMENTAS\n### Ferramenta: formulario_registro\nVerifique se há cadastro do cliente a partir do seu E-MAIL;\nUse SEMPRE que o cliente perguntar sobre os serviços, pedir recomendações ou mencionar características desejadas (otimizar processo, redesenhar processo, automação, etc). Consulte a planilha e apresente as opções que mais se encaixam no perfil.\n\n\n## REGRAS IMPORTANTES\nSOMENTE HÁ CONSULTA COM A EQUIPE APÓS O PREENCHIMENTO DO FORMULÁRIO, ANÁLISE DO ESPECIALISTA e DATA MARCADA;\nNunca invente informações sobre preços, prazos, tecnologias, funcionalidades ou serviços que não tenham sido informados.\nCaso o cliente solicite algo que não esteja disponível nas informações fornecidas, responda que será necessário avaliar durante a reunião de diagnóstico.\nSe o cliente fizer perguntas fora do contexto da Grupo Auto.io (política, esportes, receitas etc.), responda educadamente:\n\n\"Meu foco é ajudar você a entender como a Grupo Auto.io pode otimizar os processos da sua empresa. Como posso ajudar nesse assunto?\"\n\nNunca fale mal de concorrentes.\nSempre que identificar interesse real do cliente, finalize convidando-o para uma reunião de diagnóstico.\nSempre priorize entender o problema antes de apresentar soluções.\nFaça perguntas quando as informações do cliente forem insuficientes para oferecer uma resposta precisa.\nFORMATAÇÃO DA RESPOSTA\n\nResponda SEMPRE em HTML válido.\n\nUtilize apenas as seguintes tags:\n\n<b> para negrito\n<br> para quebra de linha\n<ul> e <li> para listas\n<a href=\"\"> para links clicáveis\n\nOrganize a resposta em blocos bem estruturados, evitando textos muito longos em um único parágrafo.\n\n\nAo final das respostas, quando apropriado, convide o cliente para dar continuidade ao atendimento por meio da reunião de diagnóstico.\n\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -544,
+        -1280
+      ],
+      "id": "b3b4835a-81ed-4819-8d74-067dfa22a43a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.threadId }}",
+        "contextWindowLength": 30
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        -448,
+        -1072
+      ],
+      "id": "7f03973f-57c2-418e-b36b-615ab09a755f",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -624,
+        -1072
+      ],
+      "id": "8ddfc858-3323-433a-89e6-f8cfabf80675",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "zfe5MTN2YjSr9M9G",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "56fe1e3e-74d6-4e2e-8b2c-0ea2c64196b9",
+              "leftValue": "={{ $json.from.value[0].address }}",
+              "rightValue": "@",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "696aae80-8572-4600-927e-7a98169b6ff2",
+              "leftValue": "={{ $json.text }}",
+              "rightValue": "unsubscribe",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            },
+            {
+              "id": "f90fb7b7-dc4c-4e43-91a0-a3fc556ccba0",
+              "leftValue": "={{ $json.text }}",
+              "rightValue": "não responda",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            },
+            {
+              "id": "64575fe3-2b2c-4b1a-913b-bca0df0571cf",
+              "leftValue": "={{ $json.text }}",
+              "rightValue": "newsletter",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            },
+            {
+              "id": "520623c7-6a5d-464e-aadb-4fd67c0ebc3e",
+              "leftValue": "={{ $json.subject }}",
+              "rightValue": "[SPAM]",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            },
+            {
+              "id": "33823ab3-a754-451f-a5cf-aac1aa832ad7",
+              "leftValue": "={{ $json.text }}",
+              "rightValue": "mailer-daemon",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            },
+            {
+              "id": "f87ddc85-47e8-4a4f-b8cd-6f70bdc38591",
+              "leftValue": "={{ $json.from.value[0].address }}",
+              "rightValue": "auto.io.grupo@gmail.com",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -1408,
+        -864
+      ],
+      "id": "b8414d93-78ac-4d99-9f25-79b493a2f4ee",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "content": "GATILHO FASE 1: PRIMEIRO CONTATO\n",
+        "height": 368,
+        "width": 768
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1648,
+        -992
+      ],
+      "typeVersion": 1,
+      "id": "08de93d0-6832-4573-8f10-987f895c925b",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "AGENTE DE IA - ASSISTENTE VIRTUAL",
+        "height": 416,
+        "width": 624,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -736,
+        -1344
+      ],
+      "typeVersion": 1,
+      "id": "f5621493-3c86-4638-8858-88f0a788eb7c",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "RESPOSTA AO CLIENTE",
+        "height": 336,
+        "width": 464,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -48,
+        -1392
+      ],
+      "typeVersion": 1,
+      "id": "bda772f4-e34a-419e-ae30-c0dbf082beda",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1m9P0Gx3NH6VCYED72Y_Dg7sXnfA6xzbuvNKn9fBjOIU/edit?resourcekey=&gid=902383498#gid=902383498",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 902383498,
+          "mode": "list",
+          "cachedResultName": "Planilha1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m9P0Gx3NH6VCYED72Y_Dg7sXnfA6xzbuvNKn9fBjOIU/edit#gid=902383498"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Timestamp', ``, 'string') }}",
+            "Nome completo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Nome_completo', ``, 'string') }}",
+            "Empresa": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Empresa', ``, 'string') }}",
+            "Cargo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Cargo', ``, 'string') }}",
+            "E-mail": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('E-mail', ``, 'string') }}",
+            "Telefone (WhatsApp)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Telefone__WhatsApp_', ``, 'string') }}",
+            "Segmento": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Segmento', ``, 'string') }}",
+            "Qual processo mais crítico você quer resolver AGORA? ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Qual_processo_mais_cr_tico_voc__quer_resolver_AGORA__', ``, 'string') }}",
+            "Descreva, passo a passo, como esse processo acontece hoje:\n(ex: cliente pede pelo WhatsApp > anoto no Excel > envio para o estoque > etc.)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Descreva__passo_a_passo__como_esse_processo_acontece_hoje___ex_', ``, 'string') }}",
+            "Quem faz o quê? (quais pessoas/áreas envolvidas):": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quem_faz_o_qu____quais_pessoas__reas_envolvidas__', ``, 'string') }}",
+            "Quais ferramentas você usa nesse processo? ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quais_ferramentas_voc__usa_nesse_processo__', ``, 'string') }}",
+            "Onde estão as informações desse processo? (ex: planilha no Drive, caderno, sistema X, vários lugares)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Onde_est_o_as_informa__es_desse_processo___ex__planilha_no_Driv', ``, 'string') }}",
+            "O que trava ou atrasa esse processo? (ex: demora para responder cliente, falta de estoque, retrabalho, aprovação manual, etc.)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('O_que_trava_ou_atrasa_esse_processo___ex__demora_para_responder', ``, 'string') }}",
+            "O que você repete várias vezes que deveria ser feito uma vez só?": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('O_que_voc__repete_v_rias_vezes_que_deveria_ser_feito_uma_vez_s_', ``, 'string') }}",
+            "Onde você perde informação? (ex: cliente manda mensagem, eu anoto, depois perco o papel)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Onde_voc__perde_informa__o___ex__cliente_manda_mensagem__eu_ano', ``, 'string') }}",
+            "Como você GOSTARIA que esse processo funcionasse? (descreva o ideal)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Como_voc__GOSTARIA_que_esse_processo_funcionasse___descreva_o_i', ``, 'string') }}",
+            "Qual o principal resultado que você quer com isso?": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Qual_o_principal_resultado_que_voc__quer_com_isso_', ``, 'string') }}",
+            "Quando quer começar?": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quando_quer_come_ar_', ``, 'string') }}",
+            "Quer uma reunião rápida de 30min para aprofundar?": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quer_uma_reuni_o_r_pida_de_30min_para_aprofundar_', ``, 'string') }}",
+            "Espaço livre para contar algo que não perguntamos:": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Espa_o_livre_para_contar_algo_que_n_o_perguntamos_', ``, 'string') }}",
+            "CNPJ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('CNPJ', ``, 'string') }}",
+            "Quantos funcionários?": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quantos_funcion_rios_', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nome completo",
+              "displayName": "Nome completo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "E-mail",
+              "displayName": "E-mail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefone (WhatsApp)",
+              "displayName": "Telefone (WhatsApp)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Segmento",
+              "displayName": "Segmento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Qual processo mais crítico você quer resolver AGORA? ",
+              "displayName": "Qual processo mais crítico você quer resolver AGORA? ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Descreva, passo a passo, como esse processo acontece hoje:\n(ex: cliente pede pelo WhatsApp > anoto no Excel > envio para o estoque > etc.)",
+              "displayName": "Descreva, passo a passo, como esse processo acontece hoje:\n(ex: cliente pede pelo WhatsApp > anoto no Excel > envio para o estoque > etc.)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quem faz o quê? (quais pessoas/áreas envolvidas):",
+              "displayName": "Quem faz o quê? (quais pessoas/áreas envolvidas):",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quais ferramentas você usa nesse processo? ",
+              "displayName": "Quais ferramentas você usa nesse processo? ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Onde estão as informações desse processo? (ex: planilha no Drive, caderno, sistema X, vários lugares)",
+              "displayName": "Onde estão as informações desse processo? (ex: planilha no Drive, caderno, sistema X, vários lugares)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "O que trava ou atrasa esse processo? (ex: demora para responder cliente, falta de estoque, retrabalho, aprovação manual, etc.)",
+              "displayName": "O que trava ou atrasa esse processo? (ex: demora para responder cliente, falta de estoque, retrabalho, aprovação manual, etc.)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "O que você repete várias vezes que deveria ser feito uma vez só?",
+              "displayName": "O que você repete várias vezes que deveria ser feito uma vez só?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Onde você perde informação? (ex: cliente manda mensagem, eu anoto, depois perco o papel)",
+              "displayName": "Onde você perde informação? (ex: cliente manda mensagem, eu anoto, depois perco o papel)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Como você GOSTARIA que esse processo funcionasse? (descreva o ideal)",
+              "displayName": "Como você GOSTARIA que esse processo funcionasse? (descreva o ideal)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Qual o principal resultado que você quer com isso?",
+              "displayName": "Qual o principal resultado que você quer com isso?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quando quer começar?",
+              "displayName": "Quando quer começar?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quer uma reunião rápida de 30min para aprofundar?",
+              "displayName": "Quer uma reunião rápida de 30min para aprofundar?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Espaço livre para contar algo que não perguntamos:",
+              "displayName": "Espaço livre para contar algo que não perguntamos:",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CNPJ",
+              "displayName": "CNPJ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quantos funcionários?",
+              "displayName": "Quantos funcionários?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -288,
+        -1088
+      ],
+      "id": "95bda1e3-12bc-4391-bfa3-524f5c2fc55b",
+      "name": "formulario_registro",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "g163x4dSpy2F5nz3",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "AVISO A EQUIPE",
+        "height": 288,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        576,
+        -1056
+      ],
+      "typeVersion": 1,
+      "id": "21b1c3da-1922-4b93-af43-5408758ea564",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1m9P0Gx3NH6VCYED72Y_Dg7sXnfA6xzbuvNKn9fBjOIU/edit?resourcekey=&gid=902383498#gid=902383498",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 902383498,
+          "mode": "list",
+          "cachedResultName": "Planilha1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m9P0Gx3NH6VCYED72Y_Dg7sXnfA6xzbuvNKn9fBjOIU/edit#gid=902383498"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        32,
+        288
+      ],
+      "id": "b98f4799-f92a-4566-b86f-7dde37910cef",
+      "name": "formulario_registro2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "g163x4dSpy2F5nz3",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "contextWindowLength": 30
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        -112,
+        304
+      ],
+      "id": "230e1883-19fe-4b4a-a520-8e1b26ed9c86",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        288
+      ],
+      "id": "4846dfa0-317a-4f97-8b45-05a5e0623784",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "zfe5MTN2YjSr9M9G",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "## QUEM VOCÊ É\nVocê é um especialista em BPM (Business Process Management) da Grupo Auto.io.\nSeu papel é analisar as respostas do formulário de diagnóstico e gerar um relatório preliminar.\n\n## O QUE VOCÊ DEVE FAZER\n1. Analise as respostas do formulário (que chegam via Google Sheets Trigger).\n2. Identifique os principais gargalos e oportunidades de melhoria.\n3. Gere um resumo executivo com:\n   - Pontos críticos do processo atual (AS-IS)\n   - Recomendações iniciais para o processo futuro (TO-BE)\n   - Potenciais benefícios (redução de custos, aumento de eficiência)\n\n## FORMATO DE SAÍDA\nResponda em HTML estruturado, com:\n- Títulos em <b>\n- Listas em <ul> e <li>\n- Parágrafos curtos com <br>",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -160,
+        -80
+      ],
+      "id": "7d8c0fcb-92f0-4fea-b179-fc1bd6942dd8",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "content": "GATILHO FASE 2: FORMULÁRIO PREENCHIDO\n\n",
+        "height": 288,
+        "width": 752,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1648,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "ce4f0d8f-e2ca-492d-a57c-451cee189623",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0BE6BT3PFA",
+          "mode": "list",
+          "cachedResultName": "potenciais-clientes-novos"
+        },
+        "text": "=*🎯 NOVO LEAD RECEBIDO!*\n\n*👤 Nome:* {{ $('Gmail Trigger').item.json.from.value[0].name }}\n*📧 E-mail:* {{ $('Gmail Trigger').item.json.from.value[0].address }}\n*📝 Assunto:* {{ $('Gmail Trigger').item.json.subject }}\n*📋 Conteúdo:* \n{{ $('Gmail Trigger').item.json.text }}\n\n*📊 Classificação:* {{ $('Text Classifier').item.json.output }}\n\n👉 *Ação recomendada:* Responder o e-mail ou agendar diagnóstico.\n\n🔗 <https://mail.google.com/mail/u/0/#inbox/{{ $('Gmail Trigger').item.json.id }}|Abrir e-mail no Gmail>",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        752,
+        -976
+      ],
+      "id": "f7ea292a-09e1-4cb9-869b-52ac8c0fb404",
+      "name": "Send a message",
+      "webhookId": "e15839dd-1ccb-4929-a057-715778a67382",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "XYaruoWq2UlvHb20",
+          "name": "Slack OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Gmail Trigger').item.json.text }}",
+        "options": {
+          "systemMessage": "## AQUI ENTROU NO FLUxo que NÃO ExISTE o e-mail na planilha, isso quer dizer que o cliente ainda não preencheu o formulário. Tente ser convincente a convidar o cliente para preencher o formulário e com o objetivo de entendê-lo melhor suas dores e da sua empresa.\n\n## QUEM VOCÊ É\n\nVocê é Ana, assistente virtual da Grupo Auto.io, empresa de consultoria estratégica especializada em melhoria de processos internos (AS-IS), automação de processos e Inteligência Artificial para pequenas e médias empresas.\n\nSeu papel é responder e-mails de clientes interessados em otimizar processos, reduzir custos operacionais e aumentar a eficiência por meio de automação e IA.\n\nSeu principal objetivo é:\n\nCompreender a necessidade do cliente;\nEsclarecer dúvidas de forma clara;\nApresentar as soluções da Grupo Auto.io de maneira consultiva;\nConduzir o contato para uma reunião de diagnóstico.\n\nCaso precise solicitar mais informações ao cliente, utilize o formulário abaixo:\n\nQuando mencionar o formulário de diagnóstico, utilize o link clicável:\n\n<a href=\"https://forms.gle/HUKRLfFqaJt2JeaA8\">Preencher formulário de diagnóstico</a>\n\n## TOM DE VOZ\nProfissional e acolhedor.\nObjetivo e claro.\nDemonstre interesse genuíno em compreender a realidade do cliente.\nUtilize sempre \"você\".\nEvite linguagem excessivamente técnica quando não for necessária.\nNunca seja insistente ou agressivo na venda.\nSempre transmita confiança, organização e conhecimento.\nEscreva de forma natural, como um consultor experiente.\n\n## O QUE VOCÊ PODE FAZER\nResponder e-mails de potenciais clientes.\nExplicar os serviços da Grupo Auto.io.\nEsclarecer dúvidas sobre automação de processos, Inteligência Artificial e melhoria de processos internos.\nSolicitar informações adicionais quando necessário para entender o cenário do cliente.\nIncentivar o agendamento de uma reunião de diagnóstico.\nDirecionar o cliente para preencher o formulário quando houver necessidade de coleta de informações.\n\n## INFORMAÇÕES DA EMPRESA\nA empresa é especializada em otimização de processos empresariais por meio de consultoria, automação e inteligência artificial.\n\nPrincipais serviços\nMapeamento e melhoria de processos (AS-IS e TO-BE);\nAutomação de processos e integração entre sistemas;\nIdentificação e eliminação de gargalos operacionais;\nAplicação de Inteligência Artificial para otimização e apoio à tomada de decisão.\nBenefícios entregues aos clientes\nRedução de custos operacionais;\nAumento da produtividade das equipes;\nProcessos mais eficientes, padronizados e escaláveis.\n\nSempre apresente as soluções como personalizadas para a realidade de cada empresa.\n\n## DOCUMENTAÇÃO PARA CONTRATO\nCaso o cliente solicite informações sobre contratação, informe que toda a documentação será apresentada após a reunião de diagnóstico, quando será possível elaborar uma proposta adequada às necessidades da empresa.\n\nNunca invente cláusulas, valores, prazos ou condições contratuais.\n\n## PERGUNTAS FREQUENTES\n\"Vocês negociam preço?\"\n\nSim. As propostas são personalizadas conforme o escopo do projeto. Após entendermos sua necessidade durante a reunião de diagnóstico, elaboramos uma proposta adequada.\n\n\"Quanto custa um projeto?\"\n\nO investimento depende da complexidade do processo, do nível de automação desejado e das integrações envolvidas. Por isso, realizamos primeiro uma reunião de diagnóstico.\n\n\"Quanto tempo leva um projeto?\"\n\nO prazo varia conforme o escopo. Após o levantamento dos processos, conseguimos estimar um cronograma.\n\n\"Vocês atendem empresas de qualquer segmento?\"\n\nSim. Atendemos pequenas e médias empresas de diversos setores, adaptando as soluções às necessidades específicas de cada negócio.\n\n\"Vocês utilizam Inteligência Artificial?\"\n\nSim. Trabalhamos com soluções de IA aplicadas à automação, atendimento, análise de dados e otimização de processos, sempre avaliando o que faz sentido para cada empresa.\n\n## USO DE FERRAMENTAS\n### Ferramenta: formulario_registro\nVerifique se há cadastro do cliente a partir do seu E-MAIL;\nUse SEMPRE que o cliente perguntar sobre os serviços, pedir recomendações ou mencionar características desejadas (otimizar processo, redesenhar processo, automação, etc). Consulte a planilha e apresente as opções que mais se encaixam no perfil.\n\n\n## REGRAS IMPORTANTES\nSOMENTE HÁ CONSULTA COM A EQUIPE APÓS O PREENCHIMENTO DO FORMULÁRIO, ANÁLISE DO ESPECIALISTA e DATA MARCADA;\nNunca invente informações sobre preços, prazos, tecnologias, funcionalidades ou serviços que não tenham sido informados.\nCaso o cliente solicite algo que não esteja disponível nas informações fornecidas, responda que será necessário avaliar durante a reunião de diagnóstico.\nSe o cliente fizer perguntas fora do contexto da Grupo Auto.io (política, esportes, receitas etc.), responda educadamente:\n\n\"Meu foco é ajudar você a entender como a Grupo Auto.io pode otimizar os processos da sua empresa. Como posso ajudar nesse assunto?\"\n\nNunca fale mal de concorrentes.\nSempre que identificar interesse real do cliente, finalize convidando-o para uma reunião de diagnóstico.\nSempre priorize entender o problema antes de apresentar soluções.\nFaça perguntas quando as informações do cliente forem insuficientes para oferecer uma resposta precisa.\nFORMATAÇÃO DA RESPOSTA\n\nResponda SEMPRE em HTML válido.\n\nUtilize apenas as seguintes tags:\n\n<b> para negrito\n<br> para quebra de linha\n<ul> e <li> para listas\n<a href=\"\"> para links clicáveis\n\nOrganize a resposta em blocos bem estruturados, evitando textos muito longos em um único parágrafo.\n\n\nAo final das respostas, quando apropriado, convide o cliente para dar continuidade ao atendimento por meio da reunião de diagnóstico.\n\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -560,
+        -640
+      ],
+      "id": "78a603be-0746-42d2-84b6-cd4e5d392473",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Gmail Trigger').item.json.threadId }}",
+        "contextWindowLength": 30
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        -448,
+        -432
+      ],
+      "id": "a8d6e7c5-af94-4861-82fc-67c2805a3d41",
+      "name": "Simple Memory2"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -928,
+        -400
+      ],
+      "id": "920a38b2-c191-48f4-9640-dd26b7435d32",
+      "name": "Groq Chat Model2",
+      "credentials": {
+        "groqApi": {
+          "id": "zfe5MTN2YjSr9M9G",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "AGENTE DE IA - ASSISTENTE VIRTUAL",
+        "height": 416,
+        "width": 640,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -752,
+        -704
+      ],
+      "typeVersion": 1,
+      "id": "b62c47f7-dcb2-4b0f-9f35-dd1edb22b41c",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1m9P0Gx3NH6VCYED72Y_Dg7sXnfA6xzbuvNKn9fBjOIU/edit?resourcekey=&gid=902383498#gid=902383498",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 902383498,
+          "mode": "list",
+          "cachedResultName": "Planilha1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m9P0Gx3NH6VCYED72Y_Dg7sXnfA6xzbuvNKn9fBjOIU/edit#gid=902383498"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Timestamp', ``, 'string') }}",
+            "Nome completo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Nome_completo', ``, 'string') }}",
+            "Empresa": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Empresa', ``, 'string') }}",
+            "Cargo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Cargo', ``, 'string') }}",
+            "E-mail": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('E-mail', ``, 'string') }}",
+            "Telefone (WhatsApp)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Telefone__WhatsApp_', ``, 'string') }}",
+            "Segmento": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Segmento', ``, 'string') }}",
+            "Qual processo mais crítico você quer resolver AGORA? ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Qual_processo_mais_cr_tico_voc__quer_resolver_AGORA__', ``, 'string') }}",
+            "Descreva, passo a passo, como esse processo acontece hoje:\n(ex: cliente pede pelo WhatsApp > anoto no Excel > envio para o estoque > etc.)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Descreva__passo_a_passo__como_esse_processo_acontece_hoje___ex_', ``, 'string') }}",
+            "Quem faz o quê? (quais pessoas/áreas envolvidas):": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quem_faz_o_qu____quais_pessoas__reas_envolvidas__', ``, 'string') }}",
+            "Quais ferramentas você usa nesse processo? ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quais_ferramentas_voc__usa_nesse_processo__', ``, 'string') }}",
+            "Onde estão as informações desse processo? (ex: planilha no Drive, caderno, sistema X, vários lugares)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Onde_est_o_as_informa__es_desse_processo___ex__planilha_no_Driv', ``, 'string') }}",
+            "O que trava ou atrasa esse processo? (ex: demora para responder cliente, falta de estoque, retrabalho, aprovação manual, etc.)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('O_que_trava_ou_atrasa_esse_processo___ex__demora_para_responder', ``, 'string') }}",
+            "O que você repete várias vezes que deveria ser feito uma vez só?": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('O_que_voc__repete_v_rias_vezes_que_deveria_ser_feito_uma_vez_s_', ``, 'string') }}",
+            "Onde você perde informação? (ex: cliente manda mensagem, eu anoto, depois perco o papel)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Onde_voc__perde_informa__o___ex__cliente_manda_mensagem__eu_ano', ``, 'string') }}",
+            "Como você GOSTARIA que esse processo funcionasse? (descreva o ideal)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Como_voc__GOSTARIA_que_esse_processo_funcionasse___descreva_o_i', ``, 'string') }}",
+            "Qual o principal resultado que você quer com isso?": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Qual_o_principal_resultado_que_voc__quer_com_isso_', ``, 'string') }}",
+            "Quando quer começar?": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quando_quer_come_ar_', ``, 'string') }}",
+            "Quer uma reunião rápida de 30min para aprofundar?": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quer_uma_reuni_o_r_pida_de_30min_para_aprofundar_', ``, 'string') }}",
+            "Espaço livre para contar algo que não perguntamos:": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Espa_o_livre_para_contar_algo_que_n_o_perguntamos_', ``, 'string') }}",
+            "CNPJ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('CNPJ', ``, 'string') }}",
+            "Quantos funcionários?": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quantos_funcion_rios_', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nome completo",
+              "displayName": "Nome completo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "E-mail",
+              "displayName": "E-mail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefone (WhatsApp)",
+              "displayName": "Telefone (WhatsApp)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Segmento",
+              "displayName": "Segmento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Qual processo mais crítico você quer resolver AGORA? ",
+              "displayName": "Qual processo mais crítico você quer resolver AGORA? ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Descreva, passo a passo, como esse processo acontece hoje:\n(ex: cliente pede pelo WhatsApp > anoto no Excel > envio para o estoque > etc.)",
+              "displayName": "Descreva, passo a passo, como esse processo acontece hoje:\n(ex: cliente pede pelo WhatsApp > anoto no Excel > envio para o estoque > etc.)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quem faz o quê? (quais pessoas/áreas envolvidas):",
+              "displayName": "Quem faz o quê? (quais pessoas/áreas envolvidas):",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quais ferramentas você usa nesse processo? ",
+              "displayName": "Quais ferramentas você usa nesse processo? ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Onde estão as informações desse processo? (ex: planilha no Drive, caderno, sistema X, vários lugares)",
+              "displayName": "Onde estão as informações desse processo? (ex: planilha no Drive, caderno, sistema X, vários lugares)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "O que trava ou atrasa esse processo? (ex: demora para responder cliente, falta de estoque, retrabalho, aprovação manual, etc.)",
+              "displayName": "O que trava ou atrasa esse processo? (ex: demora para responder cliente, falta de estoque, retrabalho, aprovação manual, etc.)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "O que você repete várias vezes que deveria ser feito uma vez só?",
+              "displayName": "O que você repete várias vezes que deveria ser feito uma vez só?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Onde você perde informação? (ex: cliente manda mensagem, eu anoto, depois perco o papel)",
+              "displayName": "Onde você perde informação? (ex: cliente manda mensagem, eu anoto, depois perco o papel)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Como você GOSTARIA que esse processo funcionasse? (descreva o ideal)",
+              "displayName": "Como você GOSTARIA que esse processo funcionasse? (descreva o ideal)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Qual o principal resultado que você quer com isso?",
+              "displayName": "Qual o principal resultado que você quer com isso?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quando quer começar?",
+              "displayName": "Quando quer começar?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quer uma reunião rápida de 30min para aprofundar?",
+              "displayName": "Quer uma reunião rápida de 30min para aprofundar?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Espaço livre para contar algo que não perguntamos:",
+              "displayName": "Espaço livre para contar algo que não perguntamos:",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CNPJ",
+              "displayName": "CNPJ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quantos funcionários?",
+              "displayName": "Quantos funcionários?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -256,
+        -448
+      ],
+      "id": "f9dfac0e-b08e-49dc-881a-3aa10697d89e",
+      "name": "formulario_registro3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "g163x4dSpy2F5nz3",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7d74882e-f954-40af-af10-12efbf6b7da8",
+              "leftValue": "={{ $('Gmail Trigger').item.json.from.value[0].address }}",
+              "rightValue": "={{ $json['E-mail'] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -992,
+        -864
+      ],
+      "id": "c1b4c098-7527-42e3-8e63-5a7c54a17322",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        96,
+        -640
+      ],
+      "id": "7ffda01d-4006-4ded-b35f-85e1a074ef1e",
+      "name": "Reply to a message",
+      "webhookId": "3c8907aa-6c5e-4d1d-a5b2-438ef5ad26b4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "lBLuLbC46CAQQwo7",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -704,
+        -432
+      ],
+      "id": "3791e98b-b63a-42e1-86ab-e9a157d1bcca",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "6BIcxpQN4YrOjiaK",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        80,
+        -1280
+      ],
+      "id": "f69fea76-8eb2-4967-a889-16d72c8de215",
+      "name": "Reply to a message1",
+      "webhookId": "3c8907aa-6c5e-4d1d-a5b2-438ef5ad26b4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "lBLuLbC46CAQQwo7",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "RESPOSTA AO CLIENTE",
+        "height": 336,
+        "width": 464,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -48,
+        -752
+      ],
+      "typeVersion": 1,
+      "id": "8c53d0fd-b677-45a2-99ab-648c17e69f0f",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1m9P0Gx3NH6VCYED72Y_Dg7sXnfA6xzbuvNKn9fBjOIU/edit?resourcekey=&gid=902383498#gid=902383498",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 902383498,
+          "mode": "list",
+          "cachedResultName": "Planilha1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m9P0Gx3NH6VCYED72Y_Dg7sXnfA6xzbuvNKn9fBjOIU/edit#gid=902383498"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1200,
+        -864
+      ],
+      "id": "a365879e-e253-4037-a97b-3b44d833c4da",
+      "name": "analisa linha",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "g163x4dSpy2F5nz3",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1m9P0Gx3NH6VCYED72Y_Dg7sXnfA6xzbuvNKn9fBjOIU/edit?resourcekey=&gid=902383498#gid=902383498",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 902383498,
+          "mode": "list",
+          "cachedResultName": "Planilha1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1m9P0Gx3NH6VCYED72Y_Dg7sXnfA6xzbuvNKn9fBjOIU/edit#gid=902383498"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1552,
+        -16
+      ],
+      "id": "ef3c1a33-fd66-4813-9a44-14093e6cf30f",
+      "name": "recebe_formulário",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "WUROr6sfiHrWQTsE",
+          "name": "Google Sheets Trigger OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# =====================================================\n# 🧹 CODE: PROCESSAR FORMULÁRIO\n# =====================================================\n# Python puro - sem imports!\n# =====================================================\n\ndef limpar_texto(texto):\n    \"\"\"Limpa texto sem usar regex\"\"\"\n    if not texto or not isinstance(texto, str):\n        return \"\"\n    \n    # Remove espaços no início e fim\n    texto = texto.strip()\n    \n    # Substitui múltiplos espaços por um único\n    resultado = []\n    espaco_anterior = False\n    for char in texto:\n        if char == ' ':\n            if not espaco_anterior:\n                resultado.append(char)\n                espaco_anterior = True\n        else:\n            resultado.append(char)\n            espaco_anterior = False\n    texto = ''.join(resultado)\n    \n    # Remove caracteres de controle (substituto do re.sub)\n    caracteres_controle = []\n    for i in range(32):\n        caracteres_controle.append(chr(i))\n    for char in caracteres_controle:\n        texto = texto.replace(char, '')\n    \n    return texto\n\n\ndef validar_email(email):\n    \"\"\"Valida email sem regex\"\"\"\n    if not email:\n        return False\n    \n    email = email.strip()\n    \n    # Verifica se tem @ e .\n    if '@' not in email or '.' not in email:\n        return False\n    \n    # Divide em local e dominio\n    partes = email.split('@')\n    if len(partes) != 2:\n        return False\n    \n    local, dominio = partes[0], partes[1]\n    \n    # Verifica se local e dominio não estão vazios\n    if not local or not dominio:\n        return False\n    \n    # Verifica se dominio tem pelo menos um .\n    if '.' not in dominio:\n        return False\n    \n    # Verifica se o dominio termina com letra\n    ultimo_char = dominio[-1]\n    if not ('a' <= ultimo_char <= 'z' or 'A' <= ultimo_char <= 'Z'):\n        return False\n    \n    return True\n\n\ndef extrair_dominio_email(email):\n    \"\"\"Extrai domínio do email\"\"\"\n    if not email:\n        return \"desconhecido\"\n    \n    if '@' in email:\n        partes = email.split('@')\n        if len(partes) == 2:\n            return partes[1].lower()\n    \n    return \"desconhecido\"\n\n\ndef validar_telefone(telefone):\n    \"\"\"Valida e formata telefone\"\"\"\n    if not telefone:\n        return {\"valido\": False, \"formatado\": \"\"}\n    \n    # Remove tudo que não é número\n    numeros = ''.join([c for c in str(telefone) if c.isdigit()])\n    \n    if len(numeros) not in [10, 11]:\n        return {\"valido\": False, \"formatado\": numeros}\n    \n    if len(numeros) == 10:\n        formatado = f\"({numeros[:2]}) {numeros[2:6]}-{numeros[6:10]}\"\n    else:\n        formatado = f\"({numeros[:2]}) {numeros[2:7]}-{numeros[7:11]}\"\n    \n    return {\"valido\": True, \"formatado\": formatado}\n\n\ndef validar_cnpj(cnpj):\n    \"\"\"Valida CNPJ sem regex\"\"\"\n    if not cnpj:\n        return False\n    \n    # Remove tudo que não é número\n    numeros = ''.join([c for c in str(cnpj) if c.isdigit()])\n    \n    if len(numeros) != 14:\n        return False\n    \n    # Verifica se todos os dígitos são iguais\n    if len(set(numeros)) == 1:\n        return False\n    \n    # Cálculo dos dígitos verificadores\n    def calcular_digito(cnpj, posicao):\n        soma = 0\n        multiplicador = 5 if posicao == 12 else 6\n        \n        for i in range(posicao):\n            soma += int(cnpj[i]) * multiplicador\n            multiplicador -= 1\n            if multiplicador < 2:\n                multiplicador = 9\n        \n        resto = soma % 11\n        return 0 if resto < 2 else 11 - resto\n    \n    # Valida dígitos\n    digito1 = calcular_digito(numeros, 12)\n    if digito1 != int(numeros[12]):\n        return False\n    \n    digito2 = calcular_digito(numeros, 13)\n    if digito2 != int(numeros[13]):\n        return False\n    \n    return True\n\n\ndef formatar_cnpj(cnpj):\n    \"\"\"Formata CNPJ\"\"\"\n    if not cnpj:\n        return \"\"\n    \n    numeros = ''.join([c for c in str(cnpj) if c.isdigit()])\n    if len(numeros) == 14:\n        return f\"{numeros[:2]}.{numeros[2:5]}.{numeros[5:8]}/{numeros[8:12]}-{numeros[12:14]}\"\n    \n    return numeros\n\n\ndef extrair_palavras_chave(texto, limite=10):\n    \"\"\"Extrai palavras-chave sem regex\"\"\"\n    if not texto:\n        return []\n    \n    # Stopwords em português\n    stopwords = {\n        'a', 'o', 'e', 'de', 'do', 'da', 'que', 'com', 'para', 'por',\n        'um', 'uma', 'como', 'mais', 'mas', 'se', 'ou', 'quando', 'onde',\n        'qual', 'quais', 'pelo', 'pela', 'no', 'na', 'os', 'as', 'ao', 'à',\n        'meu', 'minha', 'seu', 'sua', 'nosso', 'nossa', 'me', 'te', 'se',\n        'nos', 'vos', 'lhe', 'lhes', 'isso', 'isto', 'aquilo', 'esse', 'esse',\n        'esta', 'este', 'aquele', 'aquela', 'aqueles', 'aquelas'\n    }\n    \n    # Converte para minúsculo e remove pontuação\n    texto = texto.lower()\n    texto_limpo = []\n    for char in texto:\n        if char.isalpha() or char == ' ':\n            texto_limpo.append(char)\n        else:\n            texto_limpo.append(' ')\n    texto = ''.join(texto_limpo)\n    \n    # Divide em palavras\n    palavras = [p for p in texto.split() if len(p) > 3 and p not in stopwords]\n    \n    # Conta frequência\n    frequencia = {}\n    for p in palavras:\n        frequencia[p] = frequencia.get(p, 0) + 1\n    \n    # Ordena por frequência\n    palavras_ordenadas = sorted(frequencia.items(), key=lambda x: x[1], reverse=True)\n    \n    return [p[0] for p in palavras_ordenadas[:limite]]\n\n\ndef extrair_numero_funcionarios(texto):\n    \"\"\"Extrai número de funcionários\"\"\"\n    if not texto:\n        return 0\n    \n    numeros = ''.join([c for c in str(texto) if c.isdigit()])\n    return int(numeros) if numeros else 0\n\n\ndef processar_formulario(linha):\n    \"\"\"Função principal que processa o formulário\"\"\"\n    \n    # Mapeamento das colunas\n    colunas = {\n        'timestamp': 0,\n        'nome': 1,\n        'empresa': 2,\n        'cargo': 3,\n        'email': 4,\n        'telefone': 5,\n        'segmento': 6,\n        'processo_critico': 7,\n        'descricao_processo': 8,\n        'quem_faz': 9,\n        'ferramentas': 10,\n        'onde_estao_info': 11,\n        'gargalos': 12,\n        'repeticoes': 13,\n        'perde_informacao': 14,\n        'resultado_esperado': 15,\n        'principal_resultado': 16,\n        'prazo': 17,\n        'reuniao': 18,\n        'observacoes': 19,\n        'cnpj': 20,\n        'funcionarios': 21\n    }\n    \n    # Pega valor seguro\n    def get_valor(indice):\n        try:\n            if isinstance(linha, list) and indice < len(linha):\n                valor = linha[indice]\n                return str(valor).strip() if valor is not None else ''\n            return ''\n        except:\n            return ''\n    \n    # Extrai todos os campos\n    dados = {}\n    for campo, indice in colunas.items():\n        dados[campo] = get_valor(indice)\n    \n    # Limpa textos\n    campos_texto = [\n        'nome', 'empresa', 'cargo', 'segmento', 'processo_critico',\n        'descricao_processo', 'quem_faz', 'ferramentas', 'onde_estao_info',\n        'gargalos', 'repeticoes', 'perde_informacao', 'resultado_esperado',\n        'principal_resultado', 'observacoes'\n    ]\n    \n    for campo in campos_texto:\n        dados[campo] = limpar_texto(dados[campo])\n    \n    # Validações\n    email = dados.get('email', '')\n    dados['email_valido'] = validar_email(email)\n    dados['dominio_email'] = extrair_dominio_email(email)\n    \n    telefone = dados.get('telefone', '')\n    validacao_telefone = validar_telefone(telefone)\n    dados['telefone_valido'] = validacao_telefone['valido']\n    dados['telefone_formatado'] = validacao_telefone['formatado']\n    \n    cnpj = dados.get('cnpj', '')\n    dados['cnpj_valido'] = validar_cnpj(cnpj)\n    dados['cnpj_formatado'] = formatar_cnpj(cnpj)\n    \n    dados['num_funcionarios'] = extrair_numero_funcionarios(dados.get('funcionarios', ''))\n    \n    # Urgência baseada no prazo\n    prazo = dados.get('prazo', '').lower()\n    if 'imediato' in prazo or 'hoje' in prazo or 'agora' in prazo:\n        dados['urgencia'] = 'alta'\n    elif 'semana' in prazo or 'dias' in prazo:\n        dados['urgencia'] = 'media'\n    else:\n        dados['urgencia'] = 'baixa'\n    \n    # Reunião\n    reuniao = dados.get('reuniao', '').lower()\n    dados['quer_reuniao'] = 'sim' in reuniao or 'gostaria' in reuniao\n    \n    # Campos obrigatórios\n    campos_obrigatorios = ['nome', 'empresa', 'email', 'processo_critico']\n    faltantes = []\n    for campo in campos_obrigatorios:\n        if not dados.get(campo, '').strip():\n            faltantes.append(campo)\n    \n    dados['formulario_completo'] = len(faltantes) == 0\n    dados['campos_faltantes'] = faltantes\n    \n    # Palavras-chave\n    texto_chaves = ' '.join([\n        dados.get('processo_critico', ''),\n        dados.get('descricao_processo', ''),\n        dados.get('gargalos', ''),\n        dados.get('resultado_esperado', '')\n    ])\n    dados['palavras_chave'] = extrair_palavras_chave(texto_chaves, 10)\n    \n    # Resumo\n    dados['_resumo'] = f\"\"\"Lead: {dados.get('nome', 'Cliente')} | Empresa: {dados.get('empresa', 'Empresa')}\nProcesso: {dados.get('processo_critico', 'N/A')}\nUrgência: {dados.get('urgencia', 'baixa')}\nFormulário completo: {'Sim' if dados['formulario_completo'] else 'Nao - faltam: ' + ', '.join(dados['campos_faltantes'])}\"\"\"\n    \n    return dados\n\n\n# =====================================================\n# EXECUÇÃO\n# =====================================================\n\nresultados = []\n\nfor item in _items:\n    linha = item['json']\n    \n    if isinstance(linha, list):\n        dados_processados = processar_formulario(linha)\n        item['json'] = dados_processados\n    else:\n        item['json'] = {'erro': 'Formato nao reconhecido', 'original': linha}\n    \n    resultados.append(item)\n\nreturn resultados"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1296,
+        -16
+      ],
+      "id": "9301cb82-0b97-4aad-bf9e-0dd7139e3314",
+      "name": "Code de Limpeza"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# =====================================================\n# 🏷️ CODE: CLASSIFICAR LEAD\n# =====================================================\n# Python puro - sem imports!\n# =====================================================\n\ndef classificar_lead(dados):\n    \"\"\"Classifica o lead como quente, morno ou frio\"\"\"\n    \n    # ==========================================\n    # EXTRAI TEXTOS\n    # ==========================================\n    \n    textos = [\n        dados.get('processo_critico', ''),\n        dados.get('descricao_processo', ''),\n        dados.get('gargalos', ''),\n        dados.get('resultado_esperado', ''),\n        dados.get('principal_resultado', ''),\n        dados.get('observacoes', '')\n    ]\n    \n    texto_completo = ' '.join(textos).lower()\n    prazo = dados.get('prazo', '').lower()\n    urgencia = dados.get('urgencia', 'baixa')\n    \n    # ==========================================\n    # PALAVRAS-CHAVE\n    # ==========================================\n    \n    # Quente\n    palavras_quente = {\n        'urgente', 'imediatamente', 'hoje', 'agora', 'já', 'crítico',\n        'perdendo', 'prejuízo', 'emergência', 'ontem', 'urgência',\n        'parado', 'travado', 'sem solução', 'desesperado', 'prioridade'\n    }\n    \n    # Morno\n    palavras_morno = {\n        'automação', 'digitalizar', 'otimizar', 'melhorar', 'processo',\n        'bpm', 'ia', 'inteligência artificial', 'integração', 'sistema',\n        'eficiente', 'produtividade', 'reduzir', 'custos', 'ganho',\n        'resultado', 'crescer', 'escalar', 'organizar', 'padronizar'\n    }\n    \n    # Frio\n    palavras_frio = {\n        'curiosidade', 'informações', 'futuro', 'depois', 'só uma dúvida',\n        'conhecer', 'entender', 'pesquisando', 'avaliando', 'talvez',\n        'não sei', 'verificar', 'pensar', 'estudar', 'analisar'\n    }\n    \n    # Negação\n    palavras_negacao = {\n        'não', 'nunca', 'jamais', 'nem', 'também não', 'ainda não',\n        'sem', 'falta', 'impossível', 'não quero', 'não tenho'\n    }\n    \n    # ==========================================\n    # CÁLCULO DA PONTUAÇÃO\n    # ==========================================\n    \n    pontuacao = 0\n    matches_quente = []\n    matches_morno = []\n    matches_frio = []\n    \n    # Divide em palavras\n    palavras = [p for p in texto_completo.split() if p]\n    \n    for palavra in palavras:\n        if palavra in palavras_quente:\n            pontuacao += 3\n            if palavra not in matches_quente:\n                matches_quente.append(palavra)\n        elif palavra in palavras_morno:\n            pontuacao += 1\n            if palavra not in matches_morno:\n                matches_morno.append(palavra)\n        elif palavra in palavras_frio:\n            pontuacao -= 1\n            if palavra not in matches_frio:\n                matches_frio.append(palavra)\n        \n        if palavra in palavras_negacao:\n            pontuacao -= 1\n    \n    # Bônus por urgência\n    if urgencia == 'alta':\n        pontuacao += 2\n    elif urgencia == 'media':\n        pontuacao += 1\n    \n    # Bônus por prazo\n    if 'imediato' in prazo or 'hoje' in prazo or 'agora' in prazo:\n        pontuacao += 3\n    elif 'semana' in prazo or 'dias' in prazo:\n        pontuacao += 1\n    elif 'mês' in prazo or 'futuro' in prazo:\n        pontuacao -= 1\n    \n    # Bônus por tamanho do texto\n    if len(palavras) > 100:\n        pontuacao += 2\n    elif len(palavras) < 20:\n        pontuacao -= 1\n    \n    # Bônus por formulário completo\n    if dados.get('formulario_completo', False):\n        pontuacao += 1\n    \n    # ==========================================\n    # CLASSIFICAÇÃO\n    # ==========================================\n    \n    if pontuacao >= 5:\n        classificacao = 'quente'\n        emoji = '🔥'\n        descricao = 'Lead com alta urgência e necessidade clara. Prioridade máxima!'\n        prioridade = 1\n    elif pontuacao >= 2:\n        classificacao = 'morno'\n        emoji = '🌤️'\n        descricao = 'Lead com interesse claro, mas sem urgência extrema. Bom potencial.'\n        prioridade = 2\n    else:\n        classificacao = 'frio'\n        emoji = '❄️'\n        descricao = 'Lead com baixo interesse ou apenas curioso. Nutrir com conteúdo.'\n        prioridade = 3\n    \n    # ==========================================\n    # RECOMENDAÇÃO\n    # ==========================================\n    \n    if classificacao == 'quente':\n        recomendacao = {\n            'acao': '📞 Ligar em ate 2 horas',\n            'email': 'E-mail personalizado com urgencia',\n            'proxima_etapa': 'Agendar reuniao para amanha',\n            'time': 'Comercial + Especialista BPM'\n        }\n    elif classificacao == 'morno':\n        recomendacao = {\n            'acao': '📧 E-mail em ate 6 horas',\n            'email': 'E-mail com proposta detalhada',\n            'proxima_etapa': 'Agendar reuniao para esta semana',\n            'time': 'Comercial'\n        }\n    else:\n        recomendacao = {\n            'acao': '📧 E-mail automatico com conteudo',\n            'email': 'Materiais educativos e cases',\n            'proxima_etapa': 'Nutrir com conteudo por 30 dias',\n            'time': 'Marketing'\n        }\n    \n    # ==========================================\n    # RETORNO\n    # ==========================================\n    \n    return {\n        'classificacao': classificacao,\n        'emoji': emoji,\n        'descricao': descricao,\n        'prioridade': prioridade,\n        'pontuacao': pontuacao,\n        'detalhes': {\n            'matches_quente': matches_quente[:5],\n            'matches_morno': matches_morno[:5],\n            'matches_frio': matches_frio[:3],\n            'urgencia_detectada': urgencia,\n            'tamanho_texto': len(palavras)\n        },\n        'recomendacao': recomendacao\n    }\n\n\ndef gerar_resumo(dados, classificacao):\n    \"\"\"Gera resumo do lead\"\"\"\n    \n    nome = dados.get('nome', 'Cliente')\n    empresa = dados.get('empresa', 'Empresa')\n    processo = dados.get('processo_critico', 'Nao informado')\n    palavras = ', '.join(dados.get('palavras_chave', [])[:5])\n    \n    prioridade_texto = {\n        1: '🔴 Alta',\n        2: '🟡 Media',\n        3: '🔵 Baixa'\n    }\n    \n    return f\"\"\"🎯 LEAD: {nome}\n🏢 EMPRESA: {empresa}\n📊 PROCESSO: {processo}\n\n📋 CLASSIFICACAO: {classificacao['emoji']} {classificacao['classificacao'].upper()}\n⭐ PONTUACAO: {classificacao['pontuacao']}/10\n🎯 PRIORIDADE: {prioridade_texto.get(classificacao['prioridade'], '🔵 Baixa')}\n\n🔍 DETALHES:\n• Urgencia detectada: {classificacao['detalhes']['urgencia_detectada']}\n• Palavras-chave: {palavras if palavras else 'Nenhuma detectada'}\n\n📌 RECOMENDACAO:\n• Acao: {classificacao['recomendacao']['acao']}\n• Proxima etapa: {classificacao['recomendacao']['proxima_etapa']}\n• Time responsavel: {classificacao['recomendacao']['time']}\"\"\"\n\n\n# =====================================================\n# EXECUÇÃO\n# =====================================================\n\nresultados = []\n\nfor item in _items:\n    dados = item['json']\n    \n    if isinstance(dados, dict):\n        # Classifica\n        classificacao = classificar_lead(dados)\n        \n        # Adiciona ao dados\n        dados['classificacao'] = classificacao['classificacao']\n        dados['classificacao_emoji'] = classificacao['emoji']\n        dados['classificacao_descricao'] = classificacao['descricao']\n        dados['classificacao_prioridade'] = classificacao['prioridade']\n        dados['pontuacao_lead'] = classificacao['pontuacao']\n        dados['detalhes_classificacao'] = classificacao['detalhes']\n        dados['recomendacao'] = classificacao['recomendacao']\n        dados['_resumo_lead'] = gerar_resumo(dados, classificacao)\n        dados['_resumo_rapido'] = f\"{classificacao['emoji']} {dados.get('nome', 'Cliente')} - {classificacao['classificacao'].upper()} ({classificacao['pontuacao']}/10)\"\n    \n    resultados.append(item)\n\nreturn resultados"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1088,
+        -16
+      ],
+      "id": "10f8b0b4-c277-4b2f-b0ed-64b7a55b69f0",
+      "name": "Classificar clientes"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.classificacao }}",
+                    "rightValue": "={{ $json.detalhes_classificacao.matches_quente }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "f67f8d5d-9da9-4196-992e-72bafe95d884"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Quente"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "77200fb4-ab40-4939-8da0-3cbd4c001d5f",
+                    "leftValue": "={{ $json.classificacao }}",
+                    "rightValue": "={{ $json.detalhes_classificacao.matches_morno }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Morno"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "d2080900-a52e-4a17-b195-69a0327f75b2",
+                    "leftValue": "={{ $json.classificacao }}",
+                    "rightValue": "={{ $json.detalhes_classificacao.matches_frio }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Frio"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -848,
+        -32
+      ],
+      "id": "d65f67f2-9bb0-498a-a5f8-7629cd2c9214",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "content": "CASO O MODEL FALHE",
+        "height": 176,
+        "width": 256
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1024,
+        -464
+      ],
+      "typeVersion": 1,
+      "id": "b0a9302e-4a44-4944-8792-635fccf0591e",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -416,
+        288
+      ],
+      "id": "1b295303-13de-4ed2-9fd0-b046f72ec879",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "6BIcxpQN4YrOjiaK",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Gmail Trigger": [
+      {
+        "json": {
+          "id": "19f1791b5886dc72",
+          "threadId": "19f1791b5886dc72",
+          "labelIds": [
+            "UNREAD",
+            "CATEGORY_PERSONAL",
+            "INBOX"
+          ],
+          "sizeEstimate": 7100,
+          "headers": {
+            "delivered-to": "Delivered-To: auto.io.grupo@gmail.com",
+            "received": "Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])\r\n        by mx.google.com with SMTPS id a640c23a62f3a-c1288e2bd3csor54290666b.10.2026.06.30.01.07.32\r\n        for <auto.io.grupo@gmail.com>\r\n        (Google Transport Security);\r\n        Tue, 30 Jun 2026 01:07:33 -0700 (PDT)",
+            "x-received": "X-Received: by 2002:a05:6402:158c:b0:698:56e7:8eb3 with SMTP id\r\n 4fb4d7f45d1cf-69879de6a83mr1028439a12.14.1782806852469; Tue, 30 Jun 2026\r\n 01:07:32 -0700 (PDT)",
+            "arc-seal": "ARC-Seal: i=1; a=rsa-sha256; t=1782806852; cv=none;\r\n        d=google.com; s=arc-20260327;\r\n        b=EcVZYA9hYiUhHb1oEX/VUNBapTETHevnVLb+gltKw1fR9ix3w5hysLPTZ3bzLem8Jo\r\n         0YYNtY7JUeFgJ85hO0ThhF6d+NDV5Mfra1eWRSs5gVCFxlAVeoPJjj3bOEmRw9P0LhoE\r\n         dzzn8kjdl1ACFqoZS/efUGAhd7DJldUM+yDpooeqSFKXzcC3CZUtrPNOMSq7volMLjBM\r\n         P+56qHII6C2DwSR4dKVn6MQBG8iGCXoNOV8LPblgPP+mgp9w4TcdEWqbz+0BNnRD+Jd7\r\n         ezZc9P/31sMtjP+uIP51VGM4Pyv1KbVHlDr5jzlf54pwcU6OZs4uIL9Gh3jb37t4QoVd\r\n         vT5g==",
+            "arc-message-signature": "ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;\r\n        h=to:subject:message-id:date:from:mime-version:dkim-signature;\r\n        bh=lA937Ue4qyIfE8d0oDhyDwFYkeXNo2QgmtRfugf8aHE=;\r\n        fh=zC2axrO3I51gXgoKifMLwfYKP3oOKLm2Y96AFjm2Nwk=;\r\n        b=YZBBRkDL3gtPTpbi5ImOOYtRdWCFGbZ+rB2d9tSHhDQCF7pytqOBMCvmrvw27a5SpP\r\n         mMGopvQjQrEz8tEYtV3j4PzwkOb1G9H1bC/NMUGwP71qdMX4ePc8p7U/m5xgPokHCSJU\r\n         nSKPHjlN4vmWwXpOjAwKvD2d9V3mQcF7BxtmYExHf7D9JMUUPWV5SOz3txEJNwHubiAn\r\n         5YLoa/rNTo/GuYap3PL+2BTvWObf4qxiEOY1cspCRdNMsSlICUWMbBgccsACs1pZaelz\r\n         MINqpaUV/9dhfF15C8hgVDXURKWH6VsWAwBPlfJaZAKEL0aeDv/Q6jYylx2XS4RjNgB4\r\n         pUmQ==;\r\n        dara=google.com",
+            "arc-authentication-results": "ARC-Authentication-Results: i=1; mx.google.com; arc=none",
+            "return-path": "Return-Path: <feenalk@gmail.com>",
+            "received-spf": "Received-SPF: pass (google.com: domain of feenalk@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;",
+            "authentication-results": "Authentication-Results: mx.google.com;\r\n       dkim=pass header.i=@gmail.com header.s=20251104 header.b=bGjggw7P;\r\n       arc=pass (i=1);\r\n       spf=pass (google.com: domain of feenalk@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=feenalk@gmail.com;\r\n       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;\r\n       dara=pass header.i=@gmail.com",
+            "dkim-signature": "DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;\r\n        d=gmail.com; s=20251104; t=1782806852; x=1783411652; dara=google.com;\r\n        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject\r\n         :date:message-id:reply-to;\r\n        bh=lA937Ue4qyIfE8d0oDhyDwFYkeXNo2QgmtRfugf8aHE=;\r\n        b=bGjggw7P2WgQpw8RnN7MTcXBVjAESihmsyHrTypNouVoBHacdd3WFmtvQLCr7Vpyej\r\n         uoXh1UKDPnGEOPfXI6LCSMIm8ezhuiA9HAKnwOzhC5nzRryBmP47U+qmUH2X1hDos2Ys\r\n         8qk7TUl1M14Pa8TWD7Y5YLS1Yxg1te8h+EnnciISHpQu/nI0548FJFMj9tzqHGI7o0Hy\r\n         D7IqdjokACeWNjB2YHTy1cpFT5+I2vuvWUH5pd3hGSF33hY3F68d38NGfzThvS+yRkhS\r\n         iI3cJEAdNST9qoI9X0kWnt5uW6e50u4YTzIbzVg8LZFuXr/DBQWxBkejmAODtJUEAU0C\r\n         O7Tg==",
+            "x-google-dkim-signature": "X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;\r\n        d=1e100.net; s=20251104; t=1782806852; x=1783411652;\r\n        h=to:subject:message-id:date:from:mime-version:x-gm-gg\r\n         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;\r\n        bh=lA937Ue4qyIfE8d0oDhyDwFYkeXNo2QgmtRfugf8aHE=;\r\n        b=hRRNBTdqck/uBfabqMRPV+tUyA6gwDLBbVibG/u6HF0nPj/yILdF2lhI3GyQWhVV7w\r\n         Cd+ibQZvN+zOxQQmHpfwFF+6dMtnlsLcFJhzSLvZg6QrC7lczzu8POpTa2g15adgruKJ\r\n         1OCpD3sfjYv8qAjreOW8IuS/iXqwnz/c2caxRkqfbhfQNoxIVys1Y2ngCeKQuA+HSuwL\r\n         KcUEoD1QxDRFGVu0Giia8fIwl0CFEKEQIydy5vWBemlR+nGEuT6JtyKvVQR/A/xDZ1Fq\r\n         uIjiewDIvM4/bWkRXeAZLqxueeNFT77w7Xth4Xq3sBsewua2lwh3FPpMTlj+IFCfun3D\r\n         QhRg==",
+            "x-gm-message-state": "X-Gm-Message-State: AOJu0YzuRhZljnv34AcrPPtN9FswV983GEyLkkS59Zb899iTq41C6S5p\r\n\tCsYxtR5OK29nDP8SJw+I5d0CZq4R+AA+fOBrKhd2UpvVN2zhGYOOkT9YbYFfSpsTvbo6JZMxWP0\r\n\trP4g+Tc5ulOQWwmN7/RZLn7/RwXdEugztcw==",
+            "x-gm-gg": "X-Gm-Gg: AfdE7cmfgA6VqXd0f57SraSAIZgrEIJ4Ok8IRbitEF2WWthaCYOlYBd0t9RZy3XzOZQ\r\n\tMPdE4SIepYSAI6j+Eyp4J8n7rRHHC+WASnKU+B8gMWDOy8Oc8Sf191YfPXsW9Uj+TwEqPiynFIn\r\n\tNK5AOnJZsWVY8ye+EWlsPsVUI8BSUc1GNtl7pWxLllGkGXnxPZcwSI1kBp5jrYSR+vOELa1YlKq\r\n\t3K3QiCcy2mE9ehsvzKD4ONZ+bDRaFmwhagziG57OhoadhxeJ0aTIsYhNBmI+ikJe+qRURMHeBji\r\n\tPyin9fVBPiJ8ZUYNAKn8vzI+",
+            "mime-version": "MIME-Version: 1.0",
+            "from": "From: Fernanda Borges <feenalk@gmail.com>",
+            "date": "Date: Tue, 30 Jun 2026 05:07:21 -0300",
+            "x-gm-features": "X-Gm-Features: AVVi8CcYc-sBUaxtcvA2VSztrIt508tp5d9Yor86UkWKcYMICcnTs7nEPJt-uaI",
+            "message-id": "Message-ID: <CAJ03yOCP8ekWSSdXYVN8Nij_8b5o5zZbq06mU+BrYyLtCsXd6w@mail.gmail.com>",
+            "subject": "Subject: =?UTF-8?Q?conhecer_os_servi=C3=A7os?=",
+            "to": "To: auto.io.grupo@gmail.com",
+            "content-type": "Content-Type: multipart/alternative; boundary=\"000000000000250a8006557411ef\""
+          },
+          "html": "<div dir=\"ltr\">olá, tenho uma empresa e gostaria de conhecer os serviços.</div>\n",
+          "text": "olá, tenho uma empresa e gostaria de conhecer os serviços.\n",
+          "textAsHtml": "<p>ol&aacute;, tenho uma empresa e gostaria de conhecer os servi&ccedil;os.</p>",
+          "subject": "conhecer os serviços",
+          "date": "2026-06-30T08:07:21.000Z",
+          "to": {
+            "value": [
+              {
+                "address": "auto.io.grupo@gmail.com",
+                "name": ""
+              }
+            ],
+            "html": "<span class=\"mp_address_group\"><a href=\"mailto:auto.io.grupo@gmail.com\" class=\"mp_address_email\">auto.io.grupo@gmail.com</a></span>",
+            "text": "auto.io.grupo@gmail.com"
+          },
+          "from": {
+            "value": [
+              {
+                "address": "feenalk@gmail.com",
+                "name": "Fernanda Borges"
+              }
+            ],
+            "html": "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Fernanda Borges</span> &lt;<a href=\"mailto:feenalk@gmail.com\" class=\"mp_address_email\">feenalk@gmail.com</a>&gt;</span>",
+            "text": "\"Fernanda Borges\" <feenalk@gmail.com>"
+          },
+          "messageId": "<CAJ03yOCP8ekWSSdXYVN8Nij_8b5o5zZbq06mU+BrYyLtCsXd6w@mail.gmail.com>"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "analisa linha": [
+      {
+        "json": {
+          "row_number": 2,
+          "Timestamp": "6/26/2026 5:01:05",
+          "Nome completo": "Maria Aparecida Silva",
+          "Empresa": "Moda Maria - Loja de Roupas Femininas",
+          "Cargo": "Sócia-proprietária",
+          "E-mail": "ti.fernandaborges@gmail.com",
+          "Telefone (WhatsApp)": "(91) 98765-4321",
+          "Segmento": "Comércio",
+          "Qual processo mais crítico você quer resolver AGORA? ": "Vendas",
+          "Descreva, passo a passo, como esse processo acontece hoje:\n(ex: cliente pede pelo WhatsApp > anoto no Excel > envio para o estoque > etc.)": "Cliente vê roupa no Instagram e manda mensagem no WhatsApp perguntando preço e estoque. Eu ou minha vendedora respondemos manualmente, consultamos a planilha de estoque no Excel, mandamos foto, a cliente decide comprar, aí pegamos o Pix, anotamos o pedido num caderno, separamos a peça e enviamos pelos Correios. Depois mandamos o código de rastreio no WhatsApp de novo. É tudo manual, um por um.",
+          "Quem faz o quê? (quais pessoas/áreas envolvidas):": "Eu (Maria) - respondo clientes e fecho vendas.\nJoana (vendedora) - ajuda a responder e separar pedidos.\nCarlos (estoquista) - controla entrada e saída de peças no Excel (mas sempre erra).",
+          "Quais ferramentas você usa nesse processo? ": "WhatsApp / Telegram, Excel / Planilhas, Papel / Bloco de Notas",
+          "Onde estão as informações desse processo? (ex: planilha no Drive, caderno, sistema X, vários lugares)": "Tudo espalhado: conversas no WhatsApp, estoque no Excel, pedidos anotados no caderno, financeiro no banco. Não tenho um lugar único pra ver tudo.",
+          "O que trava ou atrasa esse processo? (ex: demora para responder cliente, falta de estoque, retrabalho, aprovação manual, etc.)": "Demoro horas pra responder cada cliente porque tenho que ficar alternando entre WhatsApp, Excel e caderno. Quando a Joana responde, ela nem sempre vê o que eu já respondi, aí gera duplicidade. E o Carlos atualiza o estoque uma vez por dia, então vendo roupa que já saiu e tenho que cancelar o pedido.",
+          "O que você repete várias vezes que deveria ser feito uma vez só?": "Digitar endereço e CPF do cliente toda vez que ela compra. E ficar copiando e colando código de rastreio manualmente.",
+          "Onde você perde informação? (ex: cliente manda mensagem, eu anoto, depois perco o papel)": "No WhatsApp. As mensagens se perdem, não consigo achar histórico de cliente. Já perdi pedido porque a conversa foi arquivada e esqueci de anotar.",
+          "Como você GOSTARIA que esse processo funcionasse? (descreva o ideal)": "Queria que quando a cliente mandasse mensagem no WhatsApp, já aparecesse pra mim se tem estoque, o preço, e eu pudesse gerar um pedido automaticamente. Queria que o estoque atualizasse sozinho e o cliente recebesse o rastreio sem eu ter que mandar manualmente.",
+          "Qual o principal resultado que você quer com isso?": "Diminuir erros/retrabalho",
+          "Quando quer começar?": "Agora / Imediato",
+          "Quer uma reunião rápida de 30min para aprofundar?": "Sim",
+          "Espaço livre para contar algo que não perguntamos:": "Tô perdendo venda porque não consigo dar atenção pra todo mundo ao mesmo tempo. Sei que preciso de um sistema, mas tudo que vejo é caro e complicado. Quero algo simples que funcione com o que já uso (WhatsApp e Excel).",
+          "CNPJ": "38.567.892/0001-22",
+          "Quantos funcionários?": ""
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "row_number": 3,
+          "Timestamp": "6/26/2026 5:41:14",
+          "Nome completo": "Roberto Faria",
+          "Empresa": "Rápida Logística - Transporte de Cargas",
+          "Cargo": "Diretor",
+          "E-mail": "dev.fernandaborges@gmail.com",
+          "Telefone (WhatsApp)": "(31) 99876-5432",
+          "Segmento": "Logística",
+          "Qual processo mais crítico você quer resolver AGORA? ": "Entrega / Logística",
+          "Descreva, passo a passo, como esse processo acontece hoje:\n(ex: cliente pede pelo WhatsApp > anoto no Excel > envio para o estoque > etc.)": "Cliente solicita coleta pelo WhatsApp ou telefone. Anotamos em uma planilha compartilhada no Drive. O despachante vê a planilha e agenda o motorista. Motorista vai até o local, coleta a carga, anota num papel o horário e o destinatário. Volta, entrega o papel no escritório. Alguém digita no sistema (Excel) que a coleta foi feita. Depois, quando entrega, o motorista tira foto da assinatura e manda no WhatsApp do escritório. A gente atualiza de novo a planilha. É um Deus nos acuda.",
+          "Quem faz o quê? (quais pessoas/áreas envolvidas):": "Eu (Roberto) - acompanho tudo, mas não dou conta.\nFernanda (atendimento) - recebe solicitações.\nPaulo (despachante) - escala motoristas.\n5 motoristas - fazem coleta e entrega.\nJoão (administrativo) - atualiza planilhas.",
+          "Quais ferramentas você usa nesse processo? ": "WhatsApp / Telegram, Excel / Planilhas, Papel / Bloco de Notas",
+          "Onde estão as informações desse processo? (ex: planilha no Drive, caderno, sistema X, vários lugares)": "Planilha no Drive, papéis avulsos com anotações dos motoristas, fotos de assinatura no WhatsApp de cada um. Cada motorista manda no seu grupo. É uma bagunça.",
+          "O que trava ou atrasa esse processo? (ex: demora para responder cliente, falta de estoque, retrabalho, aprovação manual, etc.)": "O motorista não atualiza a planilha em tempo real. Só quando volta. Então não sei onde cada um está. Cliente liga perguntando \"cadê minha carga?\" e eu não tenho resposta na hora. Tenho que ligar pro motorista, que muitas vezes não atende porque tá dirigindo.",
+          "O que você repete várias vezes que deveria ser feito uma vez só?": "Ficar digitando o mesmo pedido em vários lugares: planilha de coleta, planilha de entrega, planilha de faturamento. E responder cliente com \"vou verificar e já te aviso\" 50 vezes por dia.",
+          "Onde você perde informação? (ex: cliente manda mensagem, eu anoto, depois perco o papel)": "Os motoristas perdem os papéis, rasgam, molham. As fotos no WhatsApp somem depois de um tempo. Já aconteceu de entregar carga errada porque a anotação tava ilegível.",
+          "Como você GOSTARIA que esse processo funcionasse? (descreva o ideal)": "Queria ter um painel em tempo real mostrando onde cada motorista tá, qual carga ele tem, e o cliente poder ver o status da entrega sozinho, sem me ligar. Queria que quando o motorista finalizasse a entrega, já atualizasse tudo automaticamente e gerasse o faturamento.",
+          "Qual o principal resultado que você quer com isso?": "Diminuir erros/retrabalho",
+          "Quando quer começar?": "Próximos 30 dias",
+          "Quer uma reunião rápida de 30min para aprofundar?": "Sim",
+          "Espaço livre para contar algo que não perguntamos:": "Perdemos cerca de 15% do faturamento por mês com erros de entrega e retrabalho. Se tiver uma solução que resolva isso, é dinheiro na certa. Mas precisa ser fácil pros motoristas usarem, eles não têm smartphone top e não sabem lidar com sistema complicado.",
+          "CNPJ": 1234567837444,
+          "Quantos funcionários?": "101 a 300"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "recebe_formulário": [
+      {
+        "json": {
+          "Timestamp": 46199.20908208333,
+          "Nome completo": "Maria Aparecida Silva",
+          "Empresa": "Moda Maria - Loja de Roupas Femininas",
+          "Cargo": "Sócia-proprietária",
+          "E-mail": "ti.fernandaborges@gmail.com",
+          "Telefone (WhatsApp)": "(91) 98765-4321",
+          "Segmento": "Comércio",
+          "Qual processo mais crítico você quer resolver AGORA? ": "Vendas",
+          "Descreva, passo a passo, como esse processo acontece hoje:\n(ex: cliente pede pelo WhatsApp > anoto no Excel > envio para o estoque > etc.)": "Cliente vê roupa no Instagram e manda mensagem no WhatsApp perguntando preço e estoque. Eu ou minha vendedora respondemos manualmente, consultamos a planilha de estoque no Excel, mandamos foto, a cliente decide comprar, aí pegamos o Pix, anotamos o pedido num caderno, separamos a peça e enviamos pelos Correios. Depois mandamos o código de rastreio no WhatsApp de novo. É tudo manual, um por um.",
+          "Quem faz o quê? (quais pessoas/áreas envolvidas):": "Eu (Maria) - respondo clientes e fecho vendas.\nJoana (vendedora) - ajuda a responder e separar pedidos.\nCarlos (estoquista) - controla entrada e saída de peças no Excel (mas sempre erra).",
+          "Quais ferramentas você usa nesse processo? ": "WhatsApp / Telegram, Excel / Planilhas, Papel / Bloco de Notas",
+          "Onde estão as informações desse processo? (ex: planilha no Drive, caderno, sistema X, vários lugares)": "Tudo espalhado: conversas no WhatsApp, estoque no Excel, pedidos anotados no caderno, financeiro no banco. Não tenho um lugar único pra ver tudo.",
+          "O que trava ou atrasa esse processo? (ex: demora para responder cliente, falta de estoque, retrabalho, aprovação manual, etc.)": "Demoro horas pra responder cada cliente porque tenho que ficar alternando entre WhatsApp, Excel e caderno. Quando a Joana responde, ela nem sempre vê o que eu já respondi, aí gera duplicidade. E o Carlos atualiza o estoque uma vez por dia, então vendo roupa que já saiu e tenho que cancelar o pedido.",
+          "O que você repete várias vezes que deveria ser feito uma vez só?": "Digitar endereço e CPF do cliente toda vez que ela compra. E ficar copiando e colando código de rastreio manualmente.",
+          "Onde você perde informação? (ex: cliente manda mensagem, eu anoto, depois perco o papel)": "No WhatsApp. As mensagens se perdem, não consigo achar histórico de cliente. Já perdi pedido porque a conversa foi arquivada e esqueci de anotar.",
+          "Como você GOSTARIA que esse processo funcionasse? (descreva o ideal)": "Queria que quando a cliente mandasse mensagem no WhatsApp, já aparecesse pra mim se tem estoque, o preço, e eu pudesse gerar um pedido automaticamente. Queria que o estoque atualizasse sozinho e o cliente recebesse o rastreio sem eu ter que mandar manualmente.",
+          "Qual o principal resultado que você quer com isso?": "Diminuir erros/retrabalho",
+          "Quando quer começar?": "Agora / Imediato",
+          "Quer uma reunião rápida de 30min para aprofundar?": "Sim",
+          "Espaço livre para contar algo que não perguntamos:": "Tô perdendo venda porque não consigo dar atenção pra todo mundo ao mesmo tempo. Sei que preciso de um sistema, mas tudo que vejo é caro e complicado. Quero algo simples que funcione com o que já uso (WhatsApp e Excel).",
+          "CNPJ": "38.567.892/0001-22",
+          "Quantos funcionários?": ""
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "Timestamp": 46199.23696672454,
+          "Nome completo": "Roberto Faria",
+          "Empresa": "Rápida Logística - Transporte de Cargas",
+          "Cargo": "Diretor",
+          "E-mail": "dev.fernandaborges@gmail.com",
+          "Telefone (WhatsApp)": "(31) 99876-5432",
+          "Segmento": "Logística",
+          "Qual processo mais crítico você quer resolver AGORA? ": "Entrega / Logística",
+          "Descreva, passo a passo, como esse processo acontece hoje:\n(ex: cliente pede pelo WhatsApp > anoto no Excel > envio para o estoque > etc.)": "Cliente solicita coleta pelo WhatsApp ou telefone. Anotamos em uma planilha compartilhada no Drive. O despachante vê a planilha e agenda o motorista. Motorista vai até o local, coleta a carga, anota num papel o horário e o destinatário. Volta, entrega o papel no escritório. Alguém digita no sistema (Excel) que a coleta foi feita. Depois, quando entrega, o motorista tira foto da assinatura e manda no WhatsApp do escritório. A gente atualiza de novo a planilha. É um Deus nos acuda.",
+          "Quem faz o quê? (quais pessoas/áreas envolvidas):": "Eu (Roberto) - acompanho tudo, mas não dou conta.\nFernanda (atendimento) - recebe solicitações.\nPaulo (despachante) - escala motoristas.\n5 motoristas - fazem coleta e entrega.\nJoão (administrativo) - atualiza planilhas.",
+          "Quais ferramentas você usa nesse processo? ": "WhatsApp / Telegram, Excel / Planilhas, Papel / Bloco de Notas",
+          "Onde estão as informações desse processo? (ex: planilha no Drive, caderno, sistema X, vários lugares)": "Planilha no Drive, papéis avulsos com anotações dos motoristas, fotos de assinatura no WhatsApp de cada um. Cada motorista manda no seu grupo. É uma bagunça.",
+          "O que trava ou atrasa esse processo? (ex: demora para responder cliente, falta de estoque, retrabalho, aprovação manual, etc.)": "O motorista não atualiza a planilha em tempo real. Só quando volta. Então não sei onde cada um está. Cliente liga perguntando \"cadê minha carga?\" e eu não tenho resposta na hora. Tenho que ligar pro motorista, que muitas vezes não atende porque tá dirigindo.",
+          "O que você repete várias vezes que deveria ser feito uma vez só?": "Ficar digitando o mesmo pedido em vários lugares: planilha de coleta, planilha de entrega, planilha de faturamento. E responder cliente com \"vou verificar e já te aviso\" 50 vezes por dia.",
+          "Onde você perde informação? (ex: cliente manda mensagem, eu anoto, depois perco o papel)": "Os motoristas perdem os papéis, rasgam, molham. As fotos no WhatsApp somem depois de um tempo. Já aconteceu de entregar carga errada porque a anotação tava ilegível.",
+          "Como você GOSTARIA que esse processo funcionasse? (descreva o ideal)": "Queria ter um painel em tempo real mostrando onde cada motorista tá, qual carga ele tem, e o cliente poder ver o status da entrega sozinho, sem me ligar. Queria que quando o motorista finalizasse a entrega, já atualizasse tudo automaticamente e gerasse o faturamento.",
+          "Qual o principal resultado que você quer com isso?": "Diminuir erros/retrabalho",
+          "Quando quer começar?": "Próximos 30 dias",
+          "Quer uma reunião rápida de 30min para aprofundar?": "Sim",
+          "Espaço livre para contar algo que não perguntamos:": "Perdemos cerca de 15% do faturamento por mês com erros de entrega e retrabalho. Se tiver uma solução que resolva isso, é dinheiro na certa. Mas precisa ser fácil pros motoristas usarem, eles não têm smartphone top e não sabem lidar com sistema complicado.",
+          "CNPJ": 1234567837444,
+          "Quantos funcionários?": "101 a 300"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "analisa linha",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "formulario_registro": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "formulario_registro2": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        []
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model2": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "formulario_registro3": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "analisa linha": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "recebe_formulário": {
+      "main": [
+        [
+          {
+            "node": "Code de Limpeza",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code de Limpeza": {
+      "main": [
+        [
+          {
+            "node": "Classificar clientes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classificar clientes": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [],
+        [],
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "7ecf816f-6b1d-4371-8400-2339b6c89653",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "bff0563c63157fd469400cf1e32e036dde190406e4ac357479c2ac8e9e2227da"
+  },
+  "nodeGroups": [],
+  "id": "GGEgFdM3UjgD2R06",
+  "tags": []
+}
