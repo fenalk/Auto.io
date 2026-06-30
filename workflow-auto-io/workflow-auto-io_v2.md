@@ -101,16 +101,7 @@ O workflow é dividido em **duas fases principais** que operam em paralelo:
 3. **Switch** - Encaminha para os diferentes fluxos de classificação
 
 ### Prompts Personalizados
-Cada agente possui um **system prompt detalhado** que define:
-- Personalidade da assistente (Ana)
-- Tom de voz (profissional e acolhedor)
-- Regras de negócio
-- Perguntas frequentes
-- Formatação HTML obrigatória
-
-### Ferramentas
-- **formulario_registro** - Acesso à planilha Google Sheets
-- Capacidade de **append/update** na planilha
+Nessa parte ainda será construida o prompt do Agent a seguir detalhado.
 
 ---
 
