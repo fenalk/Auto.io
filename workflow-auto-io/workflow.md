@@ -60,7 +60,7 @@ Este é um workflow automatizado no **n8n** que atua como um **assistente virtua
 ---
 
 ### Imagem do Fluxo
-![Workflow Auto.io](./workflow-auto-io_v1.png)
+![Workflow Auto.io](../images/workflow-auto-io_v1.png)
 
 ## Fluxo de Resposta Final
 
