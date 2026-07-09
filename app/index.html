@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auto.io — MVP Emergencial</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Auto.io</h1>
+      <p>Assistente inteligente para microempreendedoras do ramo alimentício</p>
+    </div>
+    <span class="badge">MVP demonstrável</span>
+  </header>
+
+  <main class="layout">
+    <section class="card chat-card">
+      <h2>Simulador de atendimento</h2>
+      <p class="muted">
+        Digite como cliente ou como dona do negócio. A aplicação classifica a mensagem,
+        registra o dado e atualiza o painel.
+      </p>
+
+      <div class="role-switch">
+        <button class="role active" data-role="cliente">Cliente</button>
+        <button class="role" data-role="dona">Dona do negócio</button>
+      </div>
+
+      <div id="chat" class="chat"></div>
+
+      <form id="messageForm" class="message-form">
+        <input
+          id="messageInput"
+          placeholder='Ex.: "quero encomendar 100 brigadeiros para sábado"'
+          autocomplete="off"
+        />
+        <button type="submit">Enviar</button>
+      </form>
+
+      <div class="examples">
+        <button data-example="Oi, queria encomendar um cento de brigadeiros para sábado, pagamento por pix.">Exemplo pedido</button>
+        <button data-example="Lembra de comprar açúcar amanhã cedo.">Exemplo tarefa</button>
+        <button data-example="Cliente Maria pediu 2 bolos de chocolate para sexta às 15h, retirar no local.">Exemplo dona registrando pedido</button>
+      </div>
+    </section>
+
+    <section class="card form-card">
+      <h2>Registro rápido manual</h2>
+      <p class="muted">Fallback seguro: mesmo sem WhatsApp, Telegram ou IA, a dona consegue registrar pedidos.</p>
+
+      <form id="quickOrderForm" class="grid-form">
+        <input name="cliente" placeholder="Cliente" required />
+        <input name="telefone" placeholder="Telefone" />
+        <input name="produto" placeholder="Produto" required />
+        <input name="quantidade" placeholder="Quantidade" required />
+        <input name="dataEntrega" placeholder="Data de entrega" />
+        <input name="pagamento" placeholder="Pagamento" />
+        <input name="endereco" placeholder="Endereço / retirada" />
+        <textarea name="observacoes" placeholder="Observações"></textarea>
+        <button type="submit">Registrar pedido</button>
+      </form>
+    </section>
+
+    <section class="card dashboard-card">
+      <div class="dashboard-head">
+        <div>
+          <h2>Central de controle</h2>
+          <p class="muted">Dados salvos no navegador e exportáveis em CSV. Também pode enviar ao Google Sheets via Apps Script.</p>
+        </div>
+        <button id="clearBtn" class="ghost">Limpar demo</button>
+      </div>
+
+      <div class="kpis">
+        <div><strong id="pedidosCount">0</strong><span>Pedidos</span></div>
+        <div><strong id="tarefasCount">0</strong><span>Tarefas</span></div>
+        <div><strong id="clientesCount">0</strong><span>Clientes</span></div>
+        <div><strong id="pendentesCount">0</strong><span>Pendentes</span></div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="pedidos">Pedidos</button>
+        <button class="tab" data-tab="tarefas">Tarefas</button>
+        <button class="tab" data-tab="logs">Logs</button>
+      </div>
+
+      <div id="tableWrap" class="table-wrap"></div>
+
+      <div class="actions">
+        <button id="exportPedidos">Exportar pedidos CSV</button>
+        <button id="exportTarefas">Exportar tarefas CSV</button>
+      </div>
+    </section>
+
+    <section class="card settings-card">
+      <h2>Integração opcional com Google Sheets</h2>
+      <p class="muted">
+        Cole aqui a URL do Web App do Google Apps Script. Se ficar vazio, a demo continua funcionando localmente.
+      </p>
+      <input id="webhookUrl" placeholder="https://script.google.com/macros/s/SEU_ID/exec" />
+      <button id="saveWebhook">Salvar URL</button>
+      <small>
+        Use o arquivo <strong>apps-script.gs</strong> do pacote para criar o endpoint que grava nas abas Pedidos, Tarefas e Logs.
+      </small>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
