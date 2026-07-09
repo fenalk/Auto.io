@@ -131,4 +131,4 @@ http://localhost:5678
 ---
 
 # Resultado 
-[Pós instalação do docker e n8n](image.png)
+[Pós instalação do docker e n8n](../../images/workflows/image.png)

@@ -79,6 +79,6 @@ Principais funções:
 
 ## 5. Diagrama do Processo TO-BE
 
-![Diagrama do processo TO-BE de controle de clientes](../images/to-be-flow.png)
+![Diagrama do processo TO-BE de controle de clientes](../images/processos/to-be-flow.png)
 
 O diagrama apresenta o fluxo automatizado proposto pela Auto.io, incluindo a bifurcação entre cliente novo e cliente existente. A partir dessa decisão, o sistema cadastra ou atualiza o registro, centraliza os dados, notifica o responsável e alimenta os workflows de acompanhamento e indicadores.

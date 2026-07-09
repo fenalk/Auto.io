@@ -64,7 +64,7 @@ Nessa versão, o fluxo inicia com Gmail Trigger (polling/minuto), seguido por Fi
 ---
 
 ### Imagem do Fluxo
-![Workflow Auto.io](../images/workflow-auto-io_v1.png)
+![Workflow Auto.io](../../images/workflows/workflow-auto-io_v1.png)
 
 ## Fluxo de Resposta Final
 

@@ -35,7 +35,7 @@ O workflow é dividido em **duas fases principais** que operam em paralelo:
 ---
 
 ## 📌 Fase 1: Primeiro Contato (E-mail)
-![Workflow Auto.io](../images/workflow-auto-io_v2_fase1.png)
+![Workflow Auto.io](../../images/workflows/workflow-auto-io_v2_fase1.png)
 
 
 ### Gatilho
@@ -78,7 +78,7 @@ O workflow é dividido em **duas fases principais** que operam em paralelo:
 
 ## 📋 Fase 2: Formulário Preenchido
 
-![Workflow Auto.io](../images/workflow-auto-io_v2_fase2.png)
+![Workflow Auto.io](../../images/workflows/workflow-auto-io_v2_fase2.png)
 
 
 ### Gatilho

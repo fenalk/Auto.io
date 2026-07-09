@@ -32,7 +32,7 @@ O fluxo atual acontece da seguinte forma:
 
 ## 4. Diagrama do Processo AS-IS
 
-![Diagrama do processo AS-IS de controle de clientes](../images/as-is-flow.png)
+![Diagrama do processo AS-IS de controle de clientes](../images/processos/as-is-flow.png)
 
 O diagrama representa o fluxo manual atual, desde o contato inicial pelo WhatsApp até os principais problemas gerados pela falta de padronização, centralização e acompanhamento.
 
