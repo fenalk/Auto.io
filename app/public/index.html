@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auto.io - Central operacional inteligente</title>
+  <meta name="description" content="Central para vendedor registrar mensagens recebidas, interpretar com IA local e organizar pedidos, tarefas, clientes e logs." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#app">Pular para o conteúdo</a>
+
+  <div id="app" tabindex="-1">
+    <section id="view-landing" class="screen view-landing active" aria-labelledby="landing-title">
+      <div class="landing-inner">
+        <div class="landing-brand">
+          <h1>Auto.io<span class="brand-dot">.</span></h1>
+          <svg class="brand-underline" viewBox="0 0 180 12" aria-hidden="true">
+            <path d="M2 8 C 40 2, 80 2, 90 6 S 150 10, 178 4" />
+          </svg>
+          <p id="landing-title">Central inteligente para transformar mensagens recebidas em pedidos, tarefas e registros.</p>
+        </div>
+
+        <div class="role-cards">
+          <button type="button" class="role-card role-card-client" id="selectClient">
+            <span class="role-card-icon" aria-hidden="true">C</span>
+            <span class="role-card-body">
+              <span class="role-card-title">Registrar mensagem recebida</span>
+              <span class="role-card-desc">Para digitar uma mensagem que chegou por WhatsApp, Instagram, ligação ou atendimento presencial.</span>
+            </span>
+            <span class="role-card-cta">Abrir registro</span>
+          </button>
+
+          <button type="button" class="role-card role-card-owner" id="selectOwner">
+            <span class="role-card-icon" aria-hidden="true">V</span>
+            <span class="role-card-body">
+              <span class="role-card-title">Sou vendedor</span>
+              <span class="role-card-desc">Acessar painel, indicadores, pedidos, tarefas, itens/preços de referência e integrações.</span>
+            </span>
+            <span class="role-card-badge" id="landingPendingBadge">0 pendentes</span>
+            <span class="role-card-cta">Entrar no painel</span>
+          </button>
+        </div>
+
+        <p class="landing-footnote">Seus dados ficam salvos no seu próprio computador.</p>
+      </div>
+    </section>
+
+    <section id="view-login" class="screen view-login" aria-labelledby="login-title">
+      <div class="auth-card">
+        <button type="button" class="back-link" id="loginBack">Voltar</button>
+        <h2 id="login-title">Acesso do vendedor</h2>
+        <p class="muted">Entre com a senha para abrir o painel de gestão.</p>
+
+        <form id="loginForm" class="login-form" novalidate>
+          <label for="loginPassword">Senha</label>
+          <input id="loginPassword" name="senha" type="password" autocomplete="current-password" placeholder="Digite a senha" />
+          <p id="loginError" class="login-error" role="alert" hidden>Senha incorreta. Tente novamente.</p>
+          <button type="submit">Entrar no painel</button>
+        </form>
+
+        <p class="hint">Esqueceu a senha? Ela é definida em <code>SELLER_PASSWORD</code>, no arquivo <code>.env</code>.</p>
+      </div>
+    </section>
+
+    <section id="view-client-register" class="screen view-login" aria-labelledby="client-register-title">
+      <div class="auth-card client-register-card">
+        <button type="button" class="back-link" id="clientRegisterBack">Voltar</button>
+        <h2 id="client-register-title">Dados de quem enviou a mensagem</h2>
+        <p class="muted">Use estes campos para identificar quem mandou a mensagem recebida.</p>
+
+        <form id="clientRegisterForm" class="login-form" novalidate>
+          <label for="clientName">Nome do remetente *</label>
+          <input id="clientName" name="nome" autocomplete="name" required placeholder="Seu nome" />
+
+          <label for="clientPhone">Telefone / WhatsApp *</label>
+          <input id="clientPhone" name="telefone" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000" />
+
+          <label for="clientAddress">Endereço ou bairro</label>
+          <input id="clientAddress" name="endereco" autocomplete="street-address" placeholder="Rua, bairro ou ponto de referência" />
+
+          <label for="clientNotes">Observação da mensagem</label>
+          <textarea id="clientNotes" name="observacoes" rows="2" placeholder="Ex.: pediu por Instagram, prefere retirada"></textarea>
+
+          <button type="submit">Continuar para o registro</button>
+        </form>
+      </div>
+    </section>
+
+    <div id="view-client" class="screen view-client">
+      <header class="topbar">
+        <div class="brand">
+          <h1>Auto.io<span class="brand-dot">.</span></h1>
+          <svg class="brand-underline" viewBox="0 0 180 12" aria-hidden="true">
+            <path d="M2 8 C 40 2, 80 2, 90 6 S 150 10, 178 4" />
+          </svg>
+          <p id="clientGreeting">Registre a mensagem recebida</p>
+        </div>
+        <div class="topbar-actions">
+          <span class="badge">Registro de mensagens</span>
+          <button type="button" class="ghost" id="changeClient">Trocar remetente</button>
+          <button type="button" class="ghost" id="clientBack">Trocar usuário</button>
+        </div>
+      </header>
+
+      <main class="layout layout-client">
+        <section class="card ticket-card chat-card" aria-labelledby="chat-title">
+          <div class="card-head">
+            <h2 id="chat-title">Mensagem recebida</h2>
+            <p class="muted">Digite aqui a mensagem que chegou por WhatsApp, Instagram, ligação ou atendimento presencial.</p>
+          </div>
+
+          <div id="chat" class="chat" role="log" aria-live="polite" aria-label="Histórico da conversa"></div>
+
+          <form id="messageForm" class="message-form">
+            <label class="visually-hidden" for="messageInput">Mensagem</label>
+            <input id="messageInput" placeholder='Ex.: "quero encomendar 100 brigadeiros para sábado"' autocomplete="off" maxlength="300" />
+            <button type="submit">Enviar</button>
+          </form>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>Auto.io - registre pedidos e tarefas a partir das mensagens que você recebe.</p>
+      </footer>
+    </div>
+
+    <div id="view-owner" class="screen view-owner">
+      <header class="topbar">
+        <div class="brand">
+          <h1>Auto.io<span class="brand-dot">.</span></h1>
+          <svg class="brand-underline" viewBox="0 0 180 12" aria-hidden="true">
+            <path d="M2 8 C 40 2, 80 2, 90 6 S 150 10, 178 4" />
+          </svg>
+          <p>Central de controle para mensagens recebidas, pedidos personalizados, tarefas de produção e itens/preços de referência</p>
+        </div>
+        <div class="topbar-actions">
+          <span class="badge badge-owner">Painel do vendedor</span>
+          <button type="button" class="ghost" id="ownerLogout">Sair</button>
+        </div>
+      </header>
+
+      <main class="layout owner-layout">
+        <section class="card dashboard-card priority-card" aria-labelledby="dash-title">
+          <div class="dashboard-head">
+            <div class="card-head">
+              <span class="section-label">Visão geral</span>
+              <h2 id="dash-title">Central de controle</h2>
+              <p class="muted">Pedidos, clientes, tarefas, itens/preços de referência e logs salvos no backend local.</p>
+            </div>
+            <button id="clearBtn" class="ghost" type="button">Limpar base</button>
+          </div>
+
+          <div class="kpis">
+            <div class="kpi kpi-pink"><strong id="pedidosCount">0</strong><span>Pedidos</span></div>
+            <div class="kpi kpi-yellow"><strong id="tarefasCount">0</strong><span>Tarefas</span></div>
+            <div class="kpi kpi-lilac"><strong id="clientesCount">0</strong><span>Clientes</span></div>
+            <div class="kpi kpi-mint"><strong id="pendentesCount">0</strong><span>Pendentes</span></div>
+          </div>
+
+          <div class="table-toolbar">
+            <div class="tabs" role="tablist" aria-label="Tabelas da central">
+              <button class="tab active" data-tab="pedidos" role="tab" aria-selected="true">Pedidos</button>
+              <button class="tab" data-tab="clientes" role="tab" aria-selected="false">Clientes</button>
+              <button class="tab" data-tab="tarefas" role="tab" aria-selected="false">Tarefas</button>
+              <button class="tab" data-tab="cardapio" role="tab" aria-selected="false">Itens/preços</button>
+              <button class="tab" data-tab="logs" role="tab" aria-selected="false">Logs</button>
+            </div>
+            <div class="search-wrap">
+              <label class="visually-hidden" for="searchInput">Buscar registros</label>
+              <input id="searchInput" type="search" placeholder="Buscar por cliente, produto..." />
+            </div>
+          </div>
+
+          <div id="tableWrap" class="table-wrap" aria-live="polite"></div>
+
+          <div class="actions">
+            <button id="exportPedidos" type="button">Exportar pedidos (CSV)</button>
+            <button id="exportTarefas" type="button">Exportar tarefas (CSV)</button>
+            <button id="exportClientes" type="button">Exportar clientes (CSV)</button>
+          </div>
+        </section>
+
+        <section class="card ticket-card chat-card" aria-labelledby="owner-chat-title">
+          <div class="card-head">
+            <span class="section-label">Entrada principal</span>
+            <h2 id="owner-chat-title">Registrar por mensagem</h2>
+            <p class="muted">Cole ou digite a mensagem recebida por qualquer canal. A IA local tenta organizar como pedido, tarefa ou conversa.</p>
+          </div>
+
+          <div id="ownerChat" class="chat" role="log" aria-live="polite" aria-label="Histórico de registros por mensagem"></div>
+
+          <form id="ownerMessageForm" class="message-form">
+            <label class="visually-hidden" for="ownerMessageInput">Mensagem</label>
+            <input id="ownerMessageInput" placeholder='Ex.: "Cliente Maria pediu 2 bolos para sexta às 15h"' autocomplete="off" maxlength="300" />
+            <button type="submit">Enviar</button>
+          </form>
+        </section>
+
+        <section class="card form-card" aria-labelledby="quick-title">
+          <div class="card-head">
+            <span class="section-label">Fallback</span>
+            <h2 id="quick-title">Registro manual</h2>
+            <p class="muted">Fallback seguro para registrar pedido mesmo sem IA ou integrações.</p>
+          </div>
+
+          <form id="quickOrderForm" class="grid-form" novalidate>
+            <div class="field">
+              <label for="qo-cliente">Cliente *</label>
+              <input id="qo-cliente" name="cliente" required />
+            </div>
+            <div class="field">
+              <label for="qo-telefone">Telefone</label>
+              <input id="qo-telefone" name="telefone" inputmode="tel" placeholder="(00) 00000-0000" />
+            </div>
+            <div class="field">
+              <label for="qo-produto">Produto *</label>
+              <input id="qo-produto" name="produto" list="menuOptions" required />
+              <datalist id="menuOptions"></datalist>
+            </div>
+            <div class="field">
+              <label for="qo-quantidade">Quantidade *</label>
+              <input id="qo-quantidade" name="quantidade" required />
+            </div>
+            <div class="field">
+              <label for="qo-data">Data de entrega</label>
+              <input id="qo-data" name="dataEntrega" type="date" />
+            </div>
+            <div class="field">
+              <label for="qo-pagamento">Pagamento</label>
+              <select id="qo-pagamento" name="pagamento">
+                <option value="">A confirmar</option>
+                <option value="Pix">Pix</option>
+                <option value="Dinheiro">Dinheiro</option>
+                <option value="Cartão">Cartão</option>
+                <option value="Transferência">Transferência</option>
+              </select>
+            </div>
+            <div class="field field-wide">
+              <label for="qo-endereco">Endereço / retirada</label>
+              <input id="qo-endereco" name="endereco" />
+            </div>
+            <div class="field field-wide">
+              <label for="qo-obs">Observações</label>
+              <textarea id="qo-obs" name="observacoes" rows="2"></textarea>
+            </div>
+            <button type="submit" class="field-wide">Registrar pedido</button>
+          </form>
+        </section>
+
+        <section class="card menu-card" aria-labelledby="menu-title">
+          <div class="card-head">
+            <span class="section-label">Referência rápida</span>
+            <h2 id="menu-title">Itens e preços de referência</h2>
+            <p class="muted">Templates ajudam o vendedor a lembrar itens e valores comuns, sem limitar pedidos sob medida.</p>
+          </div>
+
+          <div class="template-row">
+            <select id="templateSelect">
+              <option value="doceria">Doceria</option>
+              <option value="marmitaria">Marmitaria</option>
+              <option value="salgados">Salgados</option>
+            </select>
+            <button id="addTemplate" type="button" class="ghost">Adicionar referências</button>
+          </div>
+
+          <div id="menuList" class="menu-list" aria-live="polite"></div>
+
+          <form id="menuForm" class="grid-form compact-form" novalidate>
+            <div class="field">
+              <label for="menuName">Item de referência *</label>
+              <input id="menuName" name="nome" required placeholder="Ex.: Torta de frango" />
+            </div>
+            <div class="field">
+              <label for="menuCategory">Categoria</label>
+              <input id="menuCategory" name="categoria" placeholder="Bolos, salgados..." />
+            </div>
+            <div class="field">
+              <label for="menuPrice">Preço</label>
+              <input id="menuPrice" name="preco" inputmode="decimal" placeholder="25,00" />
+            </div>
+            <div class="field">
+              <label for="menuUnit">Unidade</label>
+              <input id="menuUnit" name="unidade" placeholder="unidade, cento, kg..." />
+            </div>
+            <div class="field field-wide">
+              <label for="menuDescription">Descrição</label>
+              <input id="menuDescription" name="descricao" />
+            </div>
+            <button type="submit" class="field-wide">Adicionar item</button>
+          </form>
+        </section>
+
+        <section class="card settings-card" aria-labelledby="settings-title">
+          <div class="card-head">
+            <span class="section-label">Opcional</span>
+            <h2 id="settings-title">Integração com Google Sheets</h2>
+            <p class="muted">Cole a URL do Web App do Google Apps Script. Se ficar vazio, a demo segue no backend local.</p>
+          </div>
+          <div class="webhook-row">
+            <label class="visually-hidden" for="webhookUrl">URL do Web App</label>
+            <input id="webhookUrl" placeholder="https://script.google.com/macros/s/SEU_ID/exec" />
+            <button id="saveWebhook" type="button">Salvar URL</button>
+            <button id="testWebhook" type="button" class="ghost">Testar envio</button>
+          </div>
+          <small>Use <strong>integrations/apps-script.gs</strong> para gravar nas abas Pedidos, Clientes, Tarefas e Logs.</small>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>Auto.io - feito para transformar conversa em organização.</p>
+      </footer>
+    </div>
+  </div>
+
+  <div id="toastWrap" class="toast-wrap" role="status" aria-live="polite"></div>
+
+  <div id="confirmModal" class="modal-backdrop hidden">
+    <div class="modal" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmDesc">
+      <h3 id="confirmTitle">Confirmar ação</h3>
+      <p id="confirmDesc"></p>
+      <div class="modal-actions">
+        <button id="confirmCancel" class="ghost" type="button">Cancelar</button>
+        <button id="confirmOk" class="danger" type="button">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

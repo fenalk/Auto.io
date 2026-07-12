@@ -1,28 +1,44 @@
 # Auto.io
-Repositório para documentação de uso da automação Auto.io aplicado aos processos organizacionais.
 
-# Escopo 
+Central inteligente para transformar mensagens recebidas e anotações soltas em registros organizados: clientes, pedidos personalizados, tarefas de produção e logs.
 
-## Objetivo e metas
-Construir um Produto Mínimo Viável (MVP) utilizando a plataforma n8n para automatizar fluxos de atendimento e integrar diferentes serviços digitais, de acordo com as necessidades identificadas durante o diagnóstico. O MVP deverá demonstrar o processo crítico do negócio, evidenciando a transição do modelo manual (AS-IS) para um modelo automatizado (TO-BE), com foco na centralização de informações, rastreabilidade do atendimento e redução de atividades manuais.
+O projeto nasceu como um estudo de automação de processos (AS-IS/TO-BE) e evoluiu para o MVP funcional em [`app/`](app/README.md): uma aplicação Node.js própria com IA local via LM Studio.
 
-# Tecnologias utilizadas para atingir os objetivos
+## Aplicação principal
 
+O MVP executável está em [`app/`](app/README.md). Leia o README dele para instruções completas de instalação, configuração e uso.
 
+- Registro de mensagem recebida por WhatsApp, Instagram, ligação ou atendimento presencial.
+- IA local via LM Studio classifica a mensagem como pedido, tarefa ou conversa, com fallback por regras se a IA estiver indisponível.
+- Painel do vendedor com pedidos, clientes, tarefas, itens/preços de referência e logs.
+- Registro manual como alternativa segura à IA.
+- Persistência local em `app/data/db.json` e exportação em CSV.
+- Integração opcional com Google Sheets via Apps Script.
 
-## Requisitos
-Quais são as características, funções e padrões necessários (ex: tecnologias, regras de negócio).
+### Como rodar
 
-## Entregáveis 
-Os resultados concretos que serão produzidos (ex: telas de um aplicativo, módulos de um sistema).
+```bash
+cd app
+npm install
+copy .env.example .env
+npm start
+```
 
-## Limites (Inclusão e Exclusão)
-O que está dentro do projeto e o que não será feito, para evitar ambiguidades.
+Depois acesse `http://localhost:3000`.
 
-## Premissas e Restrições 
-Condições consideradas verdadeiras para o planejamento e fatores que limitam o projeto (como orçamento e prazo final).
+## Estrutura do repositório
 
-## Estrutura Analítiva do Projeto (EAP)
-Divisão hierárquica e visual do trabalho em partes menores e mais fáceis de gerenciar.
+| Caminho | Conteúdo |
+| --- | --- |
+| [`app/`](app/README.md) | MVP funcional da Auto.io (Node.js + front-end + IA local). É a entrega atual do projeto. |
+| [`docs/`](docs/) | Documentação de processo do `app/` atual: escopo, AS-IS (atendimento manual de pedidos), TO-BE (fluxo com a Auto.io) e casos de teste. |
+| [`workflow-auto-io/`](workflow-auto-io/) | Histórico: versões (v1 a v3) de um workflow n8n explorado antes do MVP. v1/v2 tratam da qualificação de leads da própria Auto.io por e-mail; v3 (`DocesAtendimentoBot`) foi o protótipo n8n do bot de atendimento que deu origem ao `app/`. |
+| [`testes-n8n/`](testes-n8n/) | Histórico: exports de workflows n8n usados em testes pontuais (e-mail, WhatsApp, evento). |
+| [`instalacao-local-n8n/`](instalacao-local-n8n/) | Histórico: anotações de instalação do n8n localmente (Ubuntu). |
+| [`images/`](images/) | Imagens usadas pela documentação em `workflow-auto-io/`. |
 
+> **Nota sobre o histórico do projeto:** os materiais em `workflow-auto-io/` (v1/v2), `testes-n8n/` e `instalacao-local-n8n/` vêm da fase exploratória do projeto, quando a automação era feita via n8n. O MVP atual em `app/` seguiu por um caminho diferente — uma aplicação Node.js própria com IA local, sem depender de n8n — e é o que os documentos em `docs/` descrevem hoje.
 
+## Licença
+
+Distribuído sob a licença MIT — veja [`LICENSE`](LICENSE).

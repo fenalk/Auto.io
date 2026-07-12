@@ -37,6 +37,9 @@ function doPost(e) {
       case "tarefa":
         appendTarefa(ss, payload);
         break;
+      case "cliente":
+        appendCliente(ss, payload);
+        break;
       case "atualizacao":
         atualizarStatus(ss, payload);
         break;
@@ -115,6 +118,21 @@ function appendTarefa(ss, t) {
   appendLog(ss, "tarefa", "Tarefa registrada");
 }
 
+function appendCliente(ss, c) {
+  const headers = ["ID", "Cadastro", "Nome", "Telefone", "Endereco", "Observacoes", "Atualizado Em"];
+  const sh = getSheet(ss, "Clientes", headers);
+  sh.appendRow([
+    c.id || "",
+    c.criadoEm || new Date(),
+    c.nome || "",
+    c.telefone || "",
+    c.endereco || "",
+    c.observacoes || "",
+    c.atualizadoEm || ""
+  ]);
+  appendLog(ss, "cliente", "Cliente identificado: " + (c.nome || ""));
+}
+
 function appendLog(ss, tipo, mensagem) {
   const headers = ["Data/Hora", "Tipo", "Mensagem"];
   const sh = getSheet(ss, "Logs", headers);
@@ -122,7 +140,7 @@ function appendLog(ss, tipo, mensagem) {
 }
 
 // Atualiza o Status de um pedido ou tarefa já existente, localizando a linha pelo ID.
-// Usado quando a dona marca "Concluir"/"Reabrir" no painel.
+// Usado quando o vendedor marca "Concluir"/"Reabrir" no painel.
 function atualizarStatus(ss, payload) {
   const sheetName = payload.kind === "tarefas" ? "Tarefas" : "Pedidos";
   const sh = ss.getSheetByName(sheetName);
