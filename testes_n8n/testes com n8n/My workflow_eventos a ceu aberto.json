@@ -1,0 +1,167 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -560,
+        -112
+      ],
+      "id": "bea7541c-f8cf-4cd9-9206-7e36968abe1f",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "cityName": "Belem,BR",
+        "language": "pt-BR"
+      },
+      "type": "n8n-nodes-base.openWeatherMap",
+      "typeVersion": 1,
+      "position": [
+        -352,
+        -112
+      ],
+      "id": "5df672dd-1250-4aac-8084-c25b444b3518",
+      "name": "OpenWeatherMap",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "ui46xvSto8RS7O6m",
+          "name": "OpenWeatherMap account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Você é a Maria, assistente da empresa SuperMarketing, responsável por fazer relatórios do clima.\n\nVocê deve informar se, com base nos dados de clima atual de Belem-PA, é viável fazer eventos no dia de hoje a céu aberto.\n\nA temperatura é em graus Celsius e as velocidades de vento são em m/s.\n\nTemperatura: {{ $json.main.temp }}\nSensação Térmica: {{ $json.main.feels_like }}\nUmidade: {{ $json.main.humidity }}\nVelocidade do Vento: {{ $json.wind.speed }}\nInformações atuais: {{ $json.clouds }}, {{ $json.weather[0].main }}, {{ $json.weather[0].description }}\n\nGere o relatório de forma resumida. No máximo, 1 parágrafo com 40 palavras. Seja breve e formal. Retorne apenas o relatório e nada mais. Sem nenhum comentário adicional.",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        -144,
+        -112
+      ],
+      "id": "a8db3edc-2ef7-4556-be05-7ffc2f3c687e",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -224,
+        96
+      ],
+      "id": "375ad13e-8791-40b2-9d11-bcaa2bc4a0eb",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "i2h45mR8mh6iMf62",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0BCRGR6TMW",
+          "mode": "list",
+          "cachedResultName": "relatorio"
+        },
+        "text": "={{ $json.text }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        208,
+        -112
+      ],
+      "id": "1e45317e-1558-447d-a8b5-56089fca254f",
+      "name": "Send a message",
+      "webhookId": "34091670-875a-400f-85b8-e6940a94673f",
+      "credentials": {
+        "slackApi": {
+          "id": "jHyWhN1bVM4Ex4cN",
+          "name": "Slack account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenWeatherMap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeatherMap": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "73c273fd-5a51-42c4-9644-29f6f0682ced",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f2903f3af2a4ea29b8ebc58c3d1af2fd640b318243b613f9e1d0452ef8a63224"
+  },
+  "nodeGroups": [],
+  "id": "AHUuYXCmoxcPRVl6",
+  "tags": []
+}

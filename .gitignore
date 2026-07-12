@@ -14,3 +14,7 @@ app/data/db.json
 *.log
 .DS_Store
 Thumbs.db
+
+# base local (dados de teste, não é código)
+app/data/
+*.corrompido-*
