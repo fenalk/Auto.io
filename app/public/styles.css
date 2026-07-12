@@ -87,6 +87,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.01e
   justify-content: center;
   padding: 40px clamp(20px, 5vw, 56px);
 }
+.view-landing.active { position: relative; }
 
 /* ---- Landing: seleção de perfil ---- */
 .landing-inner {
@@ -104,16 +105,52 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.01e
 .landing-brand p {
   margin: 0;
   color: var(--ink-muted);
-  font-size: 1.05rem;
-  max-width: 46ch;
+  font-size: 1.08rem;
+  max-width: 44ch;
 }
 
-.role-cards {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  width: 100%;
+/* Acesso do vendedor: discreto, no canto. A tela inicial é do cliente. */
+.owner-corner {
+  position: absolute;
+  top: 22px;
+  right: clamp(20px, 5vw, 56px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
 }
+.owner-corner:hover {
+  filter: none;
+  color: var(--ink);
+  border-color: var(--lilac);
+}
+.owner-corner-arrow { transition: transform .15s ease; }
+.owner-corner:hover .owner-corner-arrow { transform: translateX(2px); }
+.owner-corner-badge {
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--lilac);
+  color: var(--lilac-ink);
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+.owner-corner-badge[hidden] { display: none; }
+
+.role-card-client {
+  width: 100%;
+  max-width: 540px;
+  gap: 16px;
+  padding: 30px 28px 26px;
+}
+.role-card-client .role-card-title { font-size: 1.7rem; }
+.role-card-client .role-card-desc { font-size: 0.98rem; line-height: 1.55; }
+.role-card-client .role-card-cta { font-size: 0.95rem; }
 
 .role-card {
   background: var(--surface);
@@ -679,7 +716,6 @@ tbody tr:hover { background: rgba(255,255,255,0.02); }
   .board-list { max-height: 220px; }
   .kpis { grid-template-columns: repeat(2, 1fr); }
   .grid-form { grid-template-columns: 1fr; }
-  .role-cards { grid-template-columns: 1fr; }
   .toast-wrap { left: 16px; right: 16px; bottom: 16px; align-items: stretch; }
   .toast { max-width: none; }
 }
