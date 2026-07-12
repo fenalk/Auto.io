@@ -9,34 +9,22 @@ O projeto nasceu como um estudo de automação de processos (AS-IS/TO-BE) e evol
 O MVP executável está em [`app/`](app/README.md). Leia o README dele para instruções completas de instalação, configuração e uso.
 
 - Registro de mensagem recebida por WhatsApp, Instagram, ligação ou atendimento presencial.
-- IA local via LM Studio classifica a mensagem como pedido, tarefa ou conversa, com fallback por regras se a IA estiver indisponível, lenta ou fora do ar.
-- Cardápio do dia (pronta retirada): itens com preço e quantidade pronta agora, com baixa a cada venda e opção de encerrar o dia.
-- Vitrine do dia ao lado da conversa: quem envia a mensagem vê o que está pronto, o preço e o que só sai por encomenda.
-- Painel do vendedor protegido por senha, organizado em blocos: indicadores, entrada de mensagens, cardápio do dia, registros e ajustes.
+- IA local via LM Studio classifica a mensagem como pedido, tarefa ou conversa, com fallback por regras se a IA estiver indisponível.
+- Painel do vendedor com pedidos, clientes, tarefas, itens/preços de referência e logs.
 - Registro manual como alternativa segura à IA.
-- Persistência local em `app/data/db.json` (escrita atômica) e exportação em CSV.
+- Persistência local em `app/data/db.json` e exportação em CSV.
 - Integração opcional com Google Sheets via Apps Script.
 
 ### Como rodar
 
-Requer Node.js 18 ou superior.
-
 ```bash
 cd app
 npm install
-copy .env.example .env      # Windows (no Linux/macOS: cp .env.example .env)
+copy .env.example .env
 npm start
 ```
 
 Depois acesse `http://localhost:3000`.
-
-Antes do primeiro uso, gere uma chave de sessão e preencha `SESSION_SECRET` no `app/.env` (sem ela, o acesso ao painel cai a cada reinício do servidor):
-
-```bash
-node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-```
-
-A senha do painel fica em `SELLER_PASSWORD`, no mesmo arquivo. Para usar a IA, abra o LM Studio, carregue um modelo instruct e inicie o servidor local em `http://localhost:1234`.
 
 ## Estrutura do repositório
 

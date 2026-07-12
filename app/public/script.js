@@ -48,11 +48,10 @@
         { key: "categoria", label: "Categoria" },
         { key: "preco", label: "Preço" },
         { key: "unidade", label: "Unidade" },
-        { key: "quantidade", label: "Prontos hoje" },
-        { key: "disponivel", label: "No cardápio", type: "boolean" },
-        { key: "atualizadoEm", label: "Atualizado" }
+        { key: "disponivel", label: "Disponível", type: "boolean" },
+        { key: "origem", label: "Origem" }
       ],
-      empty: "Cardápio do dia vazio. Adicione o que está pronto para retirada.",
+      empty: "Nenhum item ou preço de referência cadastrado ainda.",
       actionable: false
     },
     logs: {
@@ -140,24 +139,18 @@
 
   async function apiFetch(path, options = {}) {
     const response = await fetch(path, {
-      credentials: "same-origin", // envia o cookie de sessão do vendedor
       headers: { "Content-Type": "application/json", ...(options.headers || {}) },
       ...options
     });
     const contentType = response.headers.get("content-type") || "";
     const payload = contentType.includes("application/json") ? await response.json() : await response.text();
     if (!response.ok || payload.ok === false) {
-      const error = new Error(payload?.error || `Falha na requisição (${response.status})`);
-      error.status = response.status;
-      throw error;
+      throw new Error(payload?.error || `Falha na requisição (${response.status})`);
     }
     return payload;
   }
 
-  // Rotas públicas (mensagem e cadastro do remetente) não devolvem mais a base
-  // inteira: só o painel autenticado recebe "data".
   function setServerState(nextState) {
-    if (!nextState) return;
     state = normalizeState(nextState);
     render();
   }
@@ -166,12 +159,6 @@
     try {
       setServerState(await apiFetch("/api/data"));
     } catch (err) {
-      if (err.status === 401) {
-        setOwnerLoggedIn(false);
-        showToast("Sessão expirada. Entre novamente.", "error");
-        goToView("login");
-        return;
-      }
       showToast("Não consegui carregar o backend local. Confira se o Node está rodando.", "error");
       console.error("Auto.io: falha ao sincronizar com o backend.", err);
     }
@@ -218,24 +205,11 @@
     ].length;
   }
 
-  function setLandingBadge(n) {
+  function updateLandingBadge() {
     const badge = document.querySelector("#landingPendingBadge");
     if (!badge) return;
+    const n = pendingCount();
     badge.textContent = n === 0 ? "Tudo em dia" : `${n} pendente${n > 1 ? "s" : ""}`;
-  }
-
-  function updateLandingBadge() {
-    setLandingBadge(pendingCount());
-  }
-
-  // Selo da tela inicial: rota pública que devolve só o número, sem expor dados.
-  async function refreshBadge() {
-    try {
-      const result = await apiFetch("/api/pendentes");
-      setLandingBadge(Number(result.pendentes) || 0);
-    } catch (err) {
-      console.error("Auto.io: falha ao buscar pendências.", err);
-    }
   }
 
   function updateClientGreeting() {
@@ -309,153 +283,31 @@
       .join("");
   }
 
-  // Estado do item no cardápio do dia: fora do cardápio, esgotado ou pronto.
-  function dishState(item) {
-    if (item.disponivel === false) return "fora";
-    return Number(item.quantidade) > 0 ? "pronto" : "esgotado";
-  }
-
-  function updateMenuSummary() {
-    const summary = document.querySelector("#menuSummary");
-    if (!summary) return;
-
-    const noCardapio = state.cardapio.filter(item => item.disponivel !== false);
-    const prontos = noCardapio.filter(item => Number(item.quantidade) > 0);
-    const unidades = prontos.reduce((total, item) => total + Number(item.quantidade || 0), 0);
-
-    if (!state.cardapio.length) {
-      summary.textContent = "Cardápio vazio.";
-    } else if (!prontos.length) {
-      summary.textContent = `Nada pronto para retirada agora. ${noCardapio.length} item(ns) só sob encomenda.`;
-    } else {
-      summary.textContent = `${unidades} unidade${unidades > 1 ? "s" : ""} pronta${unidades > 1 ? "s" : ""} para retirada, em ${prontos.length} item${prontos.length > 1 ? "ns" : ""}.`;
-    }
-  }
-
   function renderMenu() {
     const wrap = document.querySelector("#menuList");
     if (!wrap) return;
-
-    updateMenuSummary();
-
     if (!state.cardapio.length) {
-      wrap.innerHTML = `<div class="empty-state">Nada no cardápio ainda. Use um modelo pronto ou adicione o primeiro item.</div>`;
+      wrap.innerHTML = `<div class="empty-state">Nenhum item ou preço de referência cadastrado. Adicione um template ou item manual.</div>`;
       return;
     }
 
-    const rotulo = { pronto: "Pronto", esgotado: "Esgotado", fora: "Fora do cardápio" };
-
-    wrap.innerHTML = state.cardapio.map(item => {
-      const estado = dishState(item);
-      const id = escapeHTML(item.id);
-      const quantidade = Number(item.quantidade) || 0;
-
-      return `
-      <article class="dish" data-state="${estado}">
-        <header class="dish-head">
-          <span class="dish-category">${escapeHTML(item.categoria || "Sem categoria")}</span>
-          <span class="dish-flag">${rotulo[estado]}</span>
-        </header>
-
-        <strong class="dish-name">${escapeHTML(item.nome)}</strong>
-        <p class="dish-desc">${escapeHTML(item.descricao || "Sem descrição")}</p>
-
-        <p class="dish-price">
-          ${formatMoney(item.preco) || "Preço a confirmar"}
-          <span>por ${escapeHTML(item.unidade || "unidade")}</span>
-        </p>
-
-        <div class="dish-stock">
-          <button type="button" class="step" data-menu-step="-1" data-id="${id}" aria-label="Uma unidade a menos de ${escapeHTML(item.nome)}" ${quantidade === 0 ? "disabled" : ""}>−</button>
-          <label class="visually-hidden" for="qtd-${id}">Prontos de ${escapeHTML(item.nome)}</label>
-          <input id="qtd-${id}" class="dish-qty" type="number" min="0" step="1" value="${quantidade}" data-menu-qty="${id}" />
-          <button type="button" class="step" data-menu-step="1" data-id="${id}" aria-label="Uma unidade a mais de ${escapeHTML(item.nome)}">+</button>
-          <span class="dish-stock-label">prontos</span>
-        </div>
-
-        <div class="dish-actions">
-          <button type="button" class="ghost" data-menu-toggle="${id}">${item.disponivel === false ? "Voltar ao cardápio" : "Tirar do cardápio"}</button>
-          <button type="button" class="ghost remove" data-menu-remove="${id}">Excluir</button>
-        </div>
-      </article>`;
-    }).join("");
-  }
-
-  async function patchMenuItem(id, payload, mensagem) {
-    try {
-      const result = await apiFetch(`/api/cardapio/${encodeURIComponent(id)}`, {
-        method: "PATCH",
-        body: JSON.stringify(payload)
-      });
-      setServerState(result.data);
-      refreshBoard();
-      if (mensagem) showToast(mensagem);
-    } catch (err) {
-      showToast(err.message, "error");
-    }
-  }
-
-  /* ---- Cardápio do dia visto por quem envia a mensagem ---- */
-  async function refreshBoard() {
-    const list = document.querySelector("#boardList");
-    const summary = document.querySelector("#boardSummary");
-    if (!list || !summary) return;
-
-    try {
-      const result = await apiFetch("/api/cardapio-do-dia");
-      renderBoard(result.itens || []);
-    } catch (err) {
-      summary.textContent = "Não consegui carregar o cardápio agora.";
-      list.innerHTML = "";
-      console.error("Auto.io: falha ao carregar o cardápio do dia.", err);
-    }
-  }
-
-  function renderBoard(itens) {
-    const list = document.querySelector("#boardList");
-    const summary = document.querySelector("#boardSummary");
-
-    if (!itens.length) {
-      summary.textContent = "O cardápio de hoje ainda não foi publicado.";
-      list.innerHTML = `<div class="empty-state">Nada listado por enquanto. Você pode pedir por encomenda pela mensagem.</div>`;
-      return;
-    }
-
-    const prontos = itens.filter(item => item.pronto);
-    summary.textContent = prontos.length
-      ? `${prontos.length} item${prontos.length > 1 ? "ns" : ""} pronto${prontos.length > 1 ? "s" : ""} para levar agora.`
-      : "Nada pronto para levar agora — tudo sai por encomenda.";
-
-    list.innerHTML = itens.map(item => `
-      <button type="button" class="board-item" data-board-item="${escapeHTML(item.nome)}" data-pronto="${item.pronto}">
-        <span class="board-item-main">
+    wrap.innerHTML = state.cardapio.slice(0, 12).map(item => `
+      <div class="menu-item">
+        <div class="menu-item-main">
+          <span class="menu-category">${escapeHTML(item.categoria || "Sem categoria")}</span>
           <strong>${escapeHTML(item.nome)}</strong>
-          <span class="board-item-desc">${escapeHTML(item.descricao || item.categoria || "")}</span>
-        </span>
-        <span class="board-item-side">
-          <span class="board-price">${formatMoney(item.preco) || "A combinar"}</span>
-          <span class="board-flag">${item.pronto ? `${item.quantidade} disponível${item.quantidade > 1 ? "eis" : ""}` : "Sob encomenda"}</span>
-        </span>
-      </button>
+          <span class="menu-description">${escapeHTML(item.descricao || "Sem descrição")}</span>
+        </div>
+        <div class="menu-item-side">
+          <strong class="menu-price">${formatMoney(item.preco) || "A confirmar"}</strong>
+          <span>${escapeHTML(item.unidade || "unidade")}</span>
+          <div class="menu-item-actions">
+            <button type="button" class="ghost" data-menu-toggle="${escapeHTML(item.id)}">${item.disponivel === false ? "Ativar" : "Pausar"}</button>
+            <button type="button" class="ghost remove" data-menu-remove="${escapeHTML(item.id)}">Excluir</button>
+          </div>
+        </div>
+      </div>
     `).join("");
-  }
-
-  function bindBoard() {
-    const list = document.querySelector("#boardList");
-    const input = document.querySelector("#messageInput");
-    if (!list || !input) return;
-
-    // Toque no item = rascunho da mensagem pronto para o cliente ajustar.
-    list.addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-board-item]");
-      if (!btn) return;
-      const nome = btn.dataset.boardItem;
-      input.value = btn.dataset.pronto === "true"
-        ? `Quero 1 ${nome} para retirar hoje.`
-        : `Quero encomendar 1 ${nome}. `;
-      input.focus();
-      input.setSelectionRange(input.value.length, input.value.length);
-    });
   }
 
   function botReply(type, item, role = "cliente") {
@@ -504,8 +356,6 @@
           })
         });
         setServerState(result.data);
-        refreshBadge();
-        if (role === "cliente") refreshBoard();
 
         const type = result.analysis?.tipo || "conversa";
         const fallbackNote = result.analysis?.origemIA === "fallback-regra"
@@ -533,15 +383,12 @@
       if (pass) { pass.value = ""; pass.focus(); }
     }
     if (view === "client-register") document.querySelector("#clientName")?.focus();
-    if (view === "client") {
-      refreshBoard();
-      document.querySelector("#messageInput")?.focus();
-    }
+    if (view === "client") document.querySelector("#messageInput")?.focus();
     if (view === "owner") {
       refreshData();
       document.querySelector("#ownerMessageInput")?.focus();
     }
-    if (view === "landing") refreshBadge();
+    if (view === "landing") updateLandingBadge();
   }
 
   function isOwnerLoggedIn() {
@@ -575,15 +422,8 @@
       saveCurrentClient(null);
       goToView("client-register");
     });
-    document.querySelector("#ownerLogout").addEventListener("click", async () => {
-      try {
-        await apiFetch("/api/logout", { method: "POST" });
-      } catch (err) {
-        console.error("Auto.io: falha ao encerrar a sessão no servidor.", err);
-      }
+    document.querySelector("#ownerLogout").addEventListener("click", () => {
       setOwnerLoggedIn(false);
-      state = normalizeState({});
-      render();
       showToast("Sessão encerrada.");
       goToView("landing");
     });
@@ -600,10 +440,8 @@
           body: JSON.stringify({ password: pass.value })
         });
         authenticated = result.ok;
-      } catch (err) {
-        if (err.status !== 401) {
-          showToast("Não consegui validar a senha no backend local.", "error");
-        }
+      } catch (_) {
+        showToast("Não consegui validar a senha no backend local.", "error");
       }
 
       if (authenticated) {
@@ -647,7 +485,6 @@
         });
         saveCurrentClient(result.saved);
         setServerState(result.data);
-        refreshBadge();
         showToast("Cadastro rápido salvo.");
         goToView("client");
       } catch (err) {
@@ -700,22 +537,10 @@
           body: JSON.stringify({ template })
         });
         setServerState(result.data);
-        showToast("Modelo adicionado. Agora informe quantos estão prontos.");
+        showToast("Referências adicionadas.");
       } catch (err) {
         showToast(err.message, "error");
       }
-    });
-
-    document.querySelector("#closeDay").addEventListener("click", () => {
-      confirmAction("Encerrar o dia? As quantidades prontas vão a zero e os itens continuam no cardápio.", async () => {
-        try {
-          const result = await apiFetch("/api/cardapio/encerrar-dia", { method: "POST" });
-          setServerState(result.data);
-          showToast("Dia encerrado. Nada mais consta como pronto.");
-        } catch (err) {
-          showToast(err.message, "error");
-        }
-      });
     });
 
     document.querySelector("#menuForm").addEventListener("submit", async (e) => {
@@ -731,7 +556,6 @@
         categoria: fd.get("categoria").trim(),
         preco: fd.get("preco").trim(),
         unidade: fd.get("unidade").trim(),
-        quantidade: fd.get("quantidade"),
         descricao: fd.get("descricao").trim()
       };
 
@@ -742,50 +566,35 @@
         });
         setServerState(result.data);
         form.reset();
-        document.querySelector("#menuQty").value = "0";
-        showToast("Item adicionado ao cardápio do dia.");
+        showToast("Item de referência adicionado.");
       } catch (err) {
         showToast(err.message, "error");
       }
     });
 
-    const menuList = document.querySelector("#menuList");
-
-    menuList.addEventListener("click", (e) => {
+    document.querySelector("#menuList").addEventListener("click", async (e) => {
       const removeBtn = e.target.closest("button[data-menu-remove]");
       if (removeBtn) {
         removeItem("cardapio", removeBtn.dataset.menuRemove);
         return;
       }
 
-      // Baixa rápida ao vender no balcão (−1) ou saída de mais uma fornada (+1).
-      const stepBtn = e.target.closest("button[data-menu-step]");
-      if (stepBtn) {
-        const item = state.cardapio.find(row => row.id === stepBtn.dataset.id);
-        if (!item) return;
-        const quantidade = Math.max(0, (Number(item.quantidade) || 0) + Number(stepBtn.dataset.menuStep));
-        patchMenuItem(item.id, { quantidade }, quantidade === 0 ? `${item.nome}: esgotado.` : null);
-        return;
-      }
-
-      const toggleBtn = e.target.closest("button[data-menu-toggle]");
-      if (!toggleBtn) return;
-      const item = state.cardapio.find(row => row.id === toggleBtn.dataset.menuToggle);
+      const btn = e.target.closest("button[data-menu-toggle]");
+      if (!btn) return;
+      const id = btn.dataset.menuToggle;
+      const item = state.cardapio.find(row => row.id === id);
       if (!item) return;
 
-      const voltando = item.disponivel === false;
-      patchMenuItem(
-        item.id,
-        { disponivel: voltando },
-        voltando ? `${item.nome} voltou ao cardápio.` : `${item.nome} saiu do cardápio de hoje.`
-      );
-    });
-
-    // Digitar a quantidade direto (ex.: saiu a fornada, são 24).
-    menuList.addEventListener("change", (e) => {
-      const input = e.target.closest("input[data-menu-qty]");
-      if (!input) return;
-      patchMenuItem(input.dataset.menuQty, { quantidade: input.value }, "Quantidade atualizada.");
+      try {
+        const result = await apiFetch(`/api/cardapio/${encodeURIComponent(id)}`, {
+          method: "PATCH",
+          body: JSON.stringify({ disponivel: item.disponivel === false })
+        });
+        setServerState(result.data);
+        showToast("Disponibilidade atualizada.");
+      } catch (err) {
+        showToast(err.message, "error");
+      }
     });
   }
 
@@ -918,7 +727,6 @@
 
   async function init() {
     bindViewNavigation();
-    bindBoard();
     bindClientRegister();
     bindQuickOrderForm();
     bindMenu();
@@ -936,24 +744,16 @@
 
     render();
     goToView("landing");
+    await refreshData();
 
     try {
-      const session = await apiFetch("/api/session");
-      setOwnerLoggedIn(Boolean(session.autenticado));
-
-      if (session.autenticado) {
-        await refreshData();
-        const settings = await apiFetch("/api/settings");
-        if (settings.sheetsConfigured) {
-          document.querySelector("#webhookUrl").placeholder = "Google Sheets já configurado no backend";
-        }
+      const settings = await apiFetch("/api/settings");
+      if (settings.sheetsConfigured) {
+        document.querySelector("#webhookUrl").placeholder = "Google Sheets já configurado no backend";
       }
     } catch (err) {
-      showToast("Não consegui falar com o backend local. Confira se o Node está rodando.", "error");
-      console.error("Auto.io: falha ao iniciar.", err);
+      console.error("Auto.io: falha ao carregar configurações.", err);
     }
-
-    refreshBadge();
   }
 
   init();

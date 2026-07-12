@@ -123,18 +123,6 @@
             <button type="submit">Enviar</button>
           </form>
         </section>
-
-        <aside class="card board-card" aria-labelledby="board-title">
-          <div class="card-head">
-            <span class="section-label">Hoje</span>
-            <h2 id="board-title">Pronto para retirada</h2>
-            <p class="muted" id="boardSummary">Carregando o cardápio de hoje...</p>
-          </div>
-
-          <div id="boardList" class="board-list" aria-live="polite"></div>
-
-          <p class="board-note">Toque em um item para começar a mensagem. O que não estiver pronto continua saindo por encomenda.</p>
-        </aside>
       </main>
 
       <footer class="footer">
@@ -149,26 +137,23 @@
           <svg class="brand-underline" viewBox="0 0 180 12" aria-hidden="true">
             <path d="M2 8 C 40 2, 80 2, 90 6 S 150 10, 178 4" />
           </svg>
-          <p>Painel do vendedor</p>
+          <p>Central de controle para mensagens recebidas, pedidos personalizados, tarefas de produção e itens/preços de referência</p>
         </div>
         <div class="topbar-actions">
-          <nav class="panel-nav" aria-label="Seções do painel">
-            <a href="#bloco-hoje">Hoje</a>
-            <a href="#bloco-entrada">Entrada</a>
-            <a href="#bloco-cardapio">Cardápio</a>
-            <a href="#bloco-registros">Registros</a>
-            <a href="#bloco-ajustes">Ajustes</a>
-          </nav>
+          <span class="badge badge-owner">Painel do vendedor</span>
           <button type="button" class="ghost" id="ownerLogout">Sair</button>
         </div>
       </header>
 
-      <main class="owner-panel">
-        <!-- 1. Hoje -->
-        <section class="panel-block" id="bloco-hoje" aria-labelledby="hoje-title">
-          <div class="block-head">
-            <span class="section-label">Hoje</span>
-            <h2 id="hoje-title">Como está o dia</h2>
+      <main class="layout owner-layout">
+        <section class="card dashboard-card priority-card" aria-labelledby="dash-title">
+          <div class="dashboard-head">
+            <div class="card-head">
+              <span class="section-label">Visão geral</span>
+              <h2 id="dash-title">Central de controle</h2>
+              <p class="muted">Pedidos, clientes, tarefas, itens/preços de referência e logs salvos no backend local.</p>
+            </div>
+            <button id="clearBtn" class="ghost" type="button">Limpar base</button>
           </div>
 
           <div class="kpis">
@@ -177,206 +162,153 @@
             <div class="kpi kpi-lilac"><strong id="clientesCount">0</strong><span>Clientes</span></div>
             <div class="kpi kpi-mint"><strong id="pendentesCount">0</strong><span>Pendentes</span></div>
           </div>
-        </section>
 
-        <!-- 2. Entrada -->
-        <section class="panel-block" id="bloco-entrada" aria-labelledby="entrada-title">
-          <div class="block-head">
-            <span class="section-label">Entrada</span>
-            <h2 id="entrada-title">Registrar o que chegou</h2>
-            <p class="muted">Use a mensagem quando o cliente escrever. Use o formulário quando você já souber tudo.</p>
+          <div class="table-toolbar">
+            <div class="tabs" role="tablist" aria-label="Tabelas da central">
+              <button class="tab active" data-tab="pedidos" role="tab" aria-selected="true">Pedidos</button>
+              <button class="tab" data-tab="clientes" role="tab" aria-selected="false">Clientes</button>
+              <button class="tab" data-tab="tarefas" role="tab" aria-selected="false">Tarefas</button>
+              <button class="tab" data-tab="cardapio" role="tab" aria-selected="false">Itens/preços</button>
+              <button class="tab" data-tab="logs" role="tab" aria-selected="false">Logs</button>
+            </div>
+            <div class="search-wrap">
+              <label class="visually-hidden" for="searchInput">Buscar registros</label>
+              <input id="searchInput" type="search" placeholder="Buscar por cliente, produto..." />
+            </div>
           </div>
 
-          <div class="entrada-grid">
-            <section class="card ticket-card chat-card" aria-labelledby="owner-chat-title">
-              <div class="card-head">
-                <h3 id="owner-chat-title">Por mensagem</h3>
-                <p class="muted">Cole a mensagem recebida por WhatsApp, Instagram, ligação ou balcão. A IA local separa em pedido, tarefa ou conversa.</p>
-              </div>
+          <div id="tableWrap" class="table-wrap" aria-live="polite"></div>
 
-              <div id="ownerChat" class="chat" role="log" aria-live="polite" aria-label="Histórico de registros por mensagem"></div>
-
-              <form id="ownerMessageForm" class="message-form">
-                <label class="visually-hidden" for="ownerMessageInput">Mensagem</label>
-                <input id="ownerMessageInput" placeholder='Ex.: "Cliente Maria pediu 2 bolos para sexta às 15h"' autocomplete="off" maxlength="300" />
-                <button type="submit">Registrar</button>
-              </form>
-            </section>
-
-            <section class="card form-card" aria-labelledby="quick-title">
-              <div class="card-head">
-                <h3 id="quick-title">Pelo formulário</h3>
-                <p class="muted">Registra o pedido direto, sem passar pela IA.</p>
-              </div>
-
-              <form id="quickOrderForm" class="grid-form" novalidate>
-                <div class="field">
-                  <label for="qo-cliente">Cliente *</label>
-                  <input id="qo-cliente" name="cliente" required />
-                </div>
-                <div class="field">
-                  <label for="qo-telefone">Telefone</label>
-                  <input id="qo-telefone" name="telefone" inputmode="tel" placeholder="(00) 00000-0000" />
-                </div>
-                <div class="field">
-                  <label for="qo-produto">Produto *</label>
-                  <input id="qo-produto" name="produto" list="menuOptions" required placeholder="Item do cardápio ou sob encomenda" />
-                  <datalist id="menuOptions"></datalist>
-                </div>
-                <div class="field">
-                  <label for="qo-quantidade">Quantidade *</label>
-                  <input id="qo-quantidade" name="quantidade" required placeholder="Ex.: 2, 1 cento" />
-                </div>
-                <div class="field">
-                  <label for="qo-data">Data de entrega</label>
-                  <input id="qo-data" name="dataEntrega" type="date" />
-                </div>
-                <div class="field">
-                  <label for="qo-pagamento">Pagamento</label>
-                  <select id="qo-pagamento" name="pagamento">
-                    <option value="">A confirmar</option>
-                    <option value="Pix">Pix</option>
-                    <option value="Dinheiro">Dinheiro</option>
-                    <option value="Cartão">Cartão</option>
-                    <option value="Transferência">Transferência</option>
-                  </select>
-                </div>
-                <div class="field field-wide">
-                  <label for="qo-endereco">Endereço ou retirada</label>
-                  <input id="qo-endereco" name="endereco" placeholder="Rua, bairro ou “retirada no local”" />
-                </div>
-                <div class="field field-wide">
-                  <label for="qo-obs">Observações</label>
-                  <textarea id="qo-obs" name="observacoes" rows="2"></textarea>
-                </div>
-                <button type="submit" class="field-wide">Registrar pedido</button>
-              </form>
-            </section>
+          <div class="actions">
+            <button id="exportPedidos" type="button">Exportar pedidos (CSV)</button>
+            <button id="exportTarefas" type="button">Exportar tarefas (CSV)</button>
+            <button id="exportClientes" type="button">Exportar clientes (CSV)</button>
           </div>
         </section>
 
-        <!-- 3. Cardápio do dia -->
-        <section class="panel-block" id="bloco-cardapio" aria-labelledby="menu-title">
-          <div class="block-head">
-            <span class="section-label">Pronta retirada</span>
-            <h2 id="menu-title">Cardápio do dia</h2>
-            <p class="muted">O que já está pronto para o cliente levar agora. A quantidade cai a cada venda e a IA usa essa lista para responder sobre disponibilidade e preço.</p>
+        <section class="card ticket-card chat-card" aria-labelledby="owner-chat-title">
+          <div class="card-head">
+            <span class="section-label">Entrada principal</span>
+            <h2 id="owner-chat-title">Registrar por mensagem</h2>
+            <p class="muted">Cole ou digite a mensagem recebida por qualquer canal. A IA local tenta organizar como pedido, tarefa ou conversa.</p>
           </div>
 
-          <section class="card menu-card">
-            <div class="menu-head">
-              <p class="menu-summary" id="menuSummary">Nada pronto ainda.</p>
-              <button type="button" class="ghost" id="closeDay">Encerrar o dia</button>
-            </div>
+          <div id="ownerChat" class="chat" role="log" aria-live="polite" aria-label="Histórico de registros por mensagem"></div>
 
-            <div id="menuList" class="dish-grid" aria-live="polite"></div>
-
-            <details class="menu-details">
-              <summary>Adicionar item ao cardápio</summary>
-
-              <div class="template-row">
-                <label class="visually-hidden" for="templateSelect">Modelo de cardápio</label>
-                <select id="templateSelect">
-                  <option value="doceria">Doceria</option>
-                  <option value="marmitaria">Marmitaria</option>
-                  <option value="salgados">Salgados</option>
-                </select>
-                <button id="addTemplate" type="button" class="ghost">Usar modelo pronto</button>
-              </div>
-
-              <form id="menuForm" class="grid-form compact-form" novalidate>
-                <div class="field">
-                  <label for="menuName">Item *</label>
-                  <input id="menuName" name="nome" required placeholder="Ex.: Torta de frango" />
-                </div>
-                <div class="field">
-                  <label for="menuCategory">Categoria</label>
-                  <input id="menuCategory" name="categoria" placeholder="Bolos, salgados..." />
-                </div>
-                <div class="field">
-                  <label for="menuPrice">Preço</label>
-                  <input id="menuPrice" name="preco" inputmode="decimal" placeholder="25,00" />
-                </div>
-                <div class="field">
-                  <label for="menuUnit">Unidade</label>
-                  <input id="menuUnit" name="unidade" placeholder="unidade, cento, kg..." />
-                </div>
-                <div class="field">
-                  <label for="menuQty">Prontos agora</label>
-                  <input id="menuQty" name="quantidade" type="number" min="0" step="1" value="0" />
-                </div>
-                <div class="field">
-                  <label for="menuDescription">Descrição</label>
-                  <input id="menuDescription" name="descricao" placeholder="Aparece para você na hora de vender" />
-                </div>
-                <button type="submit" class="field-wide">Adicionar ao cardápio</button>
-              </form>
-            </details>
-          </section>
+          <form id="ownerMessageForm" class="message-form">
+            <label class="visually-hidden" for="ownerMessageInput">Mensagem</label>
+            <input id="ownerMessageInput" placeholder='Ex.: "Cliente Maria pediu 2 bolos para sexta às 15h"' autocomplete="off" maxlength="300" />
+            <button type="submit">Enviar</button>
+          </form>
         </section>
 
-        <!-- 4. Registros -->
-        <section class="panel-block" id="bloco-registros" aria-labelledby="registros-title">
-          <div class="block-head">
-            <span class="section-label">Registros</span>
-            <h2 id="registros-title">Tudo que foi salvo</h2>
-            <p class="muted">Pedidos, clientes, tarefas, cardápio e logs guardados no seu computador.</p>
+        <section class="card form-card" aria-labelledby="quick-title">
+          <div class="card-head">
+            <span class="section-label">Fallback</span>
+            <h2 id="quick-title">Registro manual</h2>
+            <p class="muted">Fallback seguro para registrar pedido mesmo sem IA ou integrações.</p>
           </div>
 
-          <section class="card dashboard-card">
-            <div class="table-toolbar">
-              <div class="tabs" role="tablist" aria-label="Tabelas da central">
-                <button class="tab active" data-tab="pedidos" role="tab" aria-selected="true">Pedidos</button>
-                <button class="tab" data-tab="clientes" role="tab" aria-selected="false">Clientes</button>
-                <button class="tab" data-tab="tarefas" role="tab" aria-selected="false">Tarefas</button>
-                <button class="tab" data-tab="cardapio" role="tab" aria-selected="false">Cardápio</button>
-                <button class="tab" data-tab="logs" role="tab" aria-selected="false">Logs</button>
-              </div>
-              <div class="search-wrap">
-                <label class="visually-hidden" for="searchInput">Buscar registros</label>
-                <input id="searchInput" type="search" placeholder="Buscar por cliente, produto..." />
-              </div>
+          <form id="quickOrderForm" class="grid-form" novalidate>
+            <div class="field">
+              <label for="qo-cliente">Cliente *</label>
+              <input id="qo-cliente" name="cliente" required />
             </div>
-
-            <div id="tableWrap" class="table-wrap" aria-live="polite"></div>
-
-            <div class="actions">
-              <button id="exportPedidos" type="button">Exportar pedidos (CSV)</button>
-              <button id="exportTarefas" type="button">Exportar tarefas (CSV)</button>
-              <button id="exportClientes" type="button">Exportar clientes (CSV)</button>
+            <div class="field">
+              <label for="qo-telefone">Telefone</label>
+              <input id="qo-telefone" name="telefone" inputmode="tel" placeholder="(00) 00000-0000" />
             </div>
-          </section>
+            <div class="field">
+              <label for="qo-produto">Produto *</label>
+              <input id="qo-produto" name="produto" list="menuOptions" required />
+              <datalist id="menuOptions"></datalist>
+            </div>
+            <div class="field">
+              <label for="qo-quantidade">Quantidade *</label>
+              <input id="qo-quantidade" name="quantidade" required />
+            </div>
+            <div class="field">
+              <label for="qo-data">Data de entrega</label>
+              <input id="qo-data" name="dataEntrega" type="date" />
+            </div>
+            <div class="field">
+              <label for="qo-pagamento">Pagamento</label>
+              <select id="qo-pagamento" name="pagamento">
+                <option value="">A confirmar</option>
+                <option value="Pix">Pix</option>
+                <option value="Dinheiro">Dinheiro</option>
+                <option value="Cartão">Cartão</option>
+                <option value="Transferência">Transferência</option>
+              </select>
+            </div>
+            <div class="field field-wide">
+              <label for="qo-endereco">Endereço / retirada</label>
+              <input id="qo-endereco" name="endereco" />
+            </div>
+            <div class="field field-wide">
+              <label for="qo-obs">Observações</label>
+              <textarea id="qo-obs" name="observacoes" rows="2"></textarea>
+            </div>
+            <button type="submit" class="field-wide">Registrar pedido</button>
+          </form>
         </section>
 
-        <!-- 5. Ajustes -->
-        <section class="panel-block" id="bloco-ajustes" aria-labelledby="ajustes-title">
-          <div class="block-head">
-            <span class="section-label">Ajustes</span>
-            <h2 id="ajustes-title">Integração e manutenção</h2>
+        <section class="card menu-card" aria-labelledby="menu-title">
+          <div class="card-head">
+            <span class="section-label">Referência rápida</span>
+            <h2 id="menu-title">Itens e preços de referência</h2>
+            <p class="muted">Templates ajudam o vendedor a lembrar itens e valores comuns, sem limitar pedidos sob medida.</p>
           </div>
 
-          <section class="card settings-card">
-            <div class="card-head">
-              <h3>Google Sheets</h3>
-              <p class="muted">Cole a URL do Web App do Apps Script para copiar pedidos, clientes e tarefas para uma planilha. Vazio: tudo fica só neste computador.</p>
-            </div>
+          <div class="template-row">
+            <select id="templateSelect">
+              <option value="doceria">Doceria</option>
+              <option value="marmitaria">Marmitaria</option>
+              <option value="salgados">Salgados</option>
+            </select>
+            <button id="addTemplate" type="button" class="ghost">Adicionar referências</button>
+          </div>
 
-            <div class="webhook-row">
-              <label class="visually-hidden" for="webhookUrl">URL do Web App</label>
-              <input id="webhookUrl" placeholder="https://script.google.com/macros/s/SEU_ID/exec" />
-              <button id="saveWebhook" type="button">Salvar URL</button>
-              <button id="testWebhook" type="button" class="ghost">Testar envio</button>
-            </div>
-            <small>Use <strong>integrations/apps-script.gs</strong> para criar as abas Pedidos, Clientes, Tarefas e Logs.</small>
+          <div id="menuList" class="menu-list" aria-live="polite"></div>
 
-            <div class="danger-zone">
-              <div>
-                <h3>Limpar a base</h3>
-                <p class="muted">Apaga pedidos, clientes, tarefas e logs. O cardápio e o seu perfil continuam.</p>
-              </div>
-              <button id="clearBtn" class="ghost danger-ghost" type="button">Limpar base</button>
+          <form id="menuForm" class="grid-form compact-form" novalidate>
+            <div class="field">
+              <label for="menuName">Item de referência *</label>
+              <input id="menuName" name="nome" required placeholder="Ex.: Torta de frango" />
             </div>
-          </section>
+            <div class="field">
+              <label for="menuCategory">Categoria</label>
+              <input id="menuCategory" name="categoria" placeholder="Bolos, salgados..." />
+            </div>
+            <div class="field">
+              <label for="menuPrice">Preço</label>
+              <input id="menuPrice" name="preco" inputmode="decimal" placeholder="25,00" />
+            </div>
+            <div class="field">
+              <label for="menuUnit">Unidade</label>
+              <input id="menuUnit" name="unidade" placeholder="unidade, cento, kg..." />
+            </div>
+            <div class="field field-wide">
+              <label for="menuDescription">Descrição</label>
+              <input id="menuDescription" name="descricao" />
+            </div>
+            <button type="submit" class="field-wide">Adicionar item</button>
+          </form>
+        </section>
+
+        <section class="card settings-card" aria-labelledby="settings-title">
+          <div class="card-head">
+            <span class="section-label">Opcional</span>
+            <h2 id="settings-title">Integração com Google Sheets</h2>
+            <p class="muted">Cole a URL do Web App do Google Apps Script. Se ficar vazio, a demo segue no backend local.</p>
+          </div>
+          <div class="webhook-row">
+            <label class="visually-hidden" for="webhookUrl">URL do Web App</label>
+            <input id="webhookUrl" placeholder="https://script.google.com/macros/s/SEU_ID/exec" />
+            <button id="saveWebhook" type="button">Salvar URL</button>
+            <button id="testWebhook" type="button" class="ghost">Testar envio</button>
+          </div>
+          <small>Use <strong>integrations/apps-script.gs</strong> para gravar nas abas Pedidos, Clientes, Tarefas e Logs.</small>
         </section>
       </main>
 

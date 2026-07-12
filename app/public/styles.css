@@ -219,19 +219,20 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.01e
 .layout-client {
   flex: 1 1 auto;
   min-height: 0;                 /* permite o chat rolar dentro do flex */
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 330px);
-  gap: var(--gap);
-  align-items: stretch;          /* os cards acompanham a altura da tela */
+  display: flex;
+  align-items: stretch;          /* o card acompanha a altura da tela */
   width: 100%;
-  max-width: 1080px;
+  max-width: 880px;
   margin: 0 auto;
   padding-bottom: 20px;
+  grid-template-columns: none;
 }
 .layout-client .chat-card {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   min-height: 0;
+  grid-row: auto;
 }
 .view-client .chat {
   flex: 1 1 auto;
@@ -239,66 +240,6 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.01e
   min-height: 240px;
 }
 .view-client .footer { padding-top: 4px; }
-
-/* ---- Vitrine do dia ao lado da conversa ---- */
-.board-card {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  background: linear-gradient(180deg, rgba(126, 195, 154, 0.09), transparent 45%), var(--surface);
-  border-color: rgba(126, 195, 154, 0.3);
-}
-.board-card .card-head { margin-bottom: 14px; }
-.board-card .card-head h2 { font-size: 1.2rem; }
-
-.board-list {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  overflow: auto;
-  padding-right: 2px;
-}
-
-.board-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  width: 100%;
-  padding: 10px 12px;
-  text-align: left;
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-s);
-  font-weight: 400;
-  transition: border-color .15s ease, background .15s ease;
-}
-.board-item:hover {
-  filter: none;
-  border-color: var(--mint);
-  background: rgba(126, 195, 154, 0.06);
-}
-
-.board-item-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.board-item-main strong { font-size: 0.9rem; }
-.board-item-desc {
-  color: var(--ink-muted);
-  font-size: 0.75rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.board-item-side { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex: 0 0 auto; }
-.board-price { font-family: var(--font-display); font-size: 0.95rem; }
-.board-flag { font-size: 0.68rem; font-weight: 800; color: var(--mint); white-space: nowrap; }
-.board-item[data-pronto="false"] .board-price { color: var(--ink-muted); }
-.board-item[data-pronto="false"] .board-flag { color: var(--ink-faint); }
-
-.board-note { margin: 12px 0 0; color: var(--ink-faint); font-size: 0.75rem; line-height: 1.45; }
 
 /* ============================================================
    Header
@@ -364,6 +305,10 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.01e
   align-items: start;
 }
 
+.chat-card { grid-row: span 2; }
+.menu-card { grid-column: span 1; }
+.dashboard-card { grid-column: 1 / -1; }
+
 .card {
   background: var(--surface);
   border: 1px solid var(--border-soft);
@@ -393,6 +338,29 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.01e
 /* ============================================================
    Chat de registro
    ============================================================ */
+.role-switch {
+  display: inline-flex;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px;
+  margin-bottom: 16px;
+  gap: 4px;
+}
+.role {
+  border: none;
+  background: transparent;
+  color: var(--ink-muted);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+.role.active { background: var(--pink); color: var(--pink-ink); }
+.role:not(.active):hover { color: var(--ink); }
+
 .chat {
   height: 320px;
   overflow-y: auto;
@@ -439,6 +407,26 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.01e
 .message-form input {
   flex: 1;
 }
+
+.examples {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.examples-label { font-size: 0.8rem; color: var(--ink-faint); margin-right: 2px; }
+.examples button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink-muted);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: border-color .15s ease, color .15s ease;
+}
+.examples button:hover { border-color: var(--pink); color: var(--ink); }
 
 /* ============================================================
    Formulários (inputs compartilhados)
@@ -497,9 +485,56 @@ button.danger { background: var(--danger); color: #2a0d0d; }
   margin-bottom: 14px;
 }
 
+.menu-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-s);
+  background: rgba(255,255,255,0.02);
+}
+
+.menu-item div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.menu-item strong {
+  font-size: 0.9rem;
+}
+
+.menu-item span {
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+}
+
+.menu-item button {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  font-size: 0.76rem;
+}
+
 /* ============================================================
    Central de controle
    ============================================================ */
+.dashboard-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
 .kpis {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -674,9 +709,8 @@ tbody tr:hover { background: rgba(255,255,255,0.02); }
    ============================================================ */
 @media (max-width: 880px) {
   .layout { grid-template-columns: 1fr; }
-  .layout-client { grid-template-columns: 1fr; }
-  .board-card { order: -1; }          /* no celular, a vitrine aparece antes do chat */
-  .board-list { max-height: 220px; }
+  .chat-card { grid-row: auto; }
+  .menu-card { grid-column: auto; }
   .kpis { grid-template-columns: repeat(2, 1fr); }
   .grid-form { grid-template-columns: 1fr; }
   .role-cards { grid-template-columns: 1fr; }
@@ -738,7 +772,7 @@ tbody tr:hover { background: rgba(255,255,255,0.02); }
 }
 
 /* ============================================================
-   Landing: ícone do card de perfil
+   Refinamento visual do painel do vendedor
    ============================================================ */
 .role-card-icon {
   width: 38px;
@@ -753,43 +787,36 @@ tbody tr:hover { background: rgba(255,255,255,0.02); }
   font-weight: 800;
 }
 
-/* ============================================================
-   Painel do vendedor
-   Blocos empilhados na ordem do dia:
-   Hoje -> Entrada -> Cardápio do dia -> Registros -> Ajustes.
-   Cada bloco tem um cabeçalho próprio; os cards ficam dentro dele.
-   ============================================================ */
-.owner-panel {
-  max-width: 1180px;
+.owner-layout {
+  grid-template-columns: minmax(0, 1.25fr) minmax(340px, 0.75fr);
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 6px clamp(20px, 5vw, 56px) 60px;
-  display: flex;
-  flex-direction: column;
-  gap: 44px;
 }
 
-.panel-nav {
-  display: inline-flex;
-  gap: 2px;
-  padding: 4px;
-  background: var(--surface-raised);
-  border: 1px solid var(--border);
-  border-radius: 999px;
+.owner-layout .card {
+  border-color: rgba(199, 169, 146, 0.2);
 }
-.panel-nav a {
-  padding: 6px 12px;
-  border-radius: 999px;
-  color: var(--ink-muted);
-  text-decoration: none;
-  font-size: 0.82rem;
-  font-weight: 600;
+
+.priority-card {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  background:
+    linear-gradient(180deg, rgba(126, 195, 154, 0.08), transparent 55%),
+    var(--surface);
+  border-color: rgba(126, 195, 154, 0.34);
 }
-.panel-nav a:hover { color: var(--ink); background: rgba(255, 255, 255, 0.05); }
 
-.panel-block { scroll-margin-top: 18px; }
+.menu-card {
+  background:
+    linear-gradient(180deg, rgba(114, 169, 214, 0.08), transparent 52%),
+    var(--surface);
+}
 
-.block-head { max-width: 64ch; margin-bottom: 18px; }
-.block-head h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 6px; }
+.form-card {
+  background:
+    linear-gradient(180deg, rgba(234, 92, 120, 0.07), transparent 50%),
+    var(--surface);
+}
 
 .section-label {
   display: inline-flex;
@@ -806,195 +833,198 @@ tbody tr:hover { background: rgba(255,255,255,0.02); }
   text-transform: uppercase;
 }
 
-.owner-panel .card { border-color: rgba(199, 169, 146, 0.2); }
-.owner-panel .card-head h3 {
-  font-family: var(--font-display);
-  font-size: 1.12rem;
-  font-weight: 600;
-  margin-bottom: 6px;
+.priority-card .dashboard-head {
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-/* cada card carrega o acento do seu bloco */
-.chat-card { background: linear-gradient(180deg, rgba(231, 165, 60, 0.07), transparent 55%), var(--surface); }
-.form-card { background: linear-gradient(180deg, rgba(234, 92, 120, 0.07), transparent 50%), var(--surface); }
-.dashboard-card { background: linear-gradient(180deg, rgba(179, 155, 224, 0.07), transparent 50%), var(--surface); }
-.menu-card {
-  background: linear-gradient(180deg, rgba(126, 195, 154, 0.08), transparent 52%), var(--surface);
-  border-color: rgba(126, 195, 154, 0.3);
+.owner-layout .chat {
+  border-color: rgba(231, 165, 60, 0.28);
 }
 
-/* ---- Bloco 1: Hoje ---- */
-.kpi { min-height: 92px; justify-content: center; }
-
-/* ---- Bloco 2: Entrada (mensagem + formulário lado a lado) ---- */
-.entrada-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  gap: var(--gap);
-  align-items: start;
-}
-
-.owner-panel .chat { min-height: 230px; border-color: rgba(231, 165, 60, 0.28); }
-
-/* ---- Bloco 3: Cardápio do dia ---- */
-.menu-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
-  padding-bottom: 14px;
-  border-bottom: 1px dashed var(--border-soft);
-}
-.menu-summary { margin: 0; color: var(--mint); font-weight: 600; font-size: 0.92rem; }
-
-.dish-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
-  gap: 12px;
-}
-
-.dish {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 14px;
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-m);
-  background: rgba(255, 255, 255, 0.025);
-  transition: border-color .15s ease;
-}
-.dish:hover { border-color: rgba(199, 169, 146, 0.35); }
-
-.dish-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.dish-category {
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-}
-.dish-flag {
-  padding: 3px 8px;
-  border: 1px solid currentColor;
-  border-radius: 999px;
-  font-size: 0.66rem;
-  font-weight: 800;
-  white-space: nowrap;
-}
-
-.dish[data-state="pronto"] { border-color: rgba(126, 195, 154, 0.42); }
-.dish[data-state="pronto"] .dish-flag { color: var(--mint); }
-.dish[data-state="esgotado"] .dish-flag { color: var(--yellow); }
-.dish[data-state="fora"] { opacity: 0.55; }
-.dish[data-state="fora"] .dish-flag { color: var(--ink-faint); }
-
-.dish-name { font-size: 1rem; }
-.dish-desc {
-  margin: 0;
-  color: var(--ink-muted);
-  font-size: 0.8rem;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;                 /* propriedade padrão, ao lado do prefixo webkit */
-  overflow: hidden;
-}
-.dish-price { margin: 0; font-family: var(--font-display); font-size: 1.05rem; }
-.dish-price span { margin-left: 4px; font-family: var(--font-body); font-size: 0.75rem; color: var(--ink-faint); }
-
-.dish-stock {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: auto;
-  padding-top: 4px;
-}
-.dish-stock .step {
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  display: grid;
-  place-items: center;
-  background: var(--surface-raised);
-  color: var(--ink);
-  border: 1px solid var(--border);
-  font-size: 1rem;
-  line-height: 1;
-}
-.dish-stock .step:hover:not(:disabled) { color: var(--mint); border-color: var(--mint); filter: none; }
-.dish-stock .step:disabled { opacity: 0.4; cursor: not-allowed; }
-.dish-qty { width: 64px; padding: 6px 4px; text-align: center; font-weight: 700; }
-.dish-stock-label { font-size: 0.75rem; color: var(--ink-faint); }
-
-.dish-actions { display: flex; gap: 6px; }
-.dish-actions button { flex: 1; padding: 6px 8px; font-size: 0.74rem; }
-.dish-actions .remove:hover { color: var(--danger); border-color: var(--danger); }
-
-.menu-details { margin-top: 20px; padding-top: 14px; border-top: 1px dashed var(--border-soft); }
-.menu-details summary {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  list-style: none;
-  color: var(--ink-muted);
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-.menu-details summary::-webkit-details-marker { display: none; }
-.menu-details summary::before {
-  content: "+";
-  display: grid;
-  place-items: center;
-  width: 20px;
-  height: 20px;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  color: var(--mint);
-  font-weight: 800;
-}
-.menu-details[open] summary::before { content: "−"; }
-.menu-details summary:hover { color: var(--ink); }
-.menu-details .template-row { margin-top: 16px; }
-.menu-card .compact-form { margin-top: 0; padding-top: 14px; border-top: 1px dashed var(--border-soft); }
-.menu-card .grid-form { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-
-/* ---- Bloco 4: Registros ---- */
-.tabs { border-radius: var(--radius-s); flex-wrap: wrap; }
-.table-wrap { max-height: 460px; }
-
-/* ---- Bloco 5: Ajustes ---- */
-.danger-zone {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-top: 22px;
-  padding-top: 18px;
+.compact-form {
+  padding-top: 14px;
   border-top: 1px dashed var(--border-soft);
 }
-.danger-zone h3 { font-family: var(--font-display); font-size: 1rem; margin-bottom: 4px; }
-.danger-ghost:hover { color: var(--danger); border-color: var(--danger); }
 
-/* ---- Responsivo do painel ---- */
-@media (max-width: 980px) {
-  .entrada-grid { grid-template-columns: 1fr; }
-  .menu-card .grid-form { grid-template-columns: 1fr 1fr; }
+.menu-list {
+  max-height: 290px;
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.menu-item {
+  background: rgba(255,255,255,0.025);
+  transition: border-color .15s ease, background .15s ease;
+}
+
+.menu-item:hover {
+  border-color: rgba(231, 165, 60, 0.44);
+  background: rgba(231, 165, 60, 0.05);
+}
+
+.kpi {
+  min-height: 92px;
+  justify-content: center;
+}
+
+.tabs {
+  border-radius: var(--radius-s);
+  flex-wrap: wrap;
+}
+
+.table-wrap {
+  max-height: 420px;
 }
 
 @media (max-width: 880px) {
-  .panel-nav { display: none; }
+  .owner-layout {
+    grid-template-columns: 1fr;
+    max-width: none;
+  }
+}
+
+/* Posicionamento e altura dos cards do painel: cada card ocupa só a
+   altura do seu conteúdo (align-self: start em todos), nunca esticando
+   para preencher a linha inteira do grid. */
+.owner-layout .chat-card,
+.owner-layout .form-card,
+.owner-layout .menu-card,
+.owner-layout .settings-card {
+  align-self: start;
+}
+
+.owner-layout .chat-card { grid-column: 1; grid-row: 2; }
+.owner-layout .form-card { grid-column: 2; grid-row: 2; }
+.owner-layout .menu-card { grid-column: 2; grid-row: 3; }
+.owner-layout .settings-card { grid-column: 1; grid-row: 3; }
+
+.owner-layout .chat {
+  height: 170px;
+  min-height: 150px;
+}
+
+.owner-layout .message-form {
+  align-items: stretch;
+}
+
+.owner-layout .message-form input {
+  min-height: 42px;
+}
+
+
+.menu-list {
+  max-height: 430px;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.menu-item {
+  align-items: stretch;
+  padding: 12px;
+  border-color: rgba(231, 165, 60, 0.24);
+}
+
+.menu-item-main {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.menu-category {
+  width: fit-content;
+  color: var(--yellow);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.menu-description {
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}
+
+.menu-item-side {
+  min-width: 116px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6px;
+  text-align: right;
+}
+
+.menu-price {
+  color: var(--mint);
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  line-height: 1.1;
+}
+
+.menu-item-side span {
+  color: var(--ink-faint);
+  font-size: 0.72rem;
+}
+
+.menu-item-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.menu-item-actions button {
+  padding: 6px 10px;
+  font-size: 0.76rem;
+}
+
+.menu-item-actions button.remove:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.menu-card .compact-form {
+  margin-top: 18px;
+}
+
+.menu-card .compact-form button {
+  background: var(--surface-raised);
+  color: var(--ink);
+  border: 1px solid var(--border);
 }
 
 @media (max-width: 560px) {
-  .owner-panel { gap: 32px; padding: 4px 16px 40px; }
-  .block-head h2 { font-size: 1.3rem; }
-  .menu-card .grid-form { grid-template-columns: 1fr; }
-  .dish-grid { grid-template-columns: 1fr; }
-  .menu-head { align-items: stretch; }
-  .menu-head button { width: 100%; }
-  .danger-zone button { width: 100%; }
+  .owner-layout .chat {
+    height: 170px;
+    min-height: 150px;
+  }
+
+  .owner-layout .chat-card,
+  .owner-layout .form-card,
+  .owner-layout .menu-card,
+  .owner-layout .settings-card {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .menu-item {
+    flex-direction: column;
+  }
+
+  .menu-item-side {
+    width: 100%;
+    min-width: 0;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 880px) {
+  .owner-layout .chat-card,
+  .owner-layout .form-card,
+  .owner-layout .menu-card,
+  .owner-layout .settings-card {
+    grid-column: auto;
+    grid-row: auto;
+  }
 }
