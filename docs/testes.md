@@ -2,48 +2,49 @@
 
 ## 1. Objetivo
 
-Este documento descreve os critérios de aceitação do Projeto - Auto.io, com foco no fluxo automatizado de controle e acompanhamento de clientes.
+Este documento descreve os critérios de aceitação da Auto.io, com foco no fluxo de registro e classificação de mensagens recebidas pelo vendedor.
 
-Os testes verificam se o sistema consegue cadastrar clientes, validar dados, evitar duplicidade, enviar notificações, acompanhar retornos e gerar informações básicas para monitoramento.
+Os testes verificam se o sistema consegue registrar mensagens, classificá-las com a IA local (ou com o fallback por regras), registrar pedidos manualmente, manter itens de referência, acompanhar status e exportar os dados.
 
 ## 2. Pré-condições Gerais
 
 Antes da execução dos testes, devem existir:
 
-* workflow do n8n configurado;
-* formulário de cadastro de clientes criado;
-* base de dados disponível no Google Sheets ou equivalente;
-* campos obrigatórios configurados no formulário;
-* workflow exportado em JSON;
-* ambiente do n8n acessível para consulta das execuções.
+* backend Node.js em execução (`npm start` em `app/`);
+* arquivo `.env` configurado a partir de `.env.example`;
+* LM Studio local em execução (opcional — o sistema usa fallback por regras se estiver desligado);
+* navegador com acesso a `http://localhost:3000`.
 
 ## 3. Casos de Teste
 
-| Código | Prioridade PoC | Caso de Teste                  | Pré-condição                                           | Passos de Execução                                                                                | Resultado Esperado                                                                                        |
-| ------ | -------------- | ------------------------------ | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| CT01   | Sim            | Cadastrar cliente novo         | Formulário e base configurados                         | Preencher todos os campos obrigatórios com um cliente ainda não cadastrado e enviar o formulário. | O cliente deve ser salvo na base centralizada com os dados informados e status inicial definido.          |
-| CT02   | Não            | Enviar sem nome obrigatório    | Campo Nome configurado como obrigatório                | Tentar enviar o formulário sem preencher o campo Nome.                                            | O formulário deve bloquear o envio ou indicar que o campo Nome é obrigatório.                             |
-| CT03   | Sim            | Telefone com símbolos          | Workflow com normalização configurada                  | Enviar telefone no formato `(91) 99999-9999`.                                                     | O telefone deve ser salvo de forma padronizada, sem símbolos, espaços ou caracteres especiais.            |
-| CT04   | Não            | E-mail com letras maiúsculas   | Workflow com normalização configurada                  | Enviar e-mail no formato `CLIENTE@EMAIL.COM`.                                                     | O e-mail deve ser salvo em letras minúsculas, como `cliente@email.com`.                                   |
-| CT05   | Sim            | Cadastrar cliente já existente | Já deve existir cliente com o mesmo telefone ou e-mail | Enviar novamente um cadastro com telefone ou e-mail já existente.                                 | O sistema deve atualizar o registro existente, sem criar duplicidade.                                     |
-| CT06   | Sim            | Notificação após cadastro      | Integração de notificação configurada                  | Cadastrar ou atualizar um cliente pelo formulário.                                                | O responsável deve receber uma notificação informando o cadastro ou atualização do cliente.               |
-| CT07   | Sim            | Consultar execução no n8n      | Workflow executado ao menos uma vez                    | Acessar a área de execuções do n8n após o envio do formulário.                                    | A execução deve aparecer no histórico com status de sucesso.                                              |
-| CT08   | Não            | Importar JSON do workflow      | Arquivo JSON exportado no repositório                  | Importar o workflow exportado em outra instância do n8n.                                          | O workflow deve ser importado corretamente, mantendo a estrutura dos nodes.                               |
-| CT09   | Não            | Cliente com retorno vencido    | Base com cliente contendo data de follow-up vencida    | Executar o workflow de acompanhamento diário.                                                     | O sistema deve identificar o cliente com retorno vencido e gerar alerta para a equipe.                    |
-| CT10   | Não            | Relatório por status           | Base com clientes em diferentes status                 | Executar o workflow de indicadores ou relatório.                                                  | O sistema deve apresentar a quantidade de clientes por status, como novo, pendente, convertido e perdido. |
+| Código | Prioridade | Caso de Teste | Pré-condição | Passos de Execução | Resultado Esperado |
+| --- | --- | --- | --- | --- | --- |
+| CT01 | Sim | Registrar pedido por mensagem com IA ativa | LM Studio em execução | Na tela de registro, enviar uma mensagem como "quero encomendar 100 brigadeiros para sábado". | O pedido deve ser criado com produto, quantidade e data de entrega preenchidos, status "Pendente". |
+| CT02 | Sim | Classificar mensagem sem IA disponível | LM Studio desligado | Enviar a mesma mensagem do CT01 com o LM Studio desligado. | O sistema deve usar o fallback por regras e ainda assim registrar o pedido, com origem marcada como fallback. |
+| CT03 | Sim | Registrar tarefa a partir de mensagem do vendedor | Login como vendedor feito | Enviar pela caixa do vendedor uma mensagem como "lembra de comprar açúcar amanhã". | A mensagem deve ser registrada como tarefa, não como pedido. |
+| CT04 | Sim | Cadastrar cliente pelo remetente da mensagem | Nenhum cliente cadastrado com o mesmo telefone | Preencher nome, telefone e endereço na tela de identificação do remetente e enviar uma mensagem. | O cliente deve ser salvo e reaproveitado nos próximos pedidos com o mesmo telefone. |
+| CT05 | Não | Login do vendedor com senha incorreta | Senha configurada em `SELLER_PASSWORD` | Tentar entrar no painel com uma senha errada. | O sistema deve exibir "Senha incorreta" e não liberar o acesso ao painel. |
+| CT06 | Sim | Registrar pedido manualmente (fallback) | Login como vendedor feito | Preencher o formulário de registro manual com cliente, produto, quantidade e enviar. | O pedido deve aparecer na tabela de pedidos com origem "manual", sem depender da IA. |
+| CT07 | Sim | Usar item de referência para calcular valor estimado | Item de referência cadastrado (ex.: Marmita pequena, R$ 16,00) | Enviar uma mensagem pedindo esse item com quantidade definida. | O pedido deve trazer o valor estimado calculado a partir do preço de referência. |
+| CT08 | Não | Adicionar template de itens de referência | Login como vendedor feito | Selecionar um template (ex.: Marmitaria) e clicar em adicionar referências. | Os itens do template devem aparecer na lista de itens/preços de referência. |
+| CT09 | Sim | Concluir e reabrir um pedido | Existe ao menos um pedido pendente | Clicar em "Concluir" no pedido e depois em "Reabrir". | O status deve alternar entre "Concluído" e "Pendente" corretamente. |
+| CT10 | Não | Buscar registros no painel | Existem pedidos cadastrados | Digitar o nome de um cliente ou produto no campo de busca. | A tabela deve filtrar apenas os registros que contêm o termo buscado. |
+| CT11 | Não | Exportar pedidos em CSV | Existe ao menos um pedido cadastrado | Clicar em "Exportar pedidos (CSV)". | Um arquivo CSV com os pedidos deve ser baixado. |
+| CT12 | Não | Enviar registro ao Google Sheets | `SHEETS_WEBHOOK_URL` configurada e válida | Registrar um pedido com a integração configurada. | O pedido deve aparecer na aba "Pedidos" da planilha vinculada. |
 
-## 4. Casos Prioritários para a PoC
+## 4. Casos Prioritários
 
-Para a demonstração inicial, os casos prioritários são:
+Para a validação principal do sistema, os casos prioritários são:
 
-| Código | Justificativa                                    |
-| ------ | ------------------------------------------------ |
-| CT01   | Demonstra o cadastro de um cliente novo.         |
-| CT03   | Demonstra a padronização dos dados.              |
-| CT05   | Demonstra a prevenção de duplicidade.            |
-| CT06   | Demonstra a automação da notificação.            |
-| CT07   | Demonstra rastreabilidade pelo histórico do n8n. |
+| Código | Justificativa |
+| --- | --- |
+| CT01 | Demonstra a classificação de pedido pela IA local. |
+| CT02 | Garante que o sistema continua funcionando sem o LM Studio. |
+| CT03 | Demonstra a distinção entre pedido e tarefa. |
+| CT06 | Garante o fallback manual mesmo sem IA. |
+| CT07 | Demonstra o uso dos itens de referência no cálculo do valor estimado. |
+| CT09 | Garante o controle de status dos registros. |
 
 ## 5. Critério de Aceitação Geral
 
-A solução será considerada funcional quando o fluxo principal permitir preencher o formulário, executar o workflow no n8n, salvar ou atualizar o cliente na base centralizada, evitar duplicidade, notificar o responsável e permitir a consulta da execução realizada.
+O sistema será considerado funcional quando o vendedor conseguir registrar uma mensagem recebida, ter o pedido ou a tarefa classificado automaticamente (ou registrado manualmente), acompanhar o status no painel, buscar e exportar os registros, mesmo sem o LM Studio disponível.

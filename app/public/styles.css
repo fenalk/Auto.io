@@ -75,7 +75,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.01e
 }
 
 /* ============================================================
-   Telas (landing / login / cliente / dona) e navegação
+   Telas (landing / login / cliente / vendedor) e navegação
    ============================================================ */
 .screen { display: none; }
 .screen.active { display: block; }
@@ -155,7 +155,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.01e
 
 .landing-footnote { color: var(--ink-faint); font-size: 0.82rem; margin: 0; }
 
-/* ---- Login da dona ---- */
+/* ---- Login do vendedor ---- */
 .auth-card {
   width: 100%;
   max-width: 380px;
@@ -166,6 +166,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.01e
   box-shadow: var(--shadow-card);
   text-align: left;
 }
+.client-register-card { max-width: 460px; }
 .auth-card h2 { font-size: 1.3rem; margin-bottom: 6px; }
 .auth-card .muted { margin-bottom: 20px; }
 
@@ -201,7 +202,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.01e
 }
 .auth-card.shake { animation: shake .5s; }
 
-/* ---- Topbar das áreas internas (cliente / dona) ---- */
+/* ---- Topbar das áreas internas (cliente / vendedor) ---- */
 .topbar-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .badge-owner { background: var(--lilac); color: var(--lilac-ink); }
 
@@ -305,6 +306,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.01e
 }
 
 .chat-card { grid-row: span 2; }
+.menu-card { grid-column: span 1; }
 .dashboard-card { grid-column: 1 / -1; }
 
 .card {
@@ -334,7 +336,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.01e
 .muted { color: var(--ink-muted); font-size: 0.92rem; margin: 0; }
 
 /* ============================================================
-   Simulador de chat
+   Chat de registro
    ============================================================ */
 .role-switch {
   display: inline-flex;
@@ -443,6 +445,7 @@ input, textarea, select {
   width: 100%;
 }
 input::placeholder, textarea::placeholder { color: var(--ink-faint); }
+textarea { resize: vertical; min-height: 56px; }
 
 button {
   font-weight: 600;
@@ -467,11 +470,59 @@ button.danger { background: var(--danger); color: #2a0d0d; }
 .grid-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 14px;
 }
+.compact-form { margin-top: 14px; }
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field label { font-size: 0.78rem; color: var(--ink-faint); font-weight: 600; }
 .field-wide { grid-column: 1 / -1; }
+
+.template-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.menu-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-s);
+  background: rgba(255,255,255,0.02);
+}
+
+.menu-item div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.menu-item strong {
+  font-size: 0.9rem;
+}
+
+.menu-item span {
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+}
+
+.menu-item button {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  font-size: 0.76rem;
+}
 
 /* ============================================================
    Central de controle
@@ -487,25 +538,36 @@ button.danger { background: var(--danger); color: #2a0d0d; }
 .kpis {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin: 20px 0;
+  gap: 14px;
+  margin: 22px 0 26px;
 }
 .kpi {
+  --kpi-accent: var(--pink);
   border-radius: var(--radius-m);
-  padding: 14px 16px;
+  padding: 16px 18px 16px 20px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  background: var(--surface-raised);
   border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--kpi-accent);
 }
-.kpi strong { font-family: var(--font-display); font-size: 1.7rem; }
-.kpi span { font-size: 0.78rem; color: var(--ink-muted); }
-.kpi-pink { background: linear-gradient(160deg, var(--pink) 0%, transparent 130%); }
-.kpi-yellow { background: linear-gradient(160deg, var(--yellow) 0%, transparent 130%); }
-.kpi-lilac { background: linear-gradient(160deg, var(--lilac) 0%, transparent 130%); }
-.kpi-mint { background: linear-gradient(160deg, var(--mint) 0%, transparent 130%); }
-.kpi-pink strong, .kpi-yellow strong, .kpi-lilac strong, .kpi-mint strong { color: var(--surface); }
-.kpi-pink span, .kpi-yellow span, .kpi-lilac span, .kpi-mint span { color: rgba(0,0,0,.55); }
+.kpi strong { font-family: var(--font-display); font-size: 1.9rem; line-height: 1.1; color: var(--ink); }
+.kpi span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-muted);
+}
+.kpi-pink { --kpi-accent: var(--pink); }
+.kpi-yellow { --kpi-accent: var(--yellow); }
+.kpi-lilac { --kpi-accent: var(--lilac); }
+.kpi-mint { --kpi-accent: var(--mint); }
+.kpi-pink strong { color: var(--pink); }
+.kpi-yellow strong { color: var(--yellow); }
+.kpi-lilac strong { color: var(--lilac); }
+.kpi-mint strong { color: var(--mint); }
 
 .table-toolbar {
   display: flex;
@@ -513,7 +575,9 @@ button.danger { background: var(--danger); color: #2a0d0d; }
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 10px;
+  padding-bottom: 14px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border-soft);
 }
 
 .tabs { display: inline-flex; gap: 4px; background: var(--surface-raised); border: 1px solid var(--border); border-radius: 999px; padding: 4px; }
@@ -521,6 +585,7 @@ button.danger { background: var(--danger); color: #2a0d0d; }
 .tab.active { background: var(--lilac); color: var(--lilac-ink); }
 
 .search-wrap { min-width: 220px; flex: 1; max-width: 320px; }
+.search-wrap input { height: 38px; }
 
 .table-wrap { overflow-x: auto; border: 1px solid var(--border-soft); border-radius: var(--radius-m); }
 table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
@@ -564,6 +629,10 @@ tbody tr:hover { background: rgba(255,255,255,0.02); }
 .row-actions button.remove:hover { color: var(--danger); border-color: var(--danger); }
 
 .empty-state {
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 34px 18px;
   text-align: center;
   color: var(--ink-faint);
@@ -641,6 +710,7 @@ tbody tr:hover { background: rgba(255,255,255,0.02); }
 @media (max-width: 880px) {
   .layout { grid-template-columns: 1fr; }
   .chat-card { grid-row: auto; }
+  .menu-card { grid-column: auto; }
   .kpis { grid-template-columns: repeat(2, 1fr); }
   .grid-form { grid-template-columns: 1fr; }
   .role-cards { grid-template-columns: 1fr; }
@@ -678,6 +748,8 @@ tbody tr:hover { background: rgba(255,255,255,0.02); }
   .webhook-row { flex-direction: column; }
   .webhook-row input,
   .webhook-row button { width: 100%; min-width: 0; }
+  .template-row { grid-template-columns: 1fr; }
+  .template-row button { width: 100%; }
 
   .msg { max-width: 92%; }
   .view-client .chat { min-height: 200px; }
@@ -697,4 +769,262 @@ tbody tr:hover { background: rgba(255,255,255,0.02); }
   .toast { animation: none; }
   .role-card { transition: none; }
   .auth-card.shake { animation: none; }
+}
+
+/* ============================================================
+   Refinamento visual do painel do vendedor
+   ============================================================ */
+.role-card-icon {
+  width: 38px;
+  height: 38px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  color: var(--yellow);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.owner-layout {
+  grid-template-columns: minmax(0, 1.25fr) minmax(340px, 0.75fr);
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.owner-layout .card {
+  border-color: rgba(199, 169, 146, 0.2);
+}
+
+.priority-card {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  background:
+    linear-gradient(180deg, rgba(126, 195, 154, 0.08), transparent 55%),
+    var(--surface);
+  border-color: rgba(126, 195, 154, 0.34);
+}
+
+.menu-card {
+  background:
+    linear-gradient(180deg, rgba(114, 169, 214, 0.08), transparent 52%),
+    var(--surface);
+}
+
+.form-card {
+  background:
+    linear-gradient(180deg, rgba(234, 92, 120, 0.07), transparent 50%),
+    var(--surface);
+}
+
+.section-label {
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 8px;
+  padding: 3px 9px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--yellow);
+  background: rgba(231, 165, 60, 0.08);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.priority-card .dashboard-head {
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.owner-layout .chat {
+  border-color: rgba(231, 165, 60, 0.28);
+}
+
+.compact-form {
+  padding-top: 14px;
+  border-top: 1px dashed var(--border-soft);
+}
+
+.menu-list {
+  max-height: 290px;
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.menu-item {
+  background: rgba(255,255,255,0.025);
+  transition: border-color .15s ease, background .15s ease;
+}
+
+.menu-item:hover {
+  border-color: rgba(231, 165, 60, 0.44);
+  background: rgba(231, 165, 60, 0.05);
+}
+
+.kpi {
+  min-height: 92px;
+  justify-content: center;
+}
+
+.tabs {
+  border-radius: var(--radius-s);
+  flex-wrap: wrap;
+}
+
+.table-wrap {
+  max-height: 420px;
+}
+
+@media (max-width: 880px) {
+  .owner-layout {
+    grid-template-columns: 1fr;
+    max-width: none;
+  }
+}
+
+/* Posicionamento e altura dos cards do painel: cada card ocupa só a
+   altura do seu conteúdo (align-self: start em todos), nunca esticando
+   para preencher a linha inteira do grid. */
+.owner-layout .chat-card,
+.owner-layout .form-card,
+.owner-layout .menu-card,
+.owner-layout .settings-card {
+  align-self: start;
+}
+
+.owner-layout .chat-card { grid-column: 1; grid-row: 2; }
+.owner-layout .form-card { grid-column: 2; grid-row: 2; }
+.owner-layout .menu-card { grid-column: 2; grid-row: 3; }
+.owner-layout .settings-card { grid-column: 1; grid-row: 3; }
+
+.owner-layout .chat {
+  height: 170px;
+  min-height: 150px;
+}
+
+.owner-layout .message-form {
+  align-items: stretch;
+}
+
+.owner-layout .message-form input {
+  min-height: 42px;
+}
+
+
+.menu-list {
+  max-height: 430px;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.menu-item {
+  align-items: stretch;
+  padding: 12px;
+  border-color: rgba(231, 165, 60, 0.24);
+}
+
+.menu-item-main {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.menu-category {
+  width: fit-content;
+  color: var(--yellow);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.menu-description {
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}
+
+.menu-item-side {
+  min-width: 116px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6px;
+  text-align: right;
+}
+
+.menu-price {
+  color: var(--mint);
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  line-height: 1.1;
+}
+
+.menu-item-side span {
+  color: var(--ink-faint);
+  font-size: 0.72rem;
+}
+
+.menu-item-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.menu-item-actions button {
+  padding: 6px 10px;
+  font-size: 0.76rem;
+}
+
+.menu-item-actions button.remove:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.menu-card .compact-form {
+  margin-top: 18px;
+}
+
+.menu-card .compact-form button {
+  background: var(--surface-raised);
+  color: var(--ink);
+  border: 1px solid var(--border);
+}
+
+@media (max-width: 560px) {
+  .owner-layout .chat {
+    height: 170px;
+    min-height: 150px;
+  }
+
+  .owner-layout .chat-card,
+  .owner-layout .form-card,
+  .owner-layout .menu-card,
+  .owner-layout .settings-card {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .menu-item {
+    flex-direction: column;
+  }
+
+  .menu-item-side {
+    width: 100%;
+    min-width: 0;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 880px) {
+  .owner-layout .chat-card,
+  .owner-layout .form-card,
+  .owner-layout .menu-card,
+  .owner-layout .settings-card {
+    grid-column: auto;
+    grid-row: auto;
+  }
 }

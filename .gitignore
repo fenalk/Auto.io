@@ -1,0 +1,16 @@
+# Dependências
+node_modules/
+app/node_modules/
+/package-lock.json
+
+# Configuração local / segredos
+.env
+app/.env
+
+# Banco local da demonstração
+app/data/db.json
+
+# Logs e arquivos temporários
+*.log
+.DS_Store
+Thumbs.db

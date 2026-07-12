@@ -1,84 +1,86 @@
-# Processo TO-BE — Controle de Clientes
+# Processo TO-BE — Atendimento de Pedidos com a Auto.io
 
 ## 1. Visão Geral
 
-O processo TO-BE representa a proposta da Auto.io para transformar o controle manual de clientes em um fluxo digital, padronizado, centralizado e monitorável.
+O processo TO-BE representa como a Auto.io transforma o atendimento manual de pedidos em um fluxo estruturado, com IA local classificando cada mensagem recebida e um painel único centralizando pedidos, clientes, tarefas e itens de referência.
 
-Na nova proposta, a entrada dos dados deixa de depender de registros informais em WhatsApp, papel ou memória do responsável. Em vez disso, as informações passam por workflows automatizados no n8n, responsáveis por validar, organizar, armazenar e acompanhar os dados dos clientes.
-
-A solução foi estruturada em três workflows principais: cadastro e atualização de clientes, acompanhamento diário e geração de indicadores.
+Na nova proposta, a entrada de dados deixa de depender apenas da memória da vendedora. A mensagem recebida é digitada na tela de registro, uma IA local (via LM Studio) interpreta o conteúdo e organiza o resultado em pedido, tarefa ou conversa — com um fallback por regras simples para quando a IA não está disponível.
 
 ## 2. Fluxo Automatizado Proposto
 
-O processo automatizado acontece da seguinte forma:
+O processo acontece da seguinte forma:
 
-1. O cliente é registrado por meio de um formulário padronizado.
-2. O n8n recebe os dados enviados.
-3. O sistema valida e normaliza as informações, como telefone e e-mail.
-4. O workflow verifica se o cliente já existe na base.
-5. Se o cliente for novo, o sistema cria um novo registro.
-6. Se o cliente já existir, o sistema atualiza o registro existente.
-7. O sistema define ou atualiza o status do atendimento.
-8. O próximo follow-up é registrado.
-9. O responsável recebe uma notificação automática.
-10. Um workflow agendado monitora clientes pendentes de retorno.
-11. Um terceiro workflow consolida indicadores básicos para acompanhamento do processo.
+1. A vendedora identifica quem enviou a mensagem (cadastro rápido de nome, telefone e endereço) ou usa um cliente já cadastrado.
+2. A mensagem recebida é digitada na tela de registro, como chegou pelo canal original.
+3. O backend Node.js envia a mensagem para o LM Studio local, com o contexto do cliente e dos itens de referência cadastrados.
+4. A IA classifica a mensagem como pedido, tarefa ou conversa, e extrai produto, quantidade, data de entrega, pagamento e observações.
+5. Se o LM Studio estiver indisponível ou responder de forma inválida, um classificador por regras assume a análise automaticamente.
+6. O registro é salvo na base local (`app/data/db.json`) com status "Pendente".
+7. O painel do vendedor atualiza indicadores, tabela de pedidos, clientes, tarefas, itens/preços e logs em tempo real.
+8. A vendedora pode concluir, reabrir ou excluir qualquer pedido ou tarefa, e buscar registros por cliente ou produto.
+9. Quando quiser, pode registrar um pedido manualmente pelo formulário de fallback, sem depender da IA.
+10. Opcionalmente, cada registro também é replicado em uma planilha do Google Sheets via Apps Script.
 
-## 3. Workflows da Solução
+## 3. Componentes da Solução
 
-### 3.1 Workflow 1 — Cadastro e Atualização de Clientes
+### 3.1 Registro de Mensagem e Cadastro de Cliente
 
-Esse workflow é responsável por receber os dados do formulário, validar as informações, verificar duplicidade e cadastrar ou atualizar o cliente na base centralizada.
-
-Principais funções:
-
-* receber dados do cliente;
-* padronizar telefone e e-mail;
-* verificar se já existe cliente com o mesmo telefone ou e-mail;
-* criar novo registro ou atualizar registro existente;
-* definir status inicial;
-* registrar informações de acompanhamento;
-* notificar o responsável.
-
-### 3.2 Workflow 2 — Acompanhamento Diário
-
-Esse workflow é executado de forma agendada para consultar a base de clientes e identificar registros com follow-up vencido ou pendente.
+Tela onde a mensagem recebida é digitada, com cadastro rápido de quem a enviou. Funciona tanto para o próprio vendedor digitar quanto para alguém digitar em nome do cliente.
 
 Principais funções:
 
-* consultar clientes cadastrados;
-* filtrar clientes com retorno pendente;
-* identificar follow-ups vencidos;
-* enviar notificação para a equipe responsável.
+* registrar a mensagem recebida por qualquer canal;
+* identificar ou cadastrar o remetente (nome, telefone, endereço, observação);
+* enviar a mensagem para classificação por IA.
 
-### 3.3 Workflow 3 — Indicadores e Monitoramento
+### 3.2 Classificação por IA Local (LM Studio) com Fallback por Regras
 
-Esse workflow consolida informações básicas do processo para apoiar o acompanhamento da operação.
+Motor de interpretação que transforma texto livre em dados estruturados.
 
 Principais funções:
 
-* contar total de clientes cadastrados;
-* identificar clientes novos;
-* identificar clientes pendentes de retorno;
-* contar clientes convertidos;
-* contar clientes perdidos;
-* apoiar a geração de relatórios simples para acompanhamento.
+* classificar a mensagem como pedido, tarefa ou conversa;
+* extrair produto, quantidade, data de entrega, pagamento e observações;
+* usar os itens de referência cadastrados como contexto, sem tratá-los como catálogo fechado;
+* acionar o fallback por regras simples quando o LM Studio falha, mantendo o registro funcionando.
+
+### 3.3 Painel de Acompanhamento
+
+Painel central com indicadores de pedidos, tarefas, clientes e pendências.
+
+Principais funções:
+
+* listar e buscar pedidos, clientes, tarefas, itens/preços e logs;
+* concluir, reabrir ou excluir pedidos e tarefas;
+* exportar pedidos, tarefas e clientes em CSV;
+* manter itens e preços de referência, com templates prontos por segmento (doceria, marmitaria, salgados).
 
 ## 4. Como o TO-BE Resolve os Gargalos do AS-IS
 
-| Gargalo no AS-IS                               | Solução no TO-BE                                                                       |
-| ---------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Falta de cadastro padronizado                  | Uso de formulário estruturado para entrada de dados.                                   |
-| Ausência de base centralizada                  | Centralização das informações em uma única base.                                       |
-| Uso do WhatsApp como registro principal        | O WhatsApp deixa de ser o repositório principal e passa a ser apenas canal de contato. |
-| Dependência da memória ou de anotações manuais | O acompanhamento passa a ser registrado e automatizado.                                |
-| Planilhas sem padrão                           | Os dados passam por validação e normalização antes de serem salvos.                    |
-| Duplicidade ou perda de registros              | O workflow verifica se o cliente já existe antes de cadastrar.                         |
-| Falta de controle do status do atendimento     | Cada cliente passa a ter status definido e atualizado.                                 |
-| Ausência de lembretes e métricas               | Workflows agendados monitoram retornos e geram indicadores básicos.                    |
+| Gargalo no AS-IS | Solução no TO-BE |
+| --- | --- |
+| Falta de registro padronizado do pedido | A IA (ou o formulário manual) estrutura cada pedido em campos fixos: produto, quantidade, data, pagamento. |
+| Ausência de base centralizada | Pedidos, clientes, tarefas, itens e logs ficam em uma única base local, visível no painel. |
+| Uso do WhatsApp como registro principal | O WhatsApp continua sendo o canal de contato, mas deixa de ser o único repositório: a mensagem é registrada no sistema. |
+| Dependência de memória ou anotações manuais | O registro e a classificação ficam salvos e consultáveis a qualquer momento. |
+| Falta de referência de preços e itens comuns | Itens e preços de referência ficam cadastrados e são usados como contexto pela IA. |
+| Ausência de controle de status | Cada pedido e tarefa tem status "Pendente" ou "Concluído", com opção de reabrir. |
+| Nenhum histórico ou exportação | Exportação em CSV pelo painel e, opcionalmente, espelhamento em Google Sheets. |
 
 ## 5. Diagrama do Processo TO-BE
 
-![Diagrama do processo TO-BE de controle de clientes](../images/to-be-flow.png)
-
-O diagrama apresenta o fluxo automatizado proposto pela Auto.io, incluindo a bifurcação entre cliente novo e cliente existente. A partir dessa decisão, o sistema cadastra ou atualiza o registro, centraliza os dados, notifica o responsável e alimenta os workflows de acompanhamento e indicadores.
+```text
+Vendedora identifica o remetente da mensagem
+        ↓
+Mensagem recebida é digitada na tela de registro
+        ↓
+Backend Node.js envia a mensagem ao LM Studio local
+        ↓
+IA classifica: pedido / tarefa / conversa   (fallback por regras se a IA falhar)
+        ↓
+Registro salvo em app/data/db.json com status "Pendente"
+        ↓
+Painel atualiza indicadores, pedidos, clientes, tarefas, itens/preços e logs
+        ↓
+Opcional: cópia enviada ao Google Sheets via Apps Script
+```
