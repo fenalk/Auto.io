@@ -221,7 +221,9 @@
   function setLandingBadge(n) {
     const badge = document.querySelector("#landingPendingBadge");
     if (!badge) return;
-    badge.textContent = n === 0 ? "Tudo em dia" : `${n} pendente${n > 1 ? "s" : ""}`;
+    badge.hidden = n === 0;
+    badge.textContent = String(n);
+    badge.setAttribute("aria-label", `${n} pendente${n > 1 ? "s" : ""}`);
   }
 
   function updateLandingBadge() {
@@ -242,8 +244,8 @@
     const greeting = document.querySelector("#clientGreeting");
     if (!greeting) return;
     greeting.textContent = currentClient?.nome
-      ? `Remetente: ${currentClient.nome}. Registre a mensagem recebida.`
-      : "Registre a mensagem recebida";
+      ? `Oi, ${currentClient.nome}! Escreva seu pedido abaixo.`
+      : "Faça seu pedido";
   }
 
   function render() {
@@ -463,12 +465,12 @@
       const valor = item?.valorEstimado ? `\nValor estimado: ${formatMoney(item.valorEstimado)}` : "";
       const confirmar = item?.precisaConfirmar ? "\nAlguns dados ainda precisam ser confirmados pelo vendedor." : "";
       return role === "cliente"
-        ? `Pedido recebido. O vendedor já recebeu o registro.${valor}${confirmar}`
+        ? `Pedido enviado! A vendedora já recebeu.${valor}${confirmar}`
         : `Pedido registrado com sucesso. A central foi atualizada.${valor}${confirmar}`;
     }
     if (type === "tarefa") return `Tarefa salva com sucesso.\n\n${item?.tarefa || ""}`;
     return role === "cliente"
-      ? "Me conta o que você quer pedir, com quantidade e data de entrega."
+      ? "Me conta o que você quer, quantos e para quando. Se for encomenda, é só dizer a data."
       : "Digite uma mensagem de pedido ou tarefa que eu registro na central.";
   }
 
@@ -648,7 +650,7 @@
         saveCurrentClient(result.saved);
         setServerState(result.data);
         refreshBadge();
-        showToast("Cadastro rápido salvo.");
+        showToast("Dados salvos. Agora é só escrever o pedido.");
         goToView("client");
       } catch (err) {
         showToast(err.message, "error");

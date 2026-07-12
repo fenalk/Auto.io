@@ -17,37 +17,30 @@
 
   <div id="app" tabindex="-1">
     <section id="view-landing" class="screen view-landing active" aria-labelledby="landing-title">
+      <button type="button" class="owner-corner" id="selectOwner">
+        <span>Área do vendedor</span>
+        <span class="owner-corner-badge" id="landingPendingBadge" hidden></span>
+        <span class="owner-corner-arrow" aria-hidden="true">&rarr;</span>
+      </button>
+
       <div class="landing-inner">
         <div class="landing-brand">
           <h1>Auto.io<span class="brand-dot">.</span></h1>
           <svg class="brand-underline" viewBox="0 0 180 12" aria-hidden="true">
             <path d="M2 8 C 40 2, 80 2, 90 6 S 150 10, 178 4" />
           </svg>
-          <p id="landing-title">Central inteligente para transformar mensagens recebidas em pedidos, tarefas e registros.</p>
+          <p id="landing-title">Faça seu pedido por aqui. Veja o que está pronto hoje e escreva do seu jeito — a gente organiza o resto.</p>
         </div>
 
-        <div class="role-cards">
-          <button type="button" class="role-card role-card-client" id="selectClient">
-            <span class="role-card-icon" aria-hidden="true">C</span>
-            <span class="role-card-body">
-              <span class="role-card-title">Registrar mensagem recebida</span>
-              <span class="role-card-desc">Para digitar uma mensagem que chegou por WhatsApp, Instagram, ligação ou atendimento presencial.</span>
-            </span>
-            <span class="role-card-cta">Abrir registro</span>
-          </button>
+        <button type="button" class="role-card role-card-client" id="selectClient">
+          <span class="role-card-body">
+            <span class="role-card-title">Quero fazer um pedido</span>
+            <span class="role-card-desc">Veja o cardápio de hoje, com preço e o que já está pronto para retirar. Depois é só escrever o que você quer, do mesmo jeito que mandaria no WhatsApp.</span>
+          </span>
+          <span class="role-card-cta">Começar meu pedido</span>
+        </button>
 
-          <button type="button" class="role-card role-card-owner" id="selectOwner">
-            <span class="role-card-icon" aria-hidden="true">V</span>
-            <span class="role-card-body">
-              <span class="role-card-title">Sou vendedor</span>
-              <span class="role-card-desc">Acessar painel, indicadores, pedidos, tarefas, itens/preços de referência e integrações.</span>
-            </span>
-            <span class="role-card-badge" id="landingPendingBadge">0 pendentes</span>
-            <span class="role-card-cta">Entrar no painel</span>
-          </button>
-        </div>
-
-        <p class="landing-footnote">Seus dados ficam salvos no seu próprio computador.</p>
+        <p class="landing-footnote">Encomendas sob medida também: escreva o que precisa e a data.</p>
       </div>
     </section>
 
@@ -71,12 +64,12 @@
     <section id="view-client-register" class="screen view-login" aria-labelledby="client-register-title">
       <div class="auth-card client-register-card">
         <button type="button" class="back-link" id="clientRegisterBack">Voltar</button>
-        <h2 id="client-register-title">Dados de quem enviou a mensagem</h2>
-        <p class="muted">Use estes campos para identificar quem mandou a mensagem recebida.</p>
+        <h2 id="client-register-title">Seus dados</h2>
+        <p class="muted">Só para a vendedora saber com quem falar e onde entregar.</p>
 
         <form id="clientRegisterForm" class="login-form" novalidate>
-          <label for="clientName">Nome do remetente *</label>
-          <input id="clientName" name="nome" autocomplete="name" required placeholder="Seu nome" />
+          <label for="clientName">Seu nome *</label>
+          <input id="clientName" name="nome" autocomplete="name" required placeholder="Como podemos te chamar" />
 
           <label for="clientPhone">Telefone / WhatsApp *</label>
           <input id="clientPhone" name="telefone" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000" />
@@ -84,10 +77,10 @@
           <label for="clientAddress">Endereço ou bairro</label>
           <input id="clientAddress" name="endereco" autocomplete="street-address" placeholder="Rua, bairro ou ponto de referência" />
 
-          <label for="clientNotes">Observação da mensagem</label>
-          <textarea id="clientNotes" name="observacoes" rows="2" placeholder="Ex.: pediu por Instagram, prefere retirada"></textarea>
+          <label for="clientNotes">Alguma observação</label>
+          <textarea id="clientNotes" name="observacoes" rows="2" placeholder="Ex.: prefiro retirar no local, sou alérgico a castanha"></textarea>
 
-          <button type="submit">Continuar para o registro</button>
+          <button type="submit">Continuar para o pedido</button>
         </form>
       </div>
     </section>
@@ -99,28 +92,27 @@
           <svg class="brand-underline" viewBox="0 0 180 12" aria-hidden="true">
             <path d="M2 8 C 40 2, 80 2, 90 6 S 150 10, 178 4" />
           </svg>
-          <p id="clientGreeting">Registre a mensagem recebida</p>
+          <p id="clientGreeting">Faça seu pedido</p>
         </div>
         <div class="topbar-actions">
-          <span class="badge">Registro de mensagens</span>
-          <button type="button" class="ghost" id="changeClient">Trocar remetente</button>
-          <button type="button" class="ghost" id="clientBack">Trocar usuário</button>
+          <button type="button" class="ghost" id="changeClient">Trocar meus dados</button>
+          <button type="button" class="ghost" id="clientBack">Sair</button>
         </div>
       </header>
 
       <main class="layout layout-client">
         <section class="card ticket-card chat-card" aria-labelledby="chat-title">
           <div class="card-head">
-            <h2 id="chat-title">Mensagem recebida</h2>
-            <p class="muted">Digite aqui a mensagem que chegou por WhatsApp, Instagram, ligação ou atendimento presencial.</p>
+            <h2 id="chat-title">Seu pedido</h2>
+            <p class="muted">Escreva do seu jeito, como no WhatsApp: o que você quer, quantos e para quando.</p>
           </div>
 
           <div id="chat" class="chat" role="log" aria-live="polite" aria-label="Histórico da conversa"></div>
 
           <form id="messageForm" class="message-form">
             <label class="visually-hidden" for="messageInput">Mensagem</label>
-            <input id="messageInput" placeholder='Ex.: "quero encomendar 100 brigadeiros para sábado"' autocomplete="off" maxlength="300" />
-            <button type="submit">Enviar</button>
+            <input id="messageInput" placeholder='Ex.: "quero 2 bolos de chocolate para sábado, pago no pix"' autocomplete="off" maxlength="300" />
+            <button type="submit">Enviar pedido</button>
           </form>
         </section>
 
@@ -138,7 +130,7 @@
       </main>
 
       <footer class="footer">
-        <p>Auto.io - registre pedidos e tarefas a partir das mensagens que você recebe.</p>
+        <p>Auto.io - seu pedido chega organizado para quem vai preparar.</p>
       </footer>
     </div>
 
