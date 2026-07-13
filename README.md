@@ -4,6 +4,10 @@ Central inteligente para transformar mensagens recebidas e anotações soltas em
 
 O projeto nasceu como um estudo de automação de processos (AS-IS/TO-BE) e evoluiu para o MVP funcional em [`app/`](app/README.md): uma aplicação Node.js própria com IA local via LM Studio.
 
+<p align="center">
+  <img src="images/autoio_v4.png" alt="Página Inicial" width="100%">
+</p>
+
 ## Aplicação principal
 
 O MVP executável está em [`app/`](app/README.md). Leia o README dele para instruções completas de instalação, configuração e uso.
