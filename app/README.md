@@ -1,18 +1,20 @@
 # Auto.io
 
-Central operacional para microempreendedoras do ramo alimentício. A Auto.io transforma **mensagens recebidas** (WhatsApp, Instagram, ligação, balcão) em **pedidos, tarefas, clientes e logs organizados**, usando IA local via LM Studio — sem depender de nuvem e sem enviar dado nenhum para fora do seu computador.
+Aplicação que substitui o WhatsApp como **canal de pedido** de uma confeitaria artesanal. O cliente chega pelo link divulgado nas redes sociais, vê o cardápio do dia, escreve o pedido em texto livre — e uma IA local transforma esse texto em registro estruturado no painel da vendedora.
+
+Roda inteiramente no computador dela: sem nuvem, sem mensalidade, sem dado de cliente saindo da máquina.
 
 ---
 
 ## Sumário
 
-- [Foco do produto](#foco-do-produto)
+- [O que este app resolve](#o-que-este-app-resolve)
 - [Como funciona](#como-funciona)
 - [O que o app faz](#o-que-o-app-faz)
 - [Instalação](#instalação)
 - [Configuração (`.env`)](#configuração-env)
 - [IA local com LM Studio](#ia-local-com-lm-studio)
-- [As três telas](#as-três-telas)
+- [As telas](#as-telas)
 - [Cardápio do dia](#cardápio-do-dia)
 - [Segurança](#segurança)
 - [Integração com Google Sheets](#integração-com-google-sheets)
@@ -25,62 +27,72 @@ Central operacional para microempreendedoras do ramo alimentício. A Auto.io tra
 
 ---
 
-## Foco do produto
+## O que este app resolve
 
-Muitas confeiteiras e marmiteiras não vendem só produto pronto de prateleira. Elas recebem mensagens soltas, pedidos sob medida e lembretes no meio da produção — e acabam controlando tudo no papel, na memória ou numa planilha bagunçada. Pedido esquecido é prejuízo; tarefa perdida é insumo que faltou na hora de assar.
+O cliente descobre o trabalho da confeiteira no Instagram. Na hora de pedir, cai no WhatsApp — e ali o pedido vira texto solto, misturado com conversa pessoal, sem campo de produto, quantidade, data ou pagamento. A vendedora anota como dá: papel, print, memória. Pedido esquecido, valor cobrado errado e nenhuma visão do que já foi assumido para sábado.
 
-A Auto.io existe para transformar essa conversa solta em registro. O vendedor cola a mensagem que chegou, a IA local separa em **pedido**, **tarefa** ou **conversa**, e o painel se organiza sozinho.
+A Auto.io separa o que o WhatsApp mistura:
 
-O app **não integra diretamente** com WhatsApp ou Instagram: a mensagem recebida é digitada ou colada na tela de registro. O cardápio do dia serve para o que já está pronto para retirada — mas não fecha o atendimento: encomendas sob medida continuam sendo registradas por mensagem livre e observações.
+| Papel | Antes | Depois |
+| --- | --- | --- |
+| Descoberta | Instagram | Instagram (não muda) |
+| Pedido | WhatsApp, texto solto | **Link da Auto.io** |
+| Registro | Papel, memória, print | Base local estruturada, com status |
+
+O pedido **nasce dentro do sistema**. Ninguém copia nada de lugar nenhum.
+
+A liberdade do texto é mantida de propósito: não se pede ao cliente que aprenda um formulário, pede-se que escreva como já escreveria. *"Quero 2 bolos de chocolate pra sábado, pago no pix"* — e o resto é com a IA.
 
 ## Como funciona
 
 ```text
-Mensagem chega por WhatsApp, Instagram, ligação ou balcão
+Cliente vê o trabalho no Instagram
         ↓
-Vendedor cola a mensagem no app (e, se quiser, identifica quem enviou)
+Toca no link da Auto.io
         ↓
-Front-end (app/public)
+Vê o cardápio do dia (preço, pronto para retirar ou sob encomenda)
+        ↓
+Informa seus dados e escreve o pedido em texto livre
         ↓
 Backend Node.js local (app/server.js)
         ↓
-┌───────────────────────────────┐
-│ LM Studio local (IA)          │  ← timeout de 20s
-│   ↓ falhou / desligado / lento│
-│ Fallback por regras           │
-└───────────────────────────────┘
+┌───────────────────────────────────────┐
+│ LM Studio local (IA)                  │  ← timeout de 20s
+│   ↓ desligado / lento / fora do formato│
+│ Fallback por regras                   │
+└───────────────────────────────────────┘
         ↓
 Classificação: pedido | tarefa | conversa
         ↓
 Grava em app/data/db.json (escrita atômica)
         ↓
-Painel atualiza indicadores, pedidos, clientes, tarefas, cardápio e logs
+Cliente recebe a confirmação · Painel da vendedora mostra o pedido estruturado
         ↓
 Opcional: espelha em Google Sheets via Apps Script
+
+[Canal alternativo] Pedido chegou por WhatsApp, telefone ou balcão
+        ↓
+Vendedora cola a mensagem no painel → mesmo motor, mesmo registro
 ```
 
-**A IA nunca é ponto único de falha.** Se o LM Studio estiver desligado, travado, lento ou devolver um JSON inválido, o backend cai automaticamente no fallback por regras e o registro acontece do mesmo jeito — só marcado com `origem: fallback-regra`. Todo pedido registrado pela IA também passa por validação: se o modelo devolver um tipo que não seja `pedido`, `tarefa` ou `conversa`, o backend corrige ou cai no fallback, em vez de descartar a mensagem em silêncio.
+**A IA nunca é ponto único de falha.** Se o LM Studio estiver desligado, travado, lento ou devolver um JSON inválido, o backend cai no fallback por regras e o pedido é registrado do mesmo jeito — marcado com `origem: fallback-regra`. E se o modelo devolver um tipo que não seja `pedido`, `tarefa` ou `conversa`, o backend normaliza ou cai no fallback, em vez de descartar o pedido em silêncio.
 
 ## O que o app faz
 
-**Registro**
-- Mensagem recebida por qualquer canal, digitada ou colada.
-- Identificação de quem enviou (nome, telefone, endereço, observação), com deduplicação por telefone — `(91) 99999-9999` e `91999999999` são o mesmo cliente.
-- Registro manual de pedido pelo formulário, como alternativa segura à IA.
+**Do lado do cliente (tela pública, acessada pelo link)**
+- Vitrine do dia ao lado da conversa: o que está pronto, o preço, o que só sai por encomenda.
+- Cadastro rápido (nome, telefone, endereço, observação). Quem já pediu antes é reconhecido pelo telefone — `(91) 99999-9999` e `91999999999` são o mesmo cliente.
+- Pedido em texto livre, sem formulário. Tocar em um item da vitrine já começa a mensagem.
+- Confirmação na tela, com valor estimado e o que a vendedora ainda vai confirmar.
 
-**Cardápio do dia (pronta retirada)**
-- Itens com preço, unidade e **quantidade pronta agora**.
-- Modelos prontos de doceria, marmitaria e salgados.
-- Baixa rápida (`−1`) a cada venda no balcão; "Encerrar o dia" zera as quantidades sem apagar o catálogo.
-- Vitrine visível para quem envia a mensagem, com preço e disponibilidade.
-
-**Painel do vendedor**
+**Do lado da vendedora (painel protegido por senha)**
 - Indicadores de pedidos, tarefas, clientes e pendências.
+- Caixa de mensagem para o pedido que chegou por outro canal, e formulário manual para registrar sem IA.
+- Cardápio do dia: publicar, dar baixa, esgotar, encerrar o dia.
 - Tabelas de pedidos, clientes, tarefas, cardápio e logs, com busca.
 - Concluir, reabrir e excluir pedidos e tarefas.
-- Exportação CSV (pedidos, tarefas, clientes) com acentuação correta no Excel.
+- Exportação CSV com acentuação correta no Excel.
 - Limpeza da base preservando cardápio e perfil.
-- Acesso por senha, com sessão em cookie assinado.
 
 **Integrações**
 - IA local via LM Studio, recebendo o cliente identificado e o cardápio do dia como contexto.
@@ -105,7 +117,7 @@ copy .env.example .env
 cp .env.example .env
 ```
 
-Gere uma chave de sessão e cole no `.env` em `SESSION_SECRET` (veja abaixo o porquê):
+Gere uma chave de sessão e cole no `.env` em `SESSION_SECRET`:
 
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
@@ -118,6 +130,8 @@ npm start
 ```
 
 E abra <http://localhost:3000>.
+
+> **Sobre o link do Instagram:** o app roda localmente, então o link é o `localhost`. Publicá-lo de verdade (hospedagem ou túnel) é etapa de infraestrutura, fora do escopo funcional deste MVP.
 
 ## Configuração (`.env`)
 
@@ -170,23 +184,25 @@ SHEETS_TIMEOUT_MS=10000
 
 Na primeira mensagem o modelo pode levar mais de 20 segundos para carregar na memória. Se isso acontecer, aumente `LMSTUDIO_TIMEOUT_MS` ou deixe o modelo pré-carregado no LM Studio.
 
-O prompt enviado ao modelo inclui o papel de quem digitou, o cliente identificado (se houver) e o **cardápio do dia com disponibilidade**, no formato:
+O prompt enviado ao modelo inclui o papel de quem digitou, o cliente identificado e o **cardápio do dia com disponibilidade**:
 
 ```text
 - Brigadeiro (Doces): R$ 2.5 por unidade. 60 pronto(s) para retirada hoje.
 - Bolo de chocolate (Bolos): R$ 45 por unidade. esgotado hoje, só sob encomenda.
 ```
 
-## As três telas
+É isso que permite calcular o valor estimado e avisar quando um item só sai por encomenda.
 
-**Tela inicial** — escolha entre registrar uma mensagem recebida ou entrar no painel. Mostra um selo com o total de pendências.
+## As telas
 
-**Registro de mensagem** — a conversa à esquerda e a **vitrine do dia** à direita (no celular, a vitrine vem primeiro). Tocar em um item já começa a mensagem: *"Quero 1 Coxinha para retirar hoje."* Não exige senha.
+**Tela inicial (pública)** — fala com o cliente: "Quero fazer um pedido". O acesso da vendedora fica discreto, num botão no canto superior direito.
 
-**Painel do vendedor** — protegido por senha, organizado em cinco blocos na ordem do dia:
+**Tela de pedido (pública)** — a conversa à esquerda e a **vitrine do dia** à direita (no celular, a vitrine vem primeiro). Tocar em um item já começa a mensagem: *"Quero 1 Bolo de cenoura para retirar hoje."* Antes de escrever, o cliente informa nome, telefone e endereço.
+
+**Painel do vendedor (protegido por senha)** — cinco blocos, na ordem do dia:
 
 1. **Hoje** — indicadores.
-2. **Entrada** — registrar por mensagem (IA) e pelo formulário, lado a lado.
+2. **Entrada** — caixa de mensagem (para pedido vindo de outro canal) e formulário manual, lado a lado.
 3. **Cardápio do dia** — o que está pronto para retirada.
 4. **Registros** — abas de pedidos, clientes, tarefas, cardápio e logs, com busca e exportação.
 5. **Ajustes** — Google Sheets e limpeza da base.
@@ -207,16 +223,16 @@ Fluxo do dia a dia:
 2. A cada venda no balcão, o `−1` dá baixa. Chegou a zero, o item vira "esgotado" — mas continua no cardápio e ainda pode ser encomendado.
 3. No fim do expediente, **Encerrar o dia** zera todas as quantidades. O catálogo (nomes, preços, unidades) continua para amanhã.
 
-Os modelos prontos (doceria, marmitaria, salgados) entram com **0 pronto** — eles são o catálogo de partida, a quantidade é sempre você quem informa.
+Os modelos prontos (doceria, marmitaria, salgados) entram com **0 pronto** — eles são o catálogo de partida; a quantidade é sempre ela quem informa.
 
 ## Segurança
 
-O app roda na sua máquina, mas isso não significa que qualquer um possa mexer nele:
+A tela de pedido é pública **por necessidade**: o cliente precisa alcançá-la pelo link. Isso torna a proteção do resto obrigatória.
 
 - **Sessão real.** O login devolve um cookie `HttpOnly`, `SameSite=Strict`, assinado com HMAC (`SESSION_SECRET`), válido por 12 horas. Não dá para forjar sessão pelo navegador.
-- **Rotas protegidas.** Tudo que lê ou altera a base (`/api/data`, exportações, exclusões, cardápio, ajustes, limpeza) exige sessão e devolve `401` sem ela. Continuam públicas apenas as rotas da tela de registro: login, sessão, pendências, cardápio do dia, cadastro do remetente e envio de mensagem.
-- **Vazamento contido.** As rotas públicas devolvem só o necessário: o cardápio do dia sai sem ids internos nem dados do negócio, e o envio de mensagem não devolve a base inteira para quem não está autenticado.
-- **CORS restrito** à própria origem e **escuta em `127.0.0.1`** por padrão: outro site aberto no navegador não consegue chamar sua API local.
+- **Rotas protegidas.** Tudo que lê ou altera a base (`/api/data`, exportações, exclusões, cardápio, ajustes, limpeza) exige sessão e devolve `401` sem ela.
+- **Superfície pública mínima.** Só ficam abertas as rotas da tela do cliente: login, sessão, pendências, cardápio do dia, cadastro do cliente e envio de mensagem. O cardápio sai sem ids internos nem dados do negócio, e o envio de pedido não devolve a base para quem não está autenticado.
+- **CORS restrito** à própria origem e **escuta em `127.0.0.1`** por padrão.
 - **Webhook só aceita `https`**, o que evita apontar o envio de pedidos para um endereço arbitrário.
 - **Senha comparada em tempo constante.** Ainda assim, `12345` é senha de demonstração: troque em `SELLER_PASSWORD`.
 
@@ -236,7 +252,7 @@ O script cria sozinho as abas **Pedidos**, **Clientes**, **Tarefas** e **Logs**,
 
 > A URL do Web App é um endpoint público de escrita: quem tiver o link pode gravar na sua planilha. Não publique essa URL.
 
-Se o Sheets estiver fora do ar ou lento, o envio falha em silêncio no log (`erro_sheets`) e **o registro local continua salvo** — a planilha é espelho, nunca a fonte da verdade.
+Se o Sheets estiver fora do ar ou lento, o envio falha em silêncio no log (`erro_sheets`) e **o pedido continua salvo localmente** — a planilha é espelho, nunca a fonte da verdade.
 
 ## Estrutura do projeto
 
@@ -248,7 +264,7 @@ app/
 ├── data/
 │   └── db.json            # base local (criada no primeiro start)
 ├── public/
-│   ├── index.html         # três telas: inicial, registro, painel
+│   ├── index.html         # telas: inicial, cadastro, pedido do cliente, painel
 │   ├── script.js          # front-end (sem framework)
 │   └── styles.css         # design tokens e layout
 └── integrations/
@@ -266,17 +282,17 @@ Só três dependências: `express`, `cors` e `dotenv`. Sem banco, sem build, sem
     { "id": "CLI-...", "nome": "Maria", "telefone": "91999999999", "endereco": "", "observacoes": "", "criadoEm": "...", "atualizadoEm": "..." }
   ],
   "cardapio": [
-    { "id": "ITEM-...", "nome": "Coxinha", "categoria": "Salgados", "preco": 5, "unidade": "unidade",
-      "quantidade": 12,          // prontos para retirada agora
+    { "id": "ITEM-...", "nome": "Bolo de cenoura", "categoria": "Bolos", "preco": 45, "unidade": "unidade",
+      "quantidade": 3,           // prontos para retirada agora
       "descricao": "", "disponivel": true, "origem": "personalizado", "atualizadoEm": "..." }
   ],
   "pedidos": [
-    { "id": "PED-...", "dataHora": "...", "cliente": "Maria", "telefone": "", "produto": "Brigadeiro",
-      "quantidade": "1 cento", "dataEntrega": "Sábado", "horarioEntrega": "", "pagamento": "Pix",
+    { "id": "PED-...", "dataHora": "...", "cliente": "Maria", "telefone": "", "produto": "Bolo de chocolate",
+      "quantidade": "2", "dataEntrega": "Sábado", "horarioEntrega": "", "pagamento": "Pix",
       "endereco": "A confirmar", "observacoes": "...", "status": "Pendente",
       "origem": "lm-studio-local",  // ou "fallback-regra" ou "manual"
-      "clienteId": "CLI-...", "itemCardapioId": "ITEM-...", "precoUnitario": 2.5,
-      "valorEstimado": 250, "precisaConfirmar": false }
+      "clienteId": "CLI-...", "itemCardapioId": "ITEM-...", "precoUnitario": 45,
+      "valorEstimado": 90, "precisaConfirmar": false }
   ],
   "tarefas": [
     { "id": "TAR-...", "dataHora": "...", "tarefa": "Comprar açúcar", "prazo": "Amanhã",
@@ -289,24 +305,24 @@ Só três dependências: `express`, `cors` e `dotenv`. Sem banco, sem build, sem
 Notas:
 
 - **Escrita atômica** (arquivo temporário + `rename`): um crash no meio da gravação não corrompe a base.
-- Se o `db.json` for encontrado corrompido, ele é preservado como `db.json.corrompido-<timestamp>` e a base é recriada, em vez de derrubar o app.
+- `db.json` corrompido é preservado como `db.json.corrompido-<timestamp>` e a base é recriada, em vez de derrubar o app.
 - Os logs são limitados às 500 entradas mais recentes.
 - `status` é sempre `Pendente` ou `Concluído`.
 - `precisaConfirmar: true` sinaliza pedido com dado faltando (produto, quantidade ou preço não casaram com o cardápio).
 
 ## Referência da API
 
-**Públicas** (usadas pela tela de registro, sem login):
+**Públicas** (usadas pela tela do cliente, sem login):
 
 | Rota | O que faz |
 | --- | --- |
+| `GET /api/cardapio-do-dia` | Cardápio visível ao cliente: nome, categoria, descrição, preço, unidade, quantidade e `pronto`. |
+| `POST /api/clientes` | Cadastra ou atualiza o cliente (dedup por telefone). |
+| `POST /api/message` | Interpreta o pedido (IA ou fallback) e grava pedido/tarefa/conversa. |
 | `POST /api/login` | Valida a senha e devolve o cookie de sessão. `401` se errada. |
 | `POST /api/logout` | Encerra a sessão. |
 | `GET /api/session` | Diz se o cookie atual é válido. |
-| `GET /api/pendentes` | Só o número de pendências (para o selo da tela inicial). |
-| `GET /api/cardapio-do-dia` | Cardápio visível ao cliente: nome, categoria, descrição, preço, unidade, quantidade e `pronto`. |
-| `POST /api/clientes` | Cadastra ou atualiza o remetente (dedup por telefone). |
-| `POST /api/message` | Classifica a mensagem (IA ou fallback) e grava pedido/tarefa/conversa. |
+| `GET /api/pendentes` | Só o número de pendências (para o selo do acesso do vendedor). |
 
 **Protegidas** (exigem sessão do vendedor; devolvem `401` sem ela):
 
@@ -331,13 +347,13 @@ Notas:
 
 ## Exemplos de mensagem
 
-Pedido personalizado (cliente):
+Pedido do cliente, pelo link:
 
 ```text
-Oi, queria encomendar um cento de brigadeiros para sábado, pagamento por pix.
+Oi, boa tarde! Queria encomendar 2 bolos de chocolate pra sábado, retirada de tarde, pago no pix.
 ```
 
-Pedido digitado pelo vendedor:
+Pedido que chegou por outro canal e a vendedora colou no painel:
 
 ```text
 Cliente Mariana pediu 2 bolos de chocolate para sexta às 15h, retirada no local, pagamento no pix.
@@ -359,17 +375,21 @@ Com o cardápio do dia preenchido, um pedido de "100 brigadeiros" casa com o ite
 | Log `erro_ia — LM Studio 404: model not found` | `LMSTUDIO_MODEL` errado | Use o `id` exato de `GET /v1/models`. |
 | Log `erro_ia — Tempo limite excedido` | Modelo carregando ou máquina lenta | Aumente `LMSTUDIO_TIMEOUT_MS` ou pré-carregue o modelo. |
 | Log `erro_ia — O modelo não retornou JSON válido` | Modelo base ou muito pequeno | Troque por um modelo *instruct*. |
-| "Aviso: SESSION_SECRET não definido" | `.env` sem a chave | Gere uma chave e preencha `SESSION_SECRET`. Sem ela, você é deslogado a cada restart. |
+| "Aviso: SESSION_SECRET não definido" | `.env` sem a chave | Gere uma chave e preencha `SESSION_SECRET`. |
 | Login não entra | Senha diferente da do `.env` | Confira `SELLER_PASSWORD` e reinicie o `npm start`. |
 | `401` nas chamadas do painel | Sessão expirada (12h) ou servidor reiniciado sem `SESSION_SECRET` | Entre de novo. |
+| Vitrine do cliente vazia | Nenhum item no cardápio ou todos fora do cardápio | Publique itens no bloco Cardápio do dia. |
 | Google Sheets não recebe nada | URL errada, não implantada ou sem permissão | Abra a URL no navegador: deve responder `{"ok":true,"servico":"Auto.io"}`. Reimplante como Aplicativo da Web com acesso "qualquer pessoa com o link". |
-| CSV com acentos quebrados | Excel ignorando UTF-8 | O export já vai com BOM; abra pelo Excel normalmente (não por importação bruta). |
+| CSV com acentos quebrados | Excel ignorando UTF-8 | O export já vai com BOM; abra pelo Excel normalmente. |
 
 ## Limitações conhecidas
 
-- **Sem integração direta com WhatsApp/Instagram.** A mensagem é colada manualmente.
-- **`POST /api/vendedor` e `POST /api/manual-task` não têm tela.** Existem na API, mas o painel ainda não expõe formulário de perfil do negócio nem de tarefa manual (tarefas entram pela mensagem).
-- **A vitrine do cliente não atualiza sozinha.** Ela recarrega ao abrir a tela e a cada mensagem enviada — se a tela ficar parada e o estoque mudar, a informação envelhece.
-- **O Apps Script não grava todos os campos.** A aba Tarefas não tem coluna de prioridade, e a aba Pedidos não traz horário de entrega, preço unitário nem valor estimado. Além disso, a aba Clientes sempre acrescenta uma linha, enquanto o backend atualiza o cliente existente — a planilha pode acumular duplicatas.
+- **O link não está publicado.** O app roda em `localhost`; o cenário do Instagram é demonstrado nesse ambiente. Publicar exige hospedagem ou túnel.
+- **A tela do cliente é aberta.** Qualquer pessoa com o link pode enviar pedido — não há verificação de identidade, confirmação por código nem limite de envio.
+- **Sem integração automática com WhatsApp/Instagram.** O canal antigo continua manual: a vendedora cola a mensagem no painel.
+- **Sem agenda nem limite de produção.** A regra levantada na entrevista (máximo 3 produções por dia, de quarta a domingo) ainda não é aplicada como trava.
+- **`POST /api/vendedor` e `POST /api/manual-task` não têm tela.** Existem na API, mas o painel ainda não expõe formulário de perfil do negócio nem de tarefa manual.
+- **A vitrine do cliente não atualiza sozinha.** Recarrega ao abrir a tela e a cada pedido enviado; se a tela ficar parada e o estoque mudar, a informação envelhece.
+- **O Apps Script não grava todos os campos.** A aba Tarefas não tem coluna de prioridade, e a de Pedidos não traz horário de entrega, preço unitário nem valor estimado. A aba Clientes sempre acrescenta uma linha, então pode acumular duplicatas.
 - **`dataHora` é guardado como texto no formato brasileiro**, o que dificulta ordenar e filtrar por data.
-- **Um usuário por vez.** Não há múltiplos vendedores nem controle de permissões.
+- **Um vendedor por vez.** Não há múltiplos usuários nem controle de permissões.
