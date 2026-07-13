@@ -6,6 +6,10 @@ O cliente descobre a confeiteira no **Instagram**, toca no **link da Auto.io** e
 
 O projeto nasceu como um estudo de automação de processos (AS-IS/TO-BE) e evoluiu para o MVP funcional em [`app/`](app/README.md): uma aplicação Node.js própria com IA local via LM Studio.
 
+<p align="center">
+  <img src="images/autoio_v4.png" alt="Página Inicial do Auto.io" width="100%">
+</p>
+
 ## O problema, em uma frase
 
 O WhatsApp é ótimo para conversar e péssimo para registrar. O pedido chega misturado com conversa pessoal, sem campo de produto, quantidade, data ou pagamento — e acaba no papel, no print ou na memória da vendedora. A Auto.io tira do WhatsApp o papel de balcão e devolve a ele o papel de conversa.
